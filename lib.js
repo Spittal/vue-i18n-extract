@@ -1,6 +1,7 @@
 const fs = require('fs');
 const glob = require('glob');
 const dot = require('dot-object');
+const ss = require('string-search');
 
 module.exports = {
   readFilesContent(src) {
@@ -8,7 +9,7 @@ module.exports = {
     return targetFiles.map(f => Object.assign({}, { name: f, content: fs.readFileSync(f, 'utf8') }));
   },
 
-  mergeFilesContent(files) {
+  async mergeFilesContent(files) {
     let content;
     files.forEach((f) => {
       content += f.content;

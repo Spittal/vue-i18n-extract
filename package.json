@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.6.1",
     "dot-object": "^1.7.1",
     "esm": "^3.1.0",
     "find-in-files": "^0.5.0",
