@@ -15,6 +15,7 @@ const { argv } = require('yargs')
 
 const { src, output } = argv;
 
+
 shell.rm('-f', output);
 
 pipe(
