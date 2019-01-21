@@ -1,6 +1,7 @@
 const shell = require('shelljs');
 const fs = require('fs');
 const pipe = require('pipe-functions');
+const lib = require('./lib');
 
 const { argv } = require('yargs')
   .alias('src', 's')
@@ -12,7 +13,6 @@ const { argv } = require('yargs')
   .describe('plugin', 'The VueJS i18n plugin object')
   .demand(['src', 'output', 'plugin']);
 
-const lib = require('./lib');
 
 const { src, output } = argv;
 
