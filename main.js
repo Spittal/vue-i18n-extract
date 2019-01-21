@@ -2,7 +2,6 @@ const shell = require('shelljs');
 const fs = require('fs');
 const pipe = require('pipe-functions');
 
-// Get args
 const { argv } = require('yargs')
   .alias('src', 's')
   .describe('src', 'The source folder of your VueJS files.')
