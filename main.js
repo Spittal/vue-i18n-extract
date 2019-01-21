@@ -13,7 +13,6 @@ const { argv } = require('yargs')
   .describe('plugin', 'The VueJS i18n plugin object')
   .demand(['src', 'output', 'plugin']);
 
-
 const { src, output } = argv;
 
 shell.rm('-f', output);
