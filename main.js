@@ -14,7 +14,6 @@ const { argv } = require('yargs')
   .demand(['src', 'output', 'plugin']);
 
 const { src, output } = argv;
-
 shell.rm('-f', output);
 
 pipe(
