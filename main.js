@@ -56,7 +56,7 @@ async function main() {
   shell.rm('-f', output);
   
   // Get the list of target files
-  const targetFilesList = lib.readFilesContent(`/Users/raffaele.pizzari/Projects/xbav/manager/app/javascript/spa/**/*.vue`);
+  const targetFilesList = lib.readFilesContent(`${src}/**/*.vue`);
   
   // Extract matches
   const matches = await extractMatches(targetFilesList);
