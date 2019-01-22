@@ -1,68 +1,40 @@
+require = require("esm")(module);
+// module.exports = require("./index.js");
+
 const shell = require('shelljs');
-const fs = require('fs');
-const pipe = require('pipe-functions');
 const lib = require('./lib');
-const ssearch = require('string-search');
-const async = require("async");
-const dot = require('dot-object');
 
 const { argv } = require('yargs')
   .alias('src', 's')
   .describe('src', 'The source folder of your VueJS files.')
-  .alias('output', 'o')
-  .describe('output', 'The file where you want to write the output.')
-  .alias('plugin', 'p')
-  .default('plugin', '$t')
-  .describe('plugin', 'The VueJS i18n plugin object')
-  .demand(['src', 'output', 'plugin']);
-
-const content = [];
-
-function extractMatches(filesList) {
-  return new Promise(function(resolve, reject) {
-    async.eachSeries(filesList, function (file, callback) {
-      ssearch.find(file.content, /(\$t\(')(.*)('\))/gi).then((res) => {
-        if(res.length > 0) {
-          res.forEach(r => {
-            content.push({
-              line: r.line,
-              text: r.text.substring(r.text.lastIndexOf('$t(\'') + 4, r.text.lastIndexOf('\')')),
-              file: file.name,
-            });
-          });
-        }
-        callback();
-      });
-    }, function (err) {
-      if (err) { console.log(err); }
-      resolve(content);
-    });
-  });
-}
-
-function transformToObject(matches) {
-  const obj = {};
-  matches.forEach((el) => {
-    obj[el.text] = el.text;
-  });
-  return dot.object(obj);
-};
+  .alias('report', 'o')
+  .describe('report', 'The file where you want to write the report.')
+  .alias('lang_folder', 'l')
+  .describe('lang-folder', 'Where you place the language files (examples: en_EN.js, de_DE.js)')
+  .demand(['src', 'report', 'lang_folder']);
 
 async function main() {
-  // Get the config
-  const { src, output } = argv;
+  // Get the config5
+  const { src, report, lang_folder } = argv;
   
-  // Clean the output
-  shell.rm('-f', output);
+  // Clean the log file
+  shell.rm('-f', report);
   
-  // Get the list of target files
-  const targetFilesList = lib.readFilesContent(`${src}/**/*.vue`);
+  // Get list of target files
+  const targetVueFilesList = lib.getFilesContent(`${src}/**/*.vue`);
   
-  // Extract matches
-  const matches = await extractMatches(targetFilesList);
+  // Exctract the i18n placeholders from the given files
+  const matches = await lib.extractText(targetVueFilesList);
   
-  // Create object
-  const generatedObj = transformToObject(matches);
+  // Parse the strings and build a JS object using the dot notation
+  const generatedObj = lib.dotToObj(matches);
+  
+  // Get lang files content
+  const langFiles = lib.parseLangFiles(`${lang_folder}/*.js`);
+  
+  langFiles.forEach(f => {
+    lib.addNewTextsToLangObj(f, generatedObj);
+  });
 }
 
 main();
