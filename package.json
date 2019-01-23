@@ -17,6 +17,7 @@
     "async": "^2.6.1",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
+    "cli-table3": "^0.5.1",
     "deep-diff": "^1.0.2",
     "dot-object": "^1.7.1",
     "esm": "^3.1.1",

@@ -32,9 +32,11 @@ async function main() {
   // Get lang files content
   const langFiles = lib.parseLangFiles(`${lang_folder}/*.js`);
   
-  langFiles.forEach(f => {
-    lib.addNewTextsToLangObj(f, generatedObj);
-  });
+  // Merge the generated object with the lang obj and save the differences
+  newLangFiles = langFiles.map(f => lib.addNewTextsToLangObj(f, generatedObj));
+
+  // Show the report
+  newLangFiles.forEach(f => lib.reportDiff(f));
 }
 
 main();
