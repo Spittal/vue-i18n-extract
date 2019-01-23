@@ -10,29 +10,82 @@ const babel = require("@babel/core");
 const deepMerge = require('lodash.merge');
 const cloneDeep = require('lodash.clonedeep')
 const deepDiff = require('deep-diff')
+const chalk = require('chalk');
+var Table = require('cli-table3');
 
 module.exports = {
+  reportDiff(source) {
+    const table = new
+     Table({
+      colors: true,
+      style: {
+        head: ['blue'],
+        border: ['white'],
+        compact: true,
+      },
+      head: ['File', 'i18n entry'],
+      colWidths: [10, 80],
+    });
+    const filename = source.name.replace(/^.*[\\\/]/, '')
+    source.diff.forEach(s => {
+      table.push([filename, s]);
+    });
+    console.log(table.toString());
+  },
+
   getFilesContent(src) {
     const targetFiles = glob.sync(src);
     return targetFiles.map(f => Object.assign({}, { name: f, content: fs.readFileSync(f, 'utf8') }));
   },
 
-  addNewTextsToLangObj(lang, generatedObj) {
-    const { default: langObj} = lang.content;
-    const mergedObj = deepMerge(cloneDeep(langObj), cloneDeep(generatedObj));
-
-    const diff = deepDiff(langObj, mergedObj).filter(d => d.kind === 'N');
+  parseRhs(rhs) {
+    return Object.entries(rhs).reduce((accumulator, currentValue, currentIndex, array) => {
+      if(typeof currentValue[1] === 'string') {
+        return [...accumulator, currentValue[1]];
+      } else {
+        const prhs = this.parseRhs(currentValue[1])
+        return [...accumulator, ...prhs];
+      }
+    }, []);
   },
 
-  diffObj(obj1, obj2) {
-    const diff = Object.keys(obj2).reduce((diff, key) => {
-      if (obj1[key] === obj2[key]) return diff
-      return {
-        ...diff,
-        [key]: obj2[key]
+  extractItemsFromRhsDiff(obj) {
+    if(typeof obj === 'string') {
+      return obj;
+    } else if (typeof obj.rhs === 'string') {
+      return obj.rhs;
+    } else {
+      return Object.entries(obj.rhs).reduce((acc, currentValue, currentIndex, array) => {
+        if(typeof currentValue[1] === 'object') {
+          const parseRhs = this.parseRhs(currentValue[1]);
+          return [...acc, ...parseRhs];
+        } else {
+          return [...acc, currentValue[1]];
+        }
+      }, []);
+    }
+  },
+
+  addNewTextsToLangObj(lang, generatedObj) {
+    const { default: langObj} = lang.content;
+    const newObj = deepMerge(cloneDeep(langObj), cloneDeep(generatedObj));
+    const diff = deepDiff(langObj, newObj).filter(d => d.kind === 'N');
+
+    const diffElements = [];
+    diff.forEach((d) => {  
+      const extr = this.extractItemsFromRhsDiff(d);
+      if (Array.isArray(extr)) {
+        diffElements.push(...extr);
+      } else {
+        diffElements.push(extr);
       }
-    }, {});
-    return diff;
+    });
+    return {
+      name: lang.name,
+      oldObj: lang.content,
+      diff: diffElements,
+      newObj: newObj,
+    };
   },
 
   parseLangFiles(src) {
