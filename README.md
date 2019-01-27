@@ -6,6 +6,8 @@ That's how the result will look like:
 
 <img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-1.png" width="600">
 
+<img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-2.png" width="600">
+
 ## :book: Usage
 
 First, install `vue-i18n-extract`:
@@ -23,7 +25,7 @@ $ yarn add --dev vue-i18n-extract
 Then you can run the script.
 
 
-### How to run the script
+### :rocket: How to run the script
 
 Execute `main.js` passing two arguments: 
 
@@ -49,7 +51,7 @@ $ npm run demo
 and it will execute the script taking all the files in ./demo.
 
 
-## Debug in VS CODE
+## :bug: Debug in VS CODE
 Just add this configuration to your `launch.json` file:
 
 ```js
