@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/pixari/vue-i18n-extract/issues"
   },
-  "keywords": [],
+  "keywords": ["javascript", "vue i18n", "vue", "plugin", "internationalization", "internationalization-plugin"],
   "author": "Raffaele Pizzari <raffaele.pizzari@gmail.com> (https://raffaelepizzari.com)",
   "license": "ISC",
   "dependencies": {
