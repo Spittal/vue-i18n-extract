@@ -19,16 +19,20 @@ module.exports = {
      Table({
       colors: true,
       style: {
-        head: ['blue'],
+        head: ['green'],
         border: ['white'],
         compact: true,
       },
-      head: ['File', 'i18n entry'],
-      colWidths: [10, 80],
+      head: ['#', 'Language file', 'Missing i18n entries'],
+      colWidths: [6, 20, 90],
     });
+
     const filename = source.name.replace(/^.*[\\\/]/, '')
+
+    let index = 1;
     source.diff.forEach(s => {
-      table.push([filename, s]);
+      table.push([index, filename, s]);
+      index++;
     });
     console.log(table.toString());
   },

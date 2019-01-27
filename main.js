@@ -7,18 +7,13 @@ const lib = require('./lib');
 const { argv } = require('yargs')
   .alias('src', 's')
   .describe('src', 'The source folder of your VueJS files.')
-  .alias('report', 'o')
-  .describe('report', 'The file where you want to write the report.')
   .alias('lang_folder', 'l')
-  .describe('lang-folder', 'Where you place the language files (examples: en_EN.js, de_DE.js)')
-  .demand(['src', 'report', 'lang_folder']);
+  .describe('lang-folder', 'Path of your "lang" folder')
+  .demand(['src', 'lang_folder']);
 
 async function main() {
   // Get the config5
-  const { src, report, lang_folder } = argv;
-  
-  // Clean the log file
-  shell.rm('-f', report);
+  const { src, lang_folder } = argv;
   
   // Get list of target files
   const targetVueFilesList = lib.getFilesContent(`${src}/**/*.vue`);
