@@ -1,14 +1,22 @@
 {
-  "name": "vue-i18n-extractor",
-  "version": "1.0.0",
+  "name": "vue-i18n-extract",
+  "version": "0.1.0",
   "description": "",
   "main": "main.js",
   "module": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "demo": "node main.js -s ./demo/vue_files -l ./demo/lang"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pixari/vue-i18n-extract"
+  },
+  "homepage": "https://github.com/pixari/vue-i18n-extract",
+  "bugs": {
+    "url": "https://github.com/pixari/vue-i18n-extract/issues"
   },
   "keywords": [],
-  "author": "",
+  "author": "Raffaele Pizzari <raffaele.pizzari@gmail.com> (https://raffaelepizzari.com)",
   "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.2.2",
