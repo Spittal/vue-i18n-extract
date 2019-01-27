@@ -1,10 +1,14 @@
 # vue-i18n-extract
 Extract all $t('...') messages from a Vue.js (with vue-i18n) app and merge the new entries into the language files.
 
+## :camera: Screenshot
+That's how the result will look like:
 
-## :book: Documentation
+<img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-1.png" width="600">
 
-First, install "vue-i18n-extract":
+## :book: Usage
+
+First, install `vue-i18n-extract`:
 
 ```sh
 $ npm install --save-dev vue-i18n-extract
@@ -16,6 +20,35 @@ or install with yarn:
 $ yarn add --dev vue-i18n-extract
 ```
 
+Then you can run the script.
+
+
+### How to run the script
+
+Execute `main.js` passing two arguments: 
+
+| Arguments | Description |
+| ------ | ----------- |
+| -s   | path to VueJs files |
+| -l | path to language files (ex. de_DE.js, en_EN.js) |
+
+For example, in order to execute the script using the `demo` folder, you will execute the following command:
+
+```sh
+$ node main.js -s ./demo/vue_files -l ./demo/lang
+```
+
+### Demo
+In `package.json` you'll find a demo script.
+Just run:
+
+```sh
+$ npm run demo
+```
+
+and it will execute the script taking all the files in ./demo.
+
+
 ## Debug in VS CODE
 Just add this configuration to your `launch.json` file:
 
@@ -26,7 +59,6 @@ Just add this configuration to your `launch.json` file:
   "name": "vue-i18n-extract",
   "program": "${workspaceFolder}/main.js",
   "args": [
-    "--experimental-modules",
     "-s ./demo/vue_files",
     "-l ./demo/lang",
   ]
