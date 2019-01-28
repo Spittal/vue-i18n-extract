@@ -1,4 +1,8 @@
 # vue-i18n-extract
+> Manage VueI18n localization with static analysis
+
+[![npm version](https://img.shields.io/npm/v/vue-i18n-extract.svg?style=flat-square)](https://www.npmjs.com/package/vue-i18n-extract)
+[![npm downloads](https://img.shields.io/npm/dm/vue-i18n-extract.svg?style=flat-square)](https://www.npmjs.com/package//vue-i18n-extract)
 
 ## Installation
 Use NPM:
@@ -12,6 +16,7 @@ or install with yarn:
 ```sh
 $ yarn add --dev vue-i18n-extract
 ```
+
 ## The problem solved
 This module analyses code statically for key usages ( `$t('some.keys.key')` ) in `.vue` files and all the language files (ex. de_DE.js, en_EN.js, ...), in order to:
 
