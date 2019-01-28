@@ -1,5 +1,5 @@
 # vue-i18n-extract
-> Manage VueI18n localization with static analysis
+> Manage vue-i18n localization with static analysis
 
 [![npm version](https://img.shields.io/npm/v/vue-i18n-extract.svg?style=flat-square)](https://www.npmjs.com/package/vue-i18n-extract)
 [![npm downloads](https://img.shields.io/npm/dm/vue-i18n-extract.svg?style=flat-square)](https://www.npmjs.com/package/vue-i18n-extract)
