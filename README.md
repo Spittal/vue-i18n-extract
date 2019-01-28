@@ -1,16 +1,7 @@
 # vue-i18n-extract
-Extract all $t('...') messages from a Vue.js (with vue-i18n) app and merge the new entries into the language files.
 
-## :camera: Screenshot
-That's how the result will look like:
-
-<img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-1.png" width="600">
-
-<img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-2.png" width="600">
-
-## :book: Usage
-
-First, install `vue-i18n-extract`:
+## Installation
+Use NPM:
 
 ```sh
 $ npm install --save-dev vue-i18n-extract
@@ -21,11 +12,58 @@ or install with yarn:
 ```sh
 $ yarn add --dev vue-i18n-extract
 ```
+## The problem solved
+This module analyses code statically for key usages ( `$t('some.keys.key')` ) in `.vue` files and all the language files (ex. de_DE.js, en_EN.js, ...), in order to:
 
-Then you can run the script.
+- [x] Report keys that are missing in the language files
+- [ ] Report unused keys in the language files
+- [ ] Add automatically missing keys in the language files
+- [ ] Remove automatically missing keys in the language files
+- [ ] Report duplicated keys
+
+I strongly suggest to use the `dot notation` in the placeholders. The language file is a JS object anyway and it is very helpful to organize the keys with a clear and readable structure.
+
+This module works well in conjunction with:
+* [VueI18n](https://kazupon.github.io/vue-i18n/)
+
+## Supported keys
+
+- [x] static (with $):
+```js
+$t('key.static')
+```
+- [ ] static (without $): 
+```js
+t('key.static')
+```
+- [ ] string concatenation:
+```js
+$t('key.' + 'concat')
+```
+- [ ] template string:
+```js
+$t((`key.template`)
+```
+
+## TL;DR
+I'm a big fan of [VueI18n](https://kazupon.github.io/vue-i18n/), the best and most used *internationalization plugin* for [Vue.js](https://vuejs.org/)
+
+Setting up a Vue.js website with internationalization (i18n) support it easy nowadays: once you have installed the plugin and injected into the Vue instance, you can just put ‘{{ $t(‘Hello World’) }}‘ inside Vue component templates to use the plugin.
+
+In my personal experience I just found difficult to keep the language files and the placeholders in the .vue files in sync.
+
+That's why I wrote this small script to analyse and compare the language files and the .vue files, in order to 
+Extract all $t('...') messages from a Vue.js (with vue-i18n) app and merge the new entries into the language files.
 
 
-### :rocket: How to run the script
+## :camera: Screenshot
+That's how the result will look like:
+
+<img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-1.png" width="600">
+
+<img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-2.png" width="600">
+
+## :rocket: How to run the script
 
 Execute `main.js` passing two arguments: 
 
@@ -50,7 +88,6 @@ $ npm run demo
 
 and it will execute the script taking all the files in ./demo.
 
-
 ## :bug: Debug in VS CODE
 Just add this configuration to your `launch.json` file:
 
@@ -67,6 +104,18 @@ Just add this configuration to your `launch.json` file:
 }
 ```  
 
+## :white_check_mark: To-Do
+- [ ] Write test
+- [ ] Report unused keys in the language files
+- [ ] Add automatically missing keys in the language files
+- [ ] Remove automatically missing keys in the language files
+- [ ] Report duplicated keys
+- [ ] Add "static (without $)" support
+- [ ] Add "string concatenation" support
+- [ ] Add string concatenation support
+- [ ] Add "template string" support
+- [ ] Add template string support
+
 ## :exclamation: Issues
 
 I'm sure you'll find bug I'll never see. It would be great if you'd like to [report them here](https://github.com/pixari/vue-i18n-extract/issues).
@@ -81,8 +130,3 @@ I think there's no need guidelines. Feel free to contribute or give feedback as 
 ## :copyright: License
 
 [MIT](http://opensource.org/licenses/MIT)
-
-
-## Links
-
-* []()
