@@ -14,6 +14,8 @@ const cloneDeep = require('lodash.clonedeep');
 const deepDiff = require('deep-diff');
 const chalk = require('chalk');
 const Table = require('cli-table3');
+const isValidGlob = require('is-valid-glob');
+const nodeEval = require('node-eval');
 
 module.exports = {
   reportDiff(source) {
@@ -40,9 +42,24 @@ module.exports = {
     /* eslint-enable */
   },
 
-  getFilesContent(src) {
+  readVueFiles(src) {
+    if (!isValidGlob(src)) {
+      throw new Error('Src folder isn\'\t a valid grob pattern.');
+    }
     const targetFiles = glob.sync(src);
     return targetFiles.map(f => Object.assign({}, { name: f, content: fs.readFileSync(f, 'utf8') }));
+  },
+
+  readLangFiles(src) {
+    const targetFiles = glob.sync(src);
+    /* eslint-disable */
+    return targetFiles.map((f) => {
+      const validPath = null;
+      const langModule = require(`../${f}`);
+      const { default: langObj } = langModule;
+      return Object.assign({}, { name: f, content: langObj });
+    });
+    /* eslint-enable */
   },
 
   parseRhs(rhs) {
@@ -72,9 +89,8 @@ module.exports = {
   },
 
   addNewTextsToLangObj(lang, generatedObj) {
-    const { default: langObj } = lang.content;
-    const newObj = deepMerge(cloneDeep(langObj), cloneDeep(generatedObj));
-    const diff = deepDiff(langObj, newObj).filter(d => d.kind === 'N');
+    const newObj = deepMerge(cloneDeep(lang.content), cloneDeep(generatedObj));
+    const diff = deepDiff(lang.content, newObj).filter(d => d.kind === 'N');
 
     const diffElements = [];
     diff.forEach((d) => {
@@ -91,13 +107,6 @@ module.exports = {
       diff: diffElements,
       newObj,
     };
-  },
-
-  parseLangFiles(src) {
-    const targetFiles = glob.sync(src);
-    /* eslint-disable */
-    return targetFiles.map(f => Object.assign({}, { name: f, content: require(f) }));
-    /* eslint-enable */
   },
 
   extractText(filesList) {

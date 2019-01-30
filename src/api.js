@@ -3,7 +3,8 @@ const lib = require('./lib');
 module.exports = {
   api() {
     return {
-      getFilesContent: lib.getFilesContent,
+      readVueFiles: lib.readVueFiles,
+      readLangFiles: lib.readLangFiles,
     };
   },
-}
+};
