@@ -15,7 +15,6 @@ const deepDiff = require('deep-diff');
 const chalk = require('chalk');
 const Table = require('cli-table3');
 const isValidGlob = require('is-valid-glob');
-const nodeEval = require('node-eval');
 
 module.exports = {
   reportDiff(source) {
