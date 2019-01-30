@@ -1,11 +1,14 @@
 {
   "name": "vue-i18n-extract",
   "version": "0.1.1",
-  "description": "",
-  "main": "main.js",
-  "module": "main.js",
+  "description": "Manage vue-i18n localization with static analysis",
+  "main": "api.js",
+  "module": "vue-i18n-extract",
+  "bin": {
+    "vue-i18n-extract": "./bin/vue-i18n-extract"
+  },
   "scripts": {
-    "demo": "node main.js -s ./demo/vue_files -l ./demo/lang",
+    "demo": "node ./bin/vue-i18n-extract.js -s './demo/**/*.?(js|vue)' -l './demo/lang/*.js'",
     "lint": "eslint src/**",
     "test": "jest --config=jest.config.js",
     "test:watch": "jest --watch",
@@ -55,7 +58,9 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^22.2.1",
+    "is-valid-glob": "^1.0.0",
     "jest": "^24.0.0",
-    "mock-fs": "^4.7.0"
+    "mock-fs": "^4.7.0",
+    "node-eval": "^2.0.0"
   }
 }
