@@ -37,7 +37,7 @@ This module works well in conjunction with:
 ```js
 $t('key.static')
 ```
-- [ ] static (without $): 
+- [x] static (without $): 
 ```js
 t('key.static')
 ```
@@ -45,7 +45,7 @@ t('key.static')
 ```js
 $t('key.' + 'concat')
 ```
-- [ ] template string:
+- [x] template string:
 ```js
 $t((`key.template`)
 ```
@@ -115,11 +115,9 @@ Just add this configuration to your `launch.json` file:
 - [ ] Add automatically missing keys in the language files
 - [ ] Remove automatically missing keys in the language files
 - [ ] Report duplicated keys
-- [ ] Add "static (without $)" support
-- [ ] Add "string concatenation" support
+- [x] Add "static (without $)" support
 - [ ] Add string concatenation support
-- [ ] Add "template string" support
-- [ ] Add template string support
+- [x] Add template string support
 
 ## :exclamation: Issues
 
