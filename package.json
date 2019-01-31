@@ -11,8 +11,7 @@
     "demo": "node ./bin/vue-i18n-extract.js -s './demo/**/*.?(js|vue)' -l './demo/lang/*.js'",
     "lint": "eslint src/**",
     "test": "jest --config=jest.config.js",
-    "test:watch": "jest --watch",
-    "coverage": "jest --collectCoverageFrom=src/**.js --coverage"
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",

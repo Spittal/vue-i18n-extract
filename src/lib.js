@@ -61,6 +61,48 @@ module.exports = {
     /* eslint-enable */
   },
 
+  convertDotToObject(matches) {
+    const obj = {};
+    matches.forEach((el) => {
+      obj[el] = el;
+    });
+    return dot.object(obj);
+  },
+
+  extractI18nStringsFromFiles(filesList) {
+    const content = [];
+    return new Promise((resolve) => {
+      async.eachSeries(filesList, (file, callback) => {
+        ssearch.find(file.content, /[$ ]t\(['`](.*)['`]\)/gi).then((res) => {
+          if (res.length > 0) {
+            res.forEach((r) => {
+              let { text } = r;
+              text = text.replace('$t(\'', 'i18nSTART###');
+              text = text.replace('$t(`', 'i18nSTART###');
+              text = text.replace(' t(`', 'i18nSTART###');
+              text = text.replace(' t(\'', 'i18nSTART###');
+              text = text.replace('\')', '###i18nEND');
+              text = text.replace('`)', '###i18nEND');
+              content.push({
+                line: r.line,
+                text: text.substring(text.lastIndexOf('i18nSTART###') + 12, text.lastIndexOf('###i18nEND')),
+                file: file.name,
+              });
+            });
+          }
+          callback();
+        });
+      }, (err) => {
+        if (err) {
+          /* eslint-disable */
+          console.log(err); 
+          /* eslint-enable */
+        }
+        resolve(content);
+      });
+    });
+  },
+
   parseRhs(rhs) {
     return Object.entries(rhs).reduce((accumulator, currentValue) => {
       if (typeof currentValue[1] === 'string') {
@@ -106,40 +148,5 @@ module.exports = {
       diff: diffElements,
       newObj,
     };
-  },
-
-  extractText(filesList) {
-    const content = [];
-    return new Promise((resolve) => {
-      async.eachSeries(filesList, (file, callback) => {
-        ssearch.find(file.content, /(\$t\(')(.*)('\))/gi).then((res) => {
-          if (res.length > 0) {
-            res.forEach((r) => {
-              content.push({
-                line: r.line,
-                text: r.text.substring(r.text.lastIndexOf('$t(\'') + 4, r.text.lastIndexOf('\')')),
-                file: file.name,
-              });
-            });
-          }
-          callback();
-        });
-      }, (err) => {
-        if (err) {
-          /* eslint-disable */
-          console.log(err); 
-          /* eslint-enable */
-        }
-        resolve(content);
-      });
-    });
-  },
-
-  dotToObj(matches) {
-    const obj = {};
-    matches.forEach((el) => {
-      obj[el.text] = el.text;
-    });
-    return dot.object(obj);
   },
 };
