@@ -93,22 +93,6 @@ $ npm run demo
 
 and it will execute the script taking all the files in ./demo.
 
-## :bug: Debug in VS CODE
-Just add this configuration to your `launch.json` file:
-
-```js
-{
-  "type": "node",
-  "request": "launch",
-  "name": "vue-i18n-extract",
-  "program": "${workspaceFolder}/main.js",
-  "args": [
-    "-s ./demo/vue_files",
-    "-l ./demo/lang",
-  ]
-}
-```  
-
 ## :white_check_mark: To-Do
 - [ ] Write test
 - [ ] Report unused keys in the language files
