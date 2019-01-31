@@ -43,4 +43,33 @@ describe('Lib', () => {
       });
     });
   });
+
+  describe('convertDotToObject', () => {
+    test('convert array of dot notation strings into an object', () => {
+      const arr = [
+        'a.b.c',
+        'd.e.f',
+        'a.b.g',
+      ];
+      const convertedObj = lib.convertDotToObject(arr);
+      expect(Object.prototype.hasOwnProperty.call(convertedObj.a.b, 'c')).toBeTruthy();
+      expect(Object.prototype.hasOwnProperty.call(convertedObj.d.e, 'f')).toBeTruthy();
+      expect(Object.prototype.hasOwnProperty.call(convertedObj.a.b, 'g')).toBeTruthy();
+    });
+  });
+
+  describe('extractI18nStringsFromFiles', () => {
+    test('convert array of dot notation strings into an object', () => {
+      const arr = [
+        'a.b.c',
+        'd.e.f',
+        'a.b.g',
+      ];
+      const convertedObj = lib.convertDotToObject(arr);
+      expect(Object.prototype.hasOwnProperty.call(convertedObj.a.b, 'c')).toBeTruthy();
+      expect(Object.prototype.hasOwnProperty.call(convertedObj.d.e, 'f')).toBeTruthy();
+      expect(Object.prototype.hasOwnProperty.call(convertedObj.a.b, 'g')).toBeTruthy();
+    });
+  });
 });
+
