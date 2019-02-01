@@ -1,8 +1,9 @@
-# vue-i18n-extract [![CircleCI](https://circleci.com/gh/pixari/vue-i18n-extract/tree/master.png?style=shield)](https://circleci.com/gh/pixari/vue-i18n-extract)
-> Manage vue-i18n localization with static analysis
+# vue-i18n-extract
 
 [![npm version](https://img.shields.io/npm/v/vue-i18n-extract.svg?style=flat-square)](https://www.npmjs.com/package/vue-i18n-extract)
 [![npm downloads](https://img.shields.io/npm/dm/vue-i18n-extract.svg?style=flat-square)](https://www.npmjs.com/package/vue-i18n-extract)
+[![CircleCI](https://circleci.com/gh/pixari/vue-i18n-extract/tree/master.png?style=shield)](https://circleci.com/gh/pixari/vue-i18n-extract)
+> Manage vue-i18n localization with static analysis
 
 ## Installation
 Use NPM:
