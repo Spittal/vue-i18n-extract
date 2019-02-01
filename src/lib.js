@@ -69,10 +69,10 @@ module.exports = {
     return dot.object(obj);
   },
 
-  extractI18nStringsFromFiles(filesList) {
+  extractI18nStringsFromFilesCollection(filesCollection) {
     const content = [];
     return new Promise((resolve) => {
-      async.eachSeries(filesList, (file, callback) => {
+      async.eachSeries(filesCollection, (file, callback) => {
         ssearch.find(file.content, /[$ ]t\(['`](.*)['`]\)/gi).then((res) => {
           if (res.length > 0) {
             res.forEach((r) => {
@@ -93,11 +93,7 @@ module.exports = {
           callback();
         });
       }, (err) => {
-        if (err) {
-          /* eslint-disable */
-          console.log(err); 
-          /* eslint-enable */
-        }
+        if (err) /* eslint-disable */ throw new Error(err); /* eslint-enable */
         resolve(content);
       });
     });

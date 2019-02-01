@@ -1,1 +1,1 @@
-file3.vue
+const text = t('test');

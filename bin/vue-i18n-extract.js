@@ -23,7 +23,7 @@ async function main() {
   // Get list of target files
   const filesList = lib.readVueFiles(src);
   // Exctract the i18n placeholders from the given files
-  const matches = await lib.extractI18nStringsFromFiles(filesList);
+  const matches = await lib.extractI18nStringsFromFilesCollection(filesList);
   // Parse the strings and build a JS object using the dot notation
   // const ma = matches.map(m => m.text);
   const generatedObj = lib.convertDotToObject(matches.map(m => m.text));
