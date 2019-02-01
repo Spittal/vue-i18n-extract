@@ -2,6 +2,11 @@
 require = require('esm')(module);
 /* eslint-disable */
 const lib = require('../lib');
+const demoArr = [
+  'a.b.c',
+  'd.e.f',
+  'a.b.g',
+];
 
 describe('Lib', () => {
   describe('readVueFiles', () => {
@@ -19,7 +24,7 @@ describe('Lib', () => {
       const src = './src/__tests__/test_demo_files/**/*.?(js|vue)';
       const results = lib.readVueFiles(src);
       results.forEach((r) => {
-        expect(r.name.split('/')[r.name.split('/').length - 1]).toEqual(r.content);
+        expect(r.content).not.toBeNull();
       });
     });
   });
@@ -46,29 +51,18 @@ describe('Lib', () => {
 
   describe('convertDotToObject', () => {
     test('convert array of dot notation strings into an object', () => {
-      const arr = [
-        'a.b.c',
-        'd.e.f',
-        'a.b.g',
-      ];
-      const convertedObj = lib.convertDotToObject(arr);
+      const convertedObj = lib.convertDotToObject(demoArr);
       expect(Object.prototype.hasOwnProperty.call(convertedObj.a.b, 'c')).toBeTruthy();
       expect(Object.prototype.hasOwnProperty.call(convertedObj.d.e, 'f')).toBeTruthy();
       expect(Object.prototype.hasOwnProperty.call(convertedObj.a.b, 'g')).toBeTruthy();
     });
   });
 
-  describe('extractI18nStringsFromFiles', () => {
-    test('convert array of dot notation strings into an object', () => {
-      const arr = [
-        'a.b.c',
-        'd.e.f',
-        'a.b.g',
-      ];
-      const convertedObj = lib.convertDotToObject(arr);
-      expect(Object.prototype.hasOwnProperty.call(convertedObj.a.b, 'c')).toBeTruthy();
-      expect(Object.prototype.hasOwnProperty.call(convertedObj.d.e, 'f')).toBeTruthy();
-      expect(Object.prototype.hasOwnProperty.call(convertedObj.a.b, 'g')).toBeTruthy();
+  describe('extractI18nStringsFromFilesCollection', () => {
+    test('extract supported i18n strings from a collection of file paths', async () => {
+      const filesCollection = lib.readVueFiles('./src/__tests__/test_demo_files/**/*.?(js|vue)');
+      const results = await lib.extractI18nStringsFromFilesCollection(filesCollection);
+      expect(results.length).toEqual(4);
     });
   });
 });

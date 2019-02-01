@@ -1,1 +1,1 @@
-file2.js
+$t(`test`);
