@@ -19,7 +19,7 @@ $ yarn add --dev vue-i18n-extract
 ```
 
 ## The problem solved
-This module analyses code statically for key usages ( `$t('some.keys.key')` ) in `.vue` files and all the language files (ex. de_DE.js, en_EN.js, ...), in order to:
+This module analyses code statically for key usages in ($t(''), t(''), $t(``), t(``)) and all the language files (ex. de_DE.js, en_EN.js, ...), in order to:
 
 - [x] Report keys that are missing in the language files
 - [ ] Report unused keys in the language files
@@ -81,7 +81,7 @@ Execute `main.js` passing two arguments:
 For example, in order to execute the script using the `demo` folder, you will execute the following command:
 
 ```sh
-$ node main.js -s ./demo/vue_files -l ./demo/lang
+$ node ./bin/vue-i18n-extract.js -s './demo/**/*.?(js|vue)' -l './demo/lang/*.js'
 ```
 
 ### Demo
@@ -93,6 +93,14 @@ $ npm run demo
 ```
 
 and it will execute the script taking all the files in ./demo.
+
+### Test
+In `package.json` you'll find a test script.
+Just run:
+
+```sh
+$ npm run test
+```
 
 ## :white_check_mark: To-Do
 - [ ] Write test
