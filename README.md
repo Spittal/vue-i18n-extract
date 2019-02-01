@@ -76,8 +76,8 @@ Execute `main.js` passing two arguments:
 
 | Arguments | Description |
 | ------ | ----------- |
-| -s   | path to VueJs files |
-| -l | path to language files (ex. de_DE.js, en_EN.js) |
+| -s   | path to VueJs file/s, accepts a glob pattern  |
+| -l | path to language file/s, accepts a glob pattern (ex. de_DE.js, en_EN.js) |
 
 For example, in order to execute the script using the `demo` folder, you will execute the following command:
 
