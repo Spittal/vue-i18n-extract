@@ -1,4 +1,4 @@
-# vue-i18n-extract
+# vue-i18n-extract [![CircleCI](https://circleci.com/gh/pixari/vue-i18n-extract/tree/master.png?style=shield)](https://circleci.com/gh/pixari/vue-i18n-extract)
 > Manage vue-i18n localization with static analysis
 
 [![npm version](https://img.shields.io/npm/v/vue-i18n-extract.svg?style=flat-square)](https://www.npmjs.com/package/vue-i18n-extract)
