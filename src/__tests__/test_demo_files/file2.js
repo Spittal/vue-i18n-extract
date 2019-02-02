@@ -1,1 +1,1 @@
-$t(`test`);
+$t(`test.c.d.e`);

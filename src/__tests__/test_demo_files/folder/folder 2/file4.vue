@@ -1,1 +1,1 @@
-const text = t('test');
+const text = t('test.b.f.an');

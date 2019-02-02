@@ -8,6 +8,18 @@ module.exports = {
     return generatedObj;
   },
 
+  analyzeLanguageFiles(langFilesPath) {
+    const analyzedLanguageFiles = [];
+    this.readLangFiles(langFilesPath).forEach((l) => {
+      analyzedLanguageFiles.push({
+        filename: l.name.replace(/^.*(\\|\/|:)/, ''),
+        path: l.name,
+        content: l.content,
+      });
+    });
+    return analyzedLanguageFiles;
+  },
+
   readVueFiles(src) {
     return lib.readVueFiles(src);
   },

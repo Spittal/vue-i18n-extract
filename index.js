@@ -1,2 +1,5 @@
-require = require("esm")(module);
-module.exports = require("./src/main.js");
+/* eslint-disable */
+require = require('esm')(module);
+/* eslint-enable */
+
+module.exports = require('./src/api.js');
