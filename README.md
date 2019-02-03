@@ -6,7 +6,11 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/pixari/vue-i18n-extract/badge.svg?targetFile=package.json)](https://snyk.io/test/github/pixari/vue-i18n-extract?targetFile=package.json)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d21f341c33b2bfb6fe0e/maintainability)](https://codeclimate.com/github/pixari/vue-i18n-extract/maintainability)
 
-## Installation
+## Index:
+
+* [Installation](#installation)
+
+## :cloud: Installation
 Use NPM:
 
 ```sh
@@ -19,7 +23,7 @@ or install with yarn:
 $ yarn add --dev vue-i18n-extract
 ```
 
-## The problem solved
+## :smirk: The problem solved
 This module analyses code statically for key usages in ($t(''), t(''), $t(``), t(``)) and all the language files (ex. de_DE.js, en_EN.js, ...), in order to:
 
 - [x] Report keys that are missing in the language files
@@ -33,7 +37,7 @@ I strongly suggest to use the `dot notation` in the placeholders. The language f
 This module works well in conjunction with:
 * [VueI18n](https://kazupon.github.io/vue-i18n/)
 
-## Documentation
+## :book: Documentation
 Currently 4 API are exposed:
 
 * analyzeVueFiles
@@ -83,7 +87,7 @@ Returns an object with 4 properties:
 
 "Console.log" the missing entries.
 
-## Supported keys
+## :key: Supported keys
 
 - [x] static (with $):
 ```js
@@ -102,7 +106,7 @@ $t('key.' + 'concat')
 $t((`key.template`)
 ```
 
-## Why
+## :grey_question: Why
 I'm a big fan of [VueI18n](https://kazupon.github.io/vue-i18n/), the best and most used *internationalization plugin* for [Vue.js](https://vuejs.org/)
 
 Setting up a Vue.js website with internationalization (i18n) support it easy nowadays: once you have installed the plugin and injected into the Vue instance, you can just put ‘{{ $t(‘Hello World’) }}‘ inside Vue component templates to use the plugin.
@@ -145,7 +149,7 @@ $ npm run demo
 
 and it will execute the script taking all the files in ./demo.
 
-### Test
+### :gear: Test
 In `package.json` you'll find a test script.
 Just run:
 
