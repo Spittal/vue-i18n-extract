@@ -6,9 +6,21 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/pixari/vue-i18n-extract/badge.svg?targetFile=package.json)](https://snyk.io/test/github/pixari/vue-i18n-extract?targetFile=package.json)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d21f341c33b2bfb6fe0e/maintainability)](https://codeclimate.com/github/pixari/vue-i18n-extract/maintainability)
 
-## Index:
+## :bookmark_tabs: Index:
 
 * [Installation](#installation)
+* [The problem solved](#smirk-the-problem-solved)
+* [Documentation](#book-documentation)
+* [Supported keys](#key-supported-keys)
+* [Why?](#grey_question-why)
+* [Screenshot](#camera-screenshot)
+* [How to run the script](#rocket-how-to-run-the-script)
+* [Demo](#demo)
+* [Test](#gear-test)
+* [To Do](#white_check_mark-to-do)
+* [Issues](#exclamation-issues)
+* [Contribution](#muscle-contribution)
+* [License](#copyright-license)
 
 ## :cloud: Installation
 Use NPM:
