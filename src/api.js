@@ -2,7 +2,7 @@ const lib = require('./lib');
 
 module.exports = {
   async analyzeVueFiles(vueFilesPath) {
-    const filesList = this.readVueFiles(vueFilesPath);
+    const filesList = lib.readVueFiles(vueFilesPath);
     const matches = await lib.extractI18nStringsFromFilesCollection(filesList);
     const generatedObj = lib.convertDotToObject(matches.map(m => m.text));
     return generatedObj;
@@ -10,7 +10,7 @@ module.exports = {
 
   analyzeLanguageFiles(langFilesPath) {
     const analyzedLanguageFiles = [];
-    this.readLangFiles(langFilesPath).forEach((l) => {
+    lib.readLangFiles(langFilesPath).forEach((l) => {
       analyzedLanguageFiles.push({
         filename: l.name.replace(/^.*(\\|\/|:)/, ''),
         path: l.name,
@@ -20,19 +20,11 @@ module.exports = {
     return analyzedLanguageFiles;
   },
 
-  readVueFiles(src) {
-    return lib.readVueFiles(src);
+  analyzeI18n(langFileContent, vueI18nStrings) {
+    return lib.diffLangVueStrings(langFileContent, vueI18nStrings);
   },
 
-  readLangFiles(src) {
-    return lib.readLangFiles(src);
-  },
-
-  convertDotToObject(dotNotationStrings) {
-    return lib.convertDotToObject(dotNotationStrings);
-  },
-
-  extractI18nStringsFromFilesCollection(filesCollection) {
-    return lib.extractI18nStringsFromFilesCollection(filesCollection);
+  logReport(i18nAnalysis) {
+    lib.logReport(i18nAnalysis);
   },
 };

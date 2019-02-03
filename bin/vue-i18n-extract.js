@@ -16,23 +16,20 @@ const { argv } = require('yargs')
   .demand(['src', 'langFolder']);
 
 const lib = require('../src/lib');
+const api = require('../src/api');
 
 async function main() {
   // Get the config5
   const { src, langFolder } = argv;
-  // Get list of target files
-  const filesList = lib.readVueFiles(src);
-  // Exctract the i18n placeholders from the given files
-  const matches = await lib.extractI18nStringsFromFilesCollection(filesList);
-  // Parse the strings and build a JS object using the dot notation
-  // const ma = matches.map(m => m.text);
-  const generatedObj = lib.convertDotToObject(matches.map(m => m.text));
-  // Get lang files content
-  const langFiles = lib.readLangFiles(langFolder);
-  // Merge the generated object with the lang obj and save the differences
-  const newLangFiles = langFiles.map(f => lib.addNewTextsToLangObj(f, generatedObj));
-  // Show the report
-  newLangFiles.forEach(f => lib.reportDiff(f));
+  // Analyse Vue Files
+  const vueFilesAnalysis = await api.analyzeVueFiles(src);
+  // Analyse Lang Files
+  const languageFilesAnalysis = api.analyzeLanguageFiles(langFolder);
+  // i18n analysis
+  const analysis = await languageFilesAnalysis.map(l => api.analyzeI18n(l, vueFilesAnalysis));
+
+  // Show results as a console.log
+  analysis.forEach(a => api.logReport(a));
 }
 
 main();

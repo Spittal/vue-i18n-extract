@@ -17,7 +17,7 @@ const Table = require('cli-table3');
 const isValidGlob = require('is-valid-glob');
 
 module.exports = {
-  reportDiff(source) {
+  logReport(analysis) {
     const table = new Table({
       colors: true,
       style: {
@@ -26,14 +26,12 @@ module.exports = {
         compact: true,
       },
       head: ['#', 'Language file', 'Missing i18n entries'],
-      colWidths: [6, 20, 90],
+      colWidths: [6, 15, 70],
     });
 
-    const filename = source.name.replace(/^.*[\\\/]/, '')
-
     let index = 1;
-    source.diff.forEach((s) => {
-      table.push([index, filename, s]);
+    analysis.missingEntries.forEach((s) => {
+      table.push([index, analysis.filename, s]);
       index += 1;
     });
     /* eslint-disable */
@@ -125,9 +123,9 @@ module.exports = {
     }, []);
   },
 
-  addNewTextsToLangObj(lang, generatedObj) {
-    const newObj = deepMerge(cloneDeep(lang.content), cloneDeep(generatedObj));
-    const diff = deepDiff(lang.content, newObj).filter(d => d.kind === 'N');
+  diffLangVueStrings(lang, generatedObj) {
+    const fixedEntries = deepMerge(cloneDeep(lang.content), cloneDeep(generatedObj));
+    const diff = deepDiff(lang.content, fixedEntries).filter(d => d.kind === 'N');
 
     const diffElements = [];
     diff.forEach((d) => {
@@ -139,10 +137,10 @@ module.exports = {
       }
     });
     return {
-      name: lang.name,
-      oldObj: lang.content,
-      diff: diffElements,
-      newObj,
+      filename: lang.filename,
+      currentEntries: lang.content,
+      missingEntries: diffElements,
+      fixedEntries,
     };
   },
 };
