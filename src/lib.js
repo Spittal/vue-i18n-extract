@@ -8,7 +8,6 @@ const ssearch = require('string-search');
 const async = require('async');
 const dot = require('dot-object');
 const acorn = require('acorn');
-const babel = require('@babel/core');
 const deepMerge = require('lodash.merge');
 const cloneDeep = require('lodash.clonedeep');
 const deepDiff = require('deep-diff');
