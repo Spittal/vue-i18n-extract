@@ -33,6 +33,56 @@ I strongly suggest to use the `dot notation` in the placeholders. The language f
 This module works well in conjunction with:
 * [VueI18n](https://kazupon.github.io/vue-i18n/)
 
+## Documentation
+Currently 4 API are exposed:
+
+* analyzeVueFiles
+* analyzeLanguageFiles
+* analyzeI18n
+* logReport
+
+### analyzeVueFiles
+
+| Arguments | Description |
+| ------ | ----------- |
+| vueFilesPath  |  path to VueJs file/s. Accepts a glob pattern. (ex. './foo/**/*.(bar\|moo)') |
+
+An object based on same structure of a "language file" containing all the strings found in the given path. Strings provided in "object dot notation" will be parsed as objects. Ex: "foo.bar.test" will be { foo: { bar: { test }}}
+
+### analyzeLanguageFiles
+
+| Arguments | Description |
+| ------ | ----------- |
+| langFilesPath  |  path to language file/s. Accepts a glob pattern. (ex. './foo/lang/*.(bar\|moo)') |
+
+An array of objects. Every language files generates an element with 3 properties:
+* filename: filename of the language file
+* path: path of the language file
+* content: the object described in the language file. It does actually a "require".
+
+### analyzeI18n
+(langFileContent, vueI18nStrings)
+
+| Arguments | Description |
+| ------ | ----------- |
+| langFileContent  | The output of analyzeVueFiles |
+| vueI18nStrings  | One of output's element of analyzeLanguageFiles |
+
+Compares the vueI18nStrings (all the i18n strings have been found in the vueFilesPath) and langFileContent, the language object (analyzeLanguageFiles generates an array of them, one for each language file). 
+
+Returns an object with 4 properties:
+* filename: name of the language file
+* currentEntries: current state of the language file
+* missingEntries: array of missing i18n entries,
+* fixedEntries: how the language object should be (the current entries + the missing ones)
+
+### logReport
+| Arguments | Description |
+| ------ | ----------- |
+| i18nAnalysis  | One of the outputs elements of analyzeI18n |
+
+"Console.log" the missing entries.
+
 ## Supported keys
 
 - [x] static (with $):
