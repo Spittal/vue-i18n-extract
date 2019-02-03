@@ -5,7 +5,7 @@
   "main": "api.js",
   "module": "vue-i18n-extract",
   "bin": {
-    "vue-i18n-extract": "./bin/vue-i18n-extract"
+    "vue-i18n-extract": "./bin/vue-i18n-extract.js"
   },
   "scripts": {
     "demo": "node ./bin/vue-i18n-extract.js -s './demo/**/*.?(js|vue)' -l './demo/lang/*.js'",
