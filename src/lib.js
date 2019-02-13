@@ -16,7 +16,7 @@ const Table = require('cli-table3');
 const isValidGlob = require('is-valid-glob');
 
 module.exports = {
-  logReport(analysis) {
+  logReport(analysis, title) {
     const table = new Table({
       colors: true,
       style: {
@@ -24,7 +24,7 @@ module.exports = {
         border: ['white'],
         compact: true,
       },
-      head: ['#', 'Language file', 'Missing i18n entries'],
+      head: ['#', 'Language file', title],
       colWidths: [6, 15, 70],
     });
 
@@ -122,10 +122,7 @@ module.exports = {
     }, []);
   },
 
-  diffLangVueStrings(lang, generatedObj) {
-    const fixedEntries = deepMerge(cloneDeep(lang.content), cloneDeep(generatedObj));
-    const diff = deepDiff(lang.content, fixedEntries).filter(d => d.kind === 'N');
-
+  buildDiffRep(diff, lang, fixedEntries) {
     const diffElements = [];
     diff.forEach((d) => {
       const extr = this.extractItemsFromRhsDiff(d);
@@ -141,5 +138,17 @@ module.exports = {
       missingEntries: diffElements,
       fixedEntries,
     };
+  },
+
+  diffLangVueStrings(lang, generatedObj) {
+    const fixedEntries = deepMerge(cloneDeep(lang.content), cloneDeep(generatedObj));
+    const diff = deepDiff(lang.content, generatedObj).filter(d => d.kind === 'N');
+    return this.buildDiffRep(diff, lang, fixedEntries);
+  },
+
+  diffVueLangStrings(lang, generatedObj) {
+    const fixedEntries = deepMerge(cloneDeep(lang.content), cloneDeep(generatedObj));
+    const diff = deepDiff(generatedObj, lang.content).filter(d => d.kind === 'N');
+    return this.buildDiffRep(diff, lang, fixedEntries);
   },
 };
