@@ -39,10 +39,9 @@ $ yarn add --dev vue-i18n-extract
 This module analyses code statically for key usages in ($t(''), t(''), $t(``), t(``)) and all the language files (ex. de_DE.js, en_EN.js, ...), in order to:
 
 - [x] Report keys that are missing in the language files
-- [ ] Report unused keys in the language files
+- [x] Report unused keys in the language files
 - [ ] Add automatically missing keys in the language files
 - [ ] Remove automatically missing keys in the language files
-- [ ] Report duplicated keys
 
 I strongly suggest to use the `dot notation` in the placeholders. The language file is a JS object anyway and it is very helpful to organize the keys with a clear and readable structure.
 
@@ -109,10 +108,6 @@ $t('key.static')
 ```js
 t('key.static')
 ```
-- [ ] string concatenation:
-```js
-$t('key.' + 'concat')
-```
 - [x] template string:
 ```js
 $t((`key.template`)
@@ -171,12 +166,10 @@ $ npm run test
 
 ## :white_check_mark: To-Do
 - [ ] Write test
-- [ ] Report unused keys in the language files
+- [x] Report unused keys in the language files
 - [ ] Add automatically missing keys in the language files
 - [ ] Remove automatically missing keys in the language files
-- [ ] Report duplicated keys
 - [x] Add "static (without $)" support
-- [ ] Add string concatenation support
 - [x] Add template string support
 
 ## :exclamation: Issues
