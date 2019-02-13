@@ -3,6 +3,7 @@ require = require('esm')(module);
 /* eslint-disable */
 
 const fs = require('fs');
+const path = require('path');
 const glob = require('glob');
 const ssearch = require('string-search');
 const async = require('async');
@@ -51,7 +52,8 @@ module.exports = {
     /* eslint-disable */
     return targetFiles.map((f) => {
       const validPath = null;
-      const langModule = require(`../${f}`);
+      const langPath = path.resolve(process.cwd(), f)
+      const langModule = require(langPath);
       const { default: langObj } = langModule;
       return Object.assign({}, { name: f, content: langObj });
     });
