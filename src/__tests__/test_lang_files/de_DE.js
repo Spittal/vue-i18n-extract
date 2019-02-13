@@ -8,6 +8,7 @@ export default {
     paragraphs: {
       p_a: 'test',
       p_b: 'test',
+      raffaele: 'test',
     },
   },
 };

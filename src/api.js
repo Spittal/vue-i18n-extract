@@ -20,11 +20,17 @@ module.exports = {
     return analyzedLanguageFiles;
   },
 
-  analyzeI18n(langFileContent, vueI18nStrings) {
-    return lib.diffLangVueStrings(langFileContent, vueI18nStrings);
+  analyzeI18n(langFile, vueI18nStrings) {
+    return lib.diffLangVueStrings(langFile, vueI18nStrings);
   },
 
-  logReport(i18nAnalysis) {
-    lib.logReport(i18nAnalysis);
+  analyzeUnusedKeys(vueI18nStrings, langFile) {
+    return lib.diffVueLangStrings(langFile, vueI18nStrings);
+  },
+
+  logReport(i18nAnalysis, title) {
+    if (i18nAnalysis.missingEntries.length > 0) {
+      lib.logReport(i18nAnalysis, title);
+    }
   },
 };
