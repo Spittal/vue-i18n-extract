@@ -54,7 +54,9 @@ Currently 4 API are exposed:
 * analyzeVueFiles
 * analyzeLanguageFiles
 * analyzeI18n
+* analyzeUnusedKeys
 * logReport
+* logReportUnusedKeys
 
 ### analyzeVueFiles
 
@@ -76,12 +78,12 @@ An array of objects. Every language files generates an element with 3 properties
 * content: the object described in the language file. It does actually a "require".
 
 ### analyzeI18n
-(langFileContent, vueI18nStrings)
+(langFileContent, vueFilesAnalysis)
 
 | Arguments | Description |
 | ------ | ----------- |
 | langFileContent  | The output of analyzeVueFiles |
-| vueI18nStrings  | One of output's element of analyzeLanguageFiles |
+| vueFilesAnalysis  | One of output's element of analyzeLanguageFiles |
 
 Compares the vueI18nStrings (all the i18n strings have been found in the vueFilesPath) and langFileContent, the language object (analyzeLanguageFiles generates an array of them, one for each language file). 
 
@@ -91,12 +93,35 @@ Returns an object with 4 properties:
 * missingEntries: array of missing i18n entries,
 * fixedEntries: how the language object should be (the current entries + the missing ones)
 
+### analyzeUnusedKeys
+(langFileContent, vueFilesAnalysis)
+
+| Arguments | Description |
+| ------ | ----------- |
+| langFileContent  | The output of analyzeVueFiles |
+| vueFilesAnalysis  | One of output's element of analyzeLanguageFiles |
+
+Compares the language entries (langFileContent) with the vueI18nStrings (all the i18n strings have been found in the vueFilesPath).
+
+Returns an object with 4 properties:
+* filename: name of the language file
+* currentEntries: current state of the language file
+* missingEntries: array of unused i18n entries,
+* fixedEntries: how the language object should be (the current entries + the missing ones)
+
 ### logReport
 | Arguments | Description |
 | ------ | ----------- |
 | i18nAnalysis  | One of the outputs elements of analyzeI18n |
 
 "Console.log" the missing entries.
+
+### logReportUnusedKeys
+| Arguments | Description |
+| ------ | ----------- |
+| i18nAnalysis  | One of the outputs elements of analyzeI18n |
+
+"Console.log" the unused entries. 
 
 ## :key: Supported keys
 
@@ -127,9 +152,9 @@ Extract all $t('...') messages from a Vue.js (with vue-i18n) app and merge the n
 ## :camera: Screenshot
 That's how the result will look like:
 
-<img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-1.png" width="600">
+<img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-3.png" width="600">
 
-<img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-2.png" width="600">
+<img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-4.png" width="600">
 
 ## :rocket: How to run the script
 

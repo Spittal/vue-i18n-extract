@@ -27,11 +27,13 @@ async function main() {
   // i18n analysis
   const analyzeI18n = await languageFilesAnalysis.map(l => api.analyzeI18n(l, vueFilesAnalysis));
   // Extract unused keys
-  const analyzeUnusedKeys = await languageFilesAnalysis.map(l => api.analyzeUnusedKeys(vueFilesAnalysis, l));
+  const analyzeUnusedKeys = await languageFilesAnalysis.map(
+    l => api.analyzeUnusedKeys(vueFilesAnalysis, l),
+  );
 
-  analyzeI18n.forEach(a => api.logReport(a, 'Missing i18n entries'));
+  analyzeI18n.forEach(a => api.logReport(a, 'Missing i18n entry'));
   // Show results as a console.log
-  analyzeUnusedKeys.forEach(a => api.logReport(a, 'Unused language file entries'));
+  analyzeUnusedKeys.forEach(a => api.logReportUnusedKeys(a, 'Unused language file entries'));
 }
 
 main();

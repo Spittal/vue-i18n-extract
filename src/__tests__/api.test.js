@@ -6,9 +6,9 @@ const api = require('../api');
 describe('API', () => {
   test('analyzeVueFiles', async () => {
     const src = './src/__tests__/test_demo_files/**/*.js';
-    const generateObj = await api.analyzeVueFiles(src);
-    expect(Object.prototype.hasOwnProperty.call(generateObj.test.a.b, 'c')).toBeTruthy();
-    expect(Object.prototype.hasOwnProperty.call(generateObj.test.c.d, 'e')).toBeTruthy();
+    const { generatedObj } = await api.analyzeVueFiles(src);
+    expect(Object.prototype.hasOwnProperty.call(generatedObj.test.a.b, 'c')).toBeTruthy();
+    expect(Object.prototype.hasOwnProperty.call(generatedObj.test.c.d, 'e')).toBeTruthy();
   });
 
   test('analyzeLanguageFiles', async () => {
@@ -27,9 +27,21 @@ describe('API', () => {
     const langObj = await api.analyzeLanguageFiles('./src/__tests__/test_lang_files/de_DE.js');
     const analysis = api.analyzeI18n(langObj[0], vueI18nStrings);
     expect(analysis.missingEntries).toEqual([
-      'header.titles.title_x.test',
-      'test.a.b.c',
-      'test.c.d.e',
+      {
+        "file": "./src/__tests__/test_demo_files/file2.js",
+        "line": 2,
+        "text": "header.titles.title_x.test",
+      },
+      {
+        "file": "./src/__tests__/test_demo_files/file1.js",
+        "line": 1,
+        "text": "test.a.b.c",
+      },
+      {
+        "file": "./src/__tests__/test_demo_files/file2.js",
+        "line": 1,
+        "text": "test.c.d.e",
+      },
     ]);    
     expect(Object.hasOwnProperty.call(analysis.fixedEntries.header.titles.title_x, 'test')).toBeTruthy();
     expect(Object.hasOwnProperty.call(analysis.fixedEntries, 'test')).toBeTruthy();
