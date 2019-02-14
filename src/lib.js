@@ -17,6 +17,28 @@ const Table = require('cli-table3');
 const isValidGlob = require('is-valid-glob');
 
 module.exports = {
+  logReportUnusedKeys(analysis, title) {
+    const table = new Table({
+      colors: true,
+      style: {
+        head: ['yellow'],
+        border: ['white'],
+        compact: true,
+      },
+      head: ['#', 'Language', title],
+      colWidths: [4, 12, 40],
+    });
+
+    let index = 1;
+    analysis.missingEntries.forEach((s) => {
+      table.push([index, analysis.filename, s]);
+      index += 1;
+    });
+    /* eslint-disable */
+    console.log(table.toString());
+    /* eslint-enable */
+  },
+
   logReport(analysis, title) {
     const table = new Table({
       colors: true,
@@ -25,13 +47,13 @@ module.exports = {
         border: ['white'],
         compact: true,
       },
-      head: ['#', 'Language file', title],
-      colWidths: [6, 15, 70],
+      head: ['#', 'Language', 'File', 'Line', title],
+      colWidths: [4, 12, 40, 8, 30],
     });
 
     let index = 1;
     analysis.missingEntries.forEach((s) => {
-      table.push([index, analysis.filename, s]);
+      table.push([index, analysis.filename, s.file, s.line, s.text]);
       index += 1;
     });
     /* eslint-disable */
@@ -124,8 +146,8 @@ module.exports = {
     }, []);
   },
 
-  buildDiffRep(diff, lang, fixedEntries) {
-    const diffElements = [];
+  buildDiffRep(diff, lang, fixedEntries, astInfo) {
+    let diffElements = [];
     diff.forEach((d) => {
       const extr = this.extractItemsFromRhsDiff(d);
       if (Array.isArray(extr)) {
@@ -134,6 +156,14 @@ module.exports = {
         diffElements.push(extr);
       }
     });
+
+    diffElements = [...new Set(diffElements)];
+    if (astInfo) {
+      diffElements = diffElements.map((e) => {
+        const entry = astInfo.filter(a => a.text === e);
+        return entry[0];
+      });
+    }
     return {
       filename: lang.filename,
       currentEntries: lang.content,
@@ -142,10 +172,10 @@ module.exports = {
     };
   },
 
-  diffLangVueStrings(lang, generatedObj) {
-    const fixedEntries = deepMerge(cloneDeep(lang.content), cloneDeep(generatedObj));
-    const diff = deepDiff(lang.content, generatedObj).filter(d => d.kind === 'N');
-    return this.buildDiffRep(diff, lang, fixedEntries);
+  diffLangVueStrings(lang, vueFilesAnaylsis) {
+    const fixedEntries = deepMerge(cloneDeep(lang.content), cloneDeep(vueFilesAnaylsis.generatedObj));
+    const diff = deepDiff(lang.content, vueFilesAnaylsis.generatedObj).filter(d => d.kind === 'N');
+    return this.buildDiffRep(diff, lang, fixedEntries, vueFilesAnaylsis.astInfo);
   },
 
   diffVueLangStrings(lang, generatedObj) {

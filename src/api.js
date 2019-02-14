@@ -4,8 +4,10 @@ module.exports = {
   async analyzeVueFiles(vueFilesPath) {
     const filesList = lib.readVueFiles(vueFilesPath);
     const matches = await lib.extractI18nStringsFromFilesCollection(filesList);
-    const generatedObj = lib.convertDotToObject(matches.map(m => m.text));
-    return generatedObj;
+    return {
+      astInfo: matches,
+      generatedObj: lib.convertDotToObject(matches.map(m => m.text)),
+    };
   },
 
   analyzeLanguageFiles(langFilesPath) {
@@ -20,17 +22,23 @@ module.exports = {
     return analyzedLanguageFiles;
   },
 
-  analyzeI18n(langFile, vueI18nStrings) {
-    return lib.diffLangVueStrings(langFile, vueI18nStrings);
+  analyzeI18n(langFile, vueFilesAnalysis) {
+    return lib.diffLangVueStrings(langFile, vueFilesAnalysis);
   },
 
-  analyzeUnusedKeys(vueI18nStrings, langFile) {
-    return lib.diffVueLangStrings(langFile, vueI18nStrings);
+  analyzeUnusedKeys(vueFilesAnalysis, langFile) {
+    return lib.diffVueLangStrings(langFile, vueFilesAnalysis);
   },
 
   logReport(i18nAnalysis, title) {
     if (i18nAnalysis.missingEntries.length > 0) {
       lib.logReport(i18nAnalysis, title);
+    }
+  },
+
+  logReportUnusedKeys(i18nAnalysis, title) {
+    if (i18nAnalysis.missingEntries.length > 0) {
+      lib.logReportUnusedKeys(i18nAnalysis, title);
     }
   },
 };
