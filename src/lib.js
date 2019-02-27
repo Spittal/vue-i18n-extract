@@ -94,16 +94,26 @@ module.exports = {
     const content = [];
     return new Promise((resolve) => {
       async.eachSeries(filesCollection, (file, callback) => {
-        ssearch.find(file.content, /[$ ]t\(['`](.*)['`]\)/gi).then((res) => {
+        ssearch.find(file.content, /[$ ]tc?\(['`](.*)['`]\)/gi).then((res) => {
           if (res.length > 0) {
             res.forEach((r) => {
               let { text } = r;
+                           
               text = text.replace('$t(\'', 'i18nSTART###');
+              text = text.replace('$tc(\'', 'i18nSTART###');
+
               text = text.replace('$t(`', 'i18nSTART###');
+              text = text.replace('$tc(`', 'i18nSTART###');
+
               text = text.replace(' t(`', 'i18nSTART###');
+              text = text.replace(' tc(`', 'i18nSTART###');
+
               text = text.replace(' t(\'', 'i18nSTART###');
+              text = text.replace(' tc(\'', 'i18nSTART###');
+
               text = text.replace('\')', '###i18nEND');
               text = text.replace('`)', '###i18nEND');
+
               content.push({
                 line: r.line,
                 text: text.substring(text.lastIndexOf('i18nSTART###') + 12, text.lastIndexOf('###i18nEND')),
