@@ -1,12 +1,15 @@
 const lib = require('./lib');
 
 module.exports = {
-  async analyzeVueFiles(vueFilesPath) {
+  async analyzeVueFiles(vueFilesPath, keyAsFallback = false) {
     const filesList = lib.readVueFiles(vueFilesPath);
     const matches = await lib.extractI18nStringsFromFilesCollection(filesList);
+
     return {
       astInfo: matches,
-      generatedObj: lib.convertDotToObject(matches.map(m => m.text)),
+      generatedObj: (!keyAsFallback)
+        ? lib.convertDotToObject(matches.map(m => m.text))
+        : matches.reduce((obj, m) => ({ ...obj, [m.text]: m.text }), {}),
     };
   },
 

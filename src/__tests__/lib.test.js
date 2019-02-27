@@ -11,17 +11,17 @@ const demoArr = [
 describe('Lib', () => {
   describe('readVueFiles', () => {
     test('get vue and js files from src', () => {
-      const src = './src/__tests__/test_demo_files/**/*.?(js|vue)';
+      const src = './src/__tests__/test_demo_files/default/**/*.?(js|vue)';
       const results = lib.readVueFiles(src);
       expect(results.length).toEqual(4);
     });
     test('doesnt find any file', () => {
-      const src = './src/__tests__/test_demo_files/**/*.?(txt)';
+      const src = './src/__tests__/test_demo_files/default/**/*.?(txt)';
       const results = lib.readVueFiles(src);
       expect(results.length).toEqual(0);
     });
     test('get vue and js files and read the content', () => {
-      const src = './src/__tests__/test_demo_files/**/*.?(js|vue)';
+      const src = './src/__tests__/test_demo_files/default/**/*.?(js|vue)';
       const results = lib.readVueFiles(src);
       results.forEach((r) => {
         expect(r.content).not.toBeNull();
@@ -60,8 +60,7 @@ describe('Lib', () => {
 
   describe('extractI18nStringsFromFilesCollection', () => {
     test('extract supported i18n strings from a collection of file paths', async () => {
-      
-      const filesCollection = lib.readVueFiles('./src/__tests__/test_demo_files/**/*.?(js|vue)');
+      const filesCollection = lib.readVueFiles('./src/__tests__/test_demo_files/default/**/*.?(js|vue)');
       const results = await lib.extractI18nStringsFromFilesCollection(filesCollection);
       expect(results.length).toEqual(9);
     });
