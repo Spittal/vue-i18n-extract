@@ -12,49 +12,66 @@ describe('API', () => {
   });
 
   test('analyzeLanguageFiles', async () => {
-    const src = './src/__tests__/test_lang_files/*.js';
+    const src = './src/__tests__/test_lang_files/*.?(js|json)';
     const langObj = await api.analyzeLanguageFiles(src);
     expect(langObj.length).toEqual(2);
     expect(langObj[0].filename).toEqual('de_DE.js');
-    expect(langObj[1].filename).toEqual('en_EN.js');
+    expect(langObj[1].filename).toEqual('en_EN.json');
+
+    // Test .js
     expect(langObj[0].path).not.toBeNull();
     expect(langObj[0].content.header.paragraphs.p_b).toEqual('test');
     expect(langObj[0].content.header.titles.title_a).toEqual('test');
-  });  
+
+    // Test .json
+    expect(langObj[1].path).not.toBeNull();
+    expect(langObj[1].content.header.paragraphs.p_b).toEqual('test');
+    expect(langObj[1].content.header.titles.title_a).toEqual('test');
+  });
 
   test('analyzeI18n', async () => {
     const vueI18nStrings = await api.analyzeVueFiles('./src/__tests__/test_demo_files/**/*.js');
-    const langObj = await api.analyzeLanguageFiles('./src/__tests__/test_lang_files/de_DE.js');    
-    const analysis = api.analyzeI18n(langObj[0], vueI18nStrings);    
-    expect(analysis.missingEntries).toEqual([
-      { 
+    const langObj = await api.analyzeLanguageFiles('./src/__tests__/test_lang_files/*.?(js|json)');
+
+    const analysisJS = api.analyzeI18n(langObj[0], vueI18nStrings);
+    const analysisJSON = api.analyzeI18n(langObj[1], vueI18nStrings);
+
+    const missingEntries = [
+      {
         line: 2,
         text: 'header.titles.title_x.test',
         file: './src/__tests__/test_demo_files/file2.js'
       },
-      { 
+      {
         line: 1,
         text: 'test.a.b.c',
         file: './src/__tests__/test_demo_files/file1.js'
       },
-      { 
+      {
         line: 3,
         text: 'test.plural.1',
         file: './src/__tests__/test_demo_files/file2.js'
       },
-      { 
+      {
         line: 2,
         text: 'test.plural.2',
         file: './src/__tests__/test_demo_files/file1.js'
       },
-      { 
+      {
         line: 1,
         text: 'test.c.d.e',
         file: './src/__tests__/test_demo_files/file2.js'
       }
-    ]);    
-    expect(Object.hasOwnProperty.call(analysis.fixedEntries.header.titles.title_x, 'test')).toBeTruthy();
-    expect(Object.hasOwnProperty.call(analysis.fixedEntries, 'test')).toBeTruthy();
+    ];
+
+    expect(analysisJS.missingEntries).toEqual(missingEntries);
+    expect(analysisJSON.missingEntries).toEqual(missingEntries);
+
+    expect(Object.hasOwnProperty.call(analysisJS.fixedEntries.header.titles.title_x, 'test')).toBeTruthy();
+    expect(Object.hasOwnProperty.call(analysisJS.fixedEntries, 'test')).toBeTruthy();
+
+    expect(Object.hasOwnProperty.call(analysisJSON.fixedEntries.header.titles.title_x, 'test')).toBeTruthy();
+    expect(Object.hasOwnProperty.call(analysisJSON.fixedEntries, 'test')).toBeTruthy();
   });
 });
 
