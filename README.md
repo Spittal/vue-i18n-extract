@@ -40,8 +40,6 @@ This module analyses code statically for key usages in ($t(''), t(''), $t(``), t
 
 - [x] Report keys that are missing in the language files
 - [x] Report unused keys in the language files
-- [ ] Add automatically missing keys in the language files
-- [ ] Remove automatically missing keys in the language files
 
 I strongly suggest to use the `dot notation` in the placeholders. The language file is a JS object anyway and it is very helpful to organize the keys with a clear and readable structure.
 
@@ -127,15 +125,15 @@ Returns an object with 4 properties:
 
 - [x] static (with $):
 ```js
-$t('key.static')
+$t('key.static') and $tc('key.static')
 ```
 - [x] static (without $): 
 ```js
-t('key.static')
+t('key.static') and tc('key.static')
 ```
 - [x] template string:
 ```js
-$t((`key.template`)
+$t((`key.template`) and $tc((`key.template`)
 ```
 
 ## :grey_question: Why
@@ -192,8 +190,6 @@ $ npm run test
 ## :white_check_mark: To-Do
 - [ ] Write test
 - [x] Report unused keys in the language files
-- [ ] Add automatically missing keys in the language files
-- [ ] Remove automatically missing keys in the language files
 - [x] Add "static (without $)" support
 - [x] Add template string support
 
