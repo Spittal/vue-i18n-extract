@@ -63,7 +63,7 @@ module.exports = {
 
   readVueFiles(src) {
     if (!isValidGlob(src)) {
-      throw new Error('Src folder isn\'\t a valid grob pattern.');
+      throw new Error('Src folder isn\'\t a valid glob pattern.');
     }
     const targetFiles = glob.sync(src);
     return targetFiles.map(f => Object.assign({}, { name: f, content: fs.readFileSync(f, 'utf8') }));
@@ -85,6 +85,9 @@ module.exports = {
   convertDotToObject(matches) {
     const obj = {};
     matches.forEach((el) => {
+      if (el.includes(' ')) {
+        throw new Error(`Found key "${el}" is not valid dot notation. If your keys are full translations for fallback purposes considering using the -k argument in your command.`);
+      }
       obj[el] = el;
     });
     return dot.object(obj);

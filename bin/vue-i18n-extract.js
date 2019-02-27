@@ -12,16 +12,18 @@ const { argv } = require('yargs')
   .alias('src', 's')
   .describe('src', 'The file/files you want to analyze. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern), ... ')
   .alias('langFolder', 'l')
-  .describe('langFolder', 'The language file/files (note: is must be ES6 Module) you want to analyze. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern), ... ')
+  .describe('langFolder', 'The language file/files you want to analyze. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern), ... ')
+  .alias('keyAsFallback', 'k')
+  .describe('keyAsFallback', 'use if you do not use dot notation for your keys but instead use the key as the translation value for fallback purposes. Default: False')
   .demand(['src', 'langFolder']);
 
 const api = require('../src/api');
 
 async function main() {
   // Get the config5
-  const { src, langFolder } = argv;
+  const { src, langFolder, keyAsFallback } = argv;
   // Analyse Vue Files
-  const vueFilesAnalysis = await api.analyzeVueFiles(src);
+  const vueFilesAnalysis = await api.analyzeVueFiles(src, keyAsFallback);
   // Analyse Lang Files
   const languageFilesAnalysis = api.analyzeLanguageFiles(langFolder);
   // i18n analysis
