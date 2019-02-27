@@ -62,7 +62,7 @@ describe('Lib', () => {
     test('extract supported i18n strings from a collection of file paths', async () => {
       const filesCollection = lib.readVueFiles('./src/__tests__/test_demo_files/**/*.?(js|vue)');
       const results = await lib.extractI18nStringsFromFilesCollection(filesCollection);
-      expect(results.length).toEqual(5);
+      expect(results.length).toEqual(7);
     });
   });
 });
