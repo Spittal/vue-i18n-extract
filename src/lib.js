@@ -73,6 +73,8 @@ module.exports = {
     const targetFiles = glob.sync(src);
     /* eslint-disable */
     return targetFiles.map((f) => {
+      console.log(f);
+
       const validPath = null;
       const langPath = path.resolve(process.cwd(), f)
       const langModule = require(langPath);
@@ -98,22 +100,22 @@ module.exports = {
           if (res.length > 0) {
             res.forEach((r) => {
               let { text } = r;
-              
+
               text = text.replace('$tc(\'', 'i18nSTART###');
               text = text.replace('$t(\'', 'i18nSTART###');
-              
+
               text = text.replace('$tc(`', 'i18nSTART###');
               text = text.replace('$t(`', 'i18nSTART###');
-              
+
               text = text.replace(' tc(`', 'i18nSTART###');
               text = text.replace(' t(`', 'i18nSTART###');
-              
+
               text = text.replace(' tc(\'', 'i18nSTART###');
               text = text.replace(' t(\'', 'i18nSTART###');
-              
+
               text = text.replace('\', ', '###i18nEND');
               text = text.replace('`, ', '###i18nEND');
-              
+
               text = text.replace('\')', '###i18nEND');
               text = text.replace('`)', '###i18nEND');
 
@@ -186,7 +188,10 @@ module.exports = {
   },
 
   diffLangVueStrings(lang, vueFilesAnaylsis) {
-    const fixedEntries = deepMerge(cloneDeep(lang.content), cloneDeep(vueFilesAnaylsis.generatedObj));
+    const fixedEntries = deepMerge(
+      cloneDeep(lang.content),
+      cloneDeep(vueFilesAnaylsis.generatedObj),
+    );
     const diff = deepDiff(lang.content, vueFilesAnaylsis.generatedObj).filter(d => d.kind === 'N');
     return this.buildDiffRep(diff, lang, fixedEntries, vueFilesAnaylsis.astInfo);
   },
