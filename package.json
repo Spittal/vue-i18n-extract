@@ -8,7 +8,7 @@
     "vue-i18n-extract": "./bin/vue-i18n-extract.js"
   },
   "scripts": {
-    "demo": "node ./bin/vue-i18n-extract.js -s './demo/**/*.?(js|vue)' -l './demo/lang/*.js'",
+    "demo": "node ./bin/vue-i18n-extract.js -s './demo/**/*.?(js|vue)' -l './demo/lang/*.?(json|js)'",
     "lint": "eslint src/**",
     "test": "jest --config=jest.config.js",
     "test:watch": "jest --watch"
