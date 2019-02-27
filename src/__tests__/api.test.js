@@ -24,24 +24,34 @@ describe('API', () => {
 
   test('analyzeI18n', async () => {
     const vueI18nStrings = await api.analyzeVueFiles('./src/__tests__/test_demo_files/**/*.js');
-    const langObj = await api.analyzeLanguageFiles('./src/__tests__/test_lang_files/de_DE.js');
-    const analysis = api.analyzeI18n(langObj[0], vueI18nStrings);
+    const langObj = await api.analyzeLanguageFiles('./src/__tests__/test_lang_files/de_DE.js');    
+    const analysis = api.analyzeI18n(langObj[0], vueI18nStrings);    
     expect(analysis.missingEntries).toEqual([
-      {
-        "file": "./src/__tests__/test_demo_files/file2.js",
-        "line": 2,
-        "text": "header.titles.title_x.test",
+      { 
+        line: 2,
+        text: 'header.titles.title_x.test',
+        file: './src/__tests__/test_demo_files/file2.js'
       },
-      {
-        "file": "./src/__tests__/test_demo_files/file1.js",
-        "line": 1,
-        "text": "test.a.b.c",
+      { 
+        line: 1,
+        text: 'test.a.b.c',
+        file: './src/__tests__/test_demo_files/file1.js'
       },
-      {
-        "file": "./src/__tests__/test_demo_files/file2.js",
-        "line": 1,
-        "text": "test.c.d.e",
+      { 
+        line: 3,
+        text: 'test.plural.1',
+        file: './src/__tests__/test_demo_files/file2.js'
       },
+      { 
+        line: 2,
+        text: 'test.plural.2',
+        file: './src/__tests__/test_demo_files/file1.js'
+      },
+      { 
+        line: 1,
+        text: 'test.c.d.e',
+        file: './src/__tests__/test_demo_files/file2.js'
+      }
     ]);    
     expect(Object.hasOwnProperty.call(analysis.fixedEntries.header.titles.title_x, 'test')).toBeTruthy();
     expect(Object.hasOwnProperty.call(analysis.fixedEntries, 'test')).toBeTruthy();
