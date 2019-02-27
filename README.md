@@ -163,6 +163,7 @@ Execute `main.js` passing two arguments:
 | ------ | ----------- |
 | -s   | path to VueJs file/s, accepts a glob pattern  |
 | -l | path to language file/s, accepts a glob pattern (ex. de_DE.js, en_EN.json) |
+| -k | use if you do not use dot notation for your keys but instead use the key as the translation value for fallback purposes. Default: False |
 
 For example, in order to execute the script using the `demo` folder, you will execute the following command:
 
