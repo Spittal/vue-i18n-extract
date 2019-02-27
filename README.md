@@ -36,7 +36,7 @@ $ yarn add --dev vue-i18n-extract
 ```
 
 ## :smirk: The problem solved
-This module analyses code statically for key usages in ($t(''), t(''), $t(``), t(``)) and all the language files (ex. de_DE.js, en_EN.js, ...), in order to:
+This module analyses code statically for key usages in ($t(''), t(''), $t(``), t(``), $tc(''), tc(''), $tc(``), tc(``)) and all the language files (ex. de_DE.js, en_EN.json, ...), in order to:
 
 - [x] Report keys that are missing in the language files
 - [x] Report unused keys in the language files
@@ -83,7 +83,7 @@ An array of objects. Every language files generates an element with 3 properties
 | langFileContent  | The output of analyzeVueFiles |
 | vueFilesAnalysis  | One of output's element of analyzeLanguageFiles |
 
-Compares the vueI18nStrings (all the i18n strings have been found in the vueFilesPath) and langFileContent, the language object (analyzeLanguageFiles generates an array of them, one for each language file). 
+Compares the vueI18nStrings (all the i18n strings have been found in the vueFilesPath) and langFileContent, the language object (analyzeLanguageFiles generates an array of them, one for each language file).
 
 Returns an object with 4 properties:
 * filename: name of the language file
@@ -119,7 +119,7 @@ Returns an object with 4 properties:
 | ------ | ----------- |
 | i18nAnalysis  | One of the outputs elements of analyzeI18n |
 
-"Console.log" the unused entries. 
+"Console.log" the unused entries.
 
 ## :key: Supported keys
 
@@ -127,7 +127,7 @@ Returns an object with 4 properties:
 ```js
 $t('key.static') and $tc('key.static')
 ```
-- [x] static (without $): 
+- [x] static (without $):
 ```js
 t('key.static') and tc('key.static')
 ```
@@ -136,6 +136,7 @@ t('key.static') and tc('key.static')
 $t((`key.template`) and $tc((`key.template`)
 ```
 
+
 ## :grey_question: Why
 I'm a big fan of [VueI18n](https://kazupon.github.io/vue-i18n/), the best and most used *internationalization plugin* for [Vue.js](https://vuejs.org/)
 
@@ -143,7 +144,7 @@ Setting up a Vue.js website with internationalization (i18n) support it easy now
 
 In my personal experience I just found difficult to keep the language files and the placeholders in the .vue files in sync.
 
-That's why I wrote this small script to analyse and compare the language files and the .vue files, in order to 
+That's why I wrote this small script to analyse and compare the language files and the .vue files, in order to
 Extract all $t('...') messages from a Vue.js (with vue-i18n) app and merge the new entries into the language files.
 
 
@@ -156,12 +157,12 @@ That's how the result will look like:
 
 ## :rocket: How to run the script
 
-Execute `main.js` passing two arguments: 
+Execute `main.js` passing two arguments:
 
 | Arguments | Description |
 | ------ | ----------- |
 | -s   | path to VueJs file/s, accepts a glob pattern  |
-| -l | path to language file/s, accepts a glob pattern (ex. de_DE.js, en_EN.js) |
+| -l | path to language file/s, accepts a glob pattern (ex. de_DE.js, en_EN.json) |
 
 For example, in order to execute the script using the `demo` folder, you will execute the following command:
 
