@@ -8,11 +8,9 @@ const glob = require('glob');
 const ssearch = require('string-search');
 const async = require('async');
 const dot = require('dot-object');
-const acorn = require('acorn');
 const deepMerge = require('lodash.merge');
 const cloneDeep = require('lodash.clonedeep');
 const deepDiff = require('deep-diff');
-const chalk = require('chalk');
 const Table = require('cli-table3');
 const isValidGlob = require('is-valid-glob');
 
@@ -76,7 +74,8 @@ module.exports = {
       const validPath = null;
       const langPath = path.resolve(process.cwd(), f)
       const langModule = require(langPath);
-      const { default: langObj } = langModule;
+      const { default: defaultImport } = langModule;
+      const langObj = (defaultImport) ? defaultImport : langModule;
       return Object.assign({}, { name: f, content: langObj });
     });
     /* eslint-enable */
@@ -101,22 +100,22 @@ module.exports = {
           if (res.length > 0) {
             res.forEach((r) => {
               let { text } = r;
-              
+
               text = text.replace('$tc(\'', 'i18nSTART###');
               text = text.replace('$t(\'', 'i18nSTART###');
-              
+
               text = text.replace('$tc(`', 'i18nSTART###');
               text = text.replace('$t(`', 'i18nSTART###');
-              
+
               text = text.replace(' tc(`', 'i18nSTART###');
               text = text.replace(' t(`', 'i18nSTART###');
-              
+
               text = text.replace(' tc(\'', 'i18nSTART###');
               text = text.replace(' t(\'', 'i18nSTART###');
-              
+
               text = text.replace('\', ', '###i18nEND');
               text = text.replace('`, ', '###i18nEND');
-              
+
               text = text.replace('\')', '###i18nEND');
               text = text.replace('`)', '###i18nEND');
 
@@ -189,7 +188,10 @@ module.exports = {
   },
 
   diffLangVueStrings(lang, vueFilesAnaylsis) {
-    const fixedEntries = deepMerge(cloneDeep(lang.content), cloneDeep(vueFilesAnaylsis.generatedObj));
+    const fixedEntries = deepMerge(
+      cloneDeep(lang.content),
+      cloneDeep(vueFilesAnaylsis.generatedObj),
+    );
     const diff = deepDiff(lang.content, vueFilesAnaylsis.generatedObj).filter(d => d.kind === 'N');
     return this.buildDiffRep(diff, lang, fixedEntries, vueFilesAnaylsis.astInfo);
   },

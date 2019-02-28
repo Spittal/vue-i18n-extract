@@ -31,7 +31,7 @@ describe('Lib', () => {
 
   describe('readLangFiles', () => {
     test('get vue and js files from src', () => {
-      const src = './src/__tests__/test_lang_files/*.js';
+      const src = './src/__tests__/test_lang_files/*.?(js|json)';
       const results = lib.readLangFiles(src);
       expect(results.length).toEqual(2);
     });
@@ -41,7 +41,7 @@ describe('Lib', () => {
       expect(results.length).toEqual(0);
     });
     test('get vue and js files and read the content', () => {
-      const src = './src/__tests__/test_lang_files/*.js';
+      const src = './src/__tests__/test_lang_files/*.?(js|json)';
       const results = lib.readLangFiles(src);
       results.forEach((r) => {
         expect(typeof r.content.header).toEqual('object');
