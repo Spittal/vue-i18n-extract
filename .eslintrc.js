@@ -11,4 +11,7 @@ module.exports = {
       node: true,
       'jest/globals': true,
   },
+  rules: {
+    quotes: [ 'error', 'single', { 'allowTemplateLiterals': true } ]
+  },
 };
