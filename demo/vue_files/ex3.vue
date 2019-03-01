@@ -6,6 +6,9 @@
     <p>{{ $t('menu.paragraphs.p_a') }}</p>
     <p>{{ $t('menu.paragraphs.p_b') }}</p>
     <p>{{ $t('menu.paragraphs.p_c') }}</p>
+    <i18n path="link.a">
+      <a href="#">{{ $tc('link.b', 3) }}</a>
+    </i18n>
   </div>
 </template>
 
