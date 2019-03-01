@@ -6,6 +6,7 @@
     <p>{{ $t('test.paragraphs.p_a') }}</p>
     <p>{{ $t('test.paragraphs.p_b') }}</p>
     <p>{{ $t('test.paragraphs.p_c') }}</p>
+    <p v-t="'test.paragraphs.p_d'"></p>
   </div>
 </template>
 
