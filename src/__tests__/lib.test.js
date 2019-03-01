@@ -60,7 +60,6 @@ describe('Lib', () => {
 
   describe('extractI18nStringsFromFilesCollection', () => {
     test('extract supported i18n strings from a collection of file paths', async () => {
-
       const filesCollection = lib.readVueFiles('./src/__tests__/test_demo_files/default/**/*.?(js|vue)');
       const results = await lib.extractI18nStringsFromFilesCollection(filesCollection);
       expect(results.length).toEqual(9);
