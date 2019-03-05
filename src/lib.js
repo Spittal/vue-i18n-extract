@@ -5,9 +5,8 @@ require = require('esm')(module);
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
-const ssearch = require('string-search');
-const async = require('async');
 const dot = require('dot-object');
+const ssearch = require('string-search');
 const deepMerge = require('lodash.merge');
 const cloneDeep = require('lodash.clonedeep');
 const deepDiff = require('deep-diff');
@@ -89,50 +88,73 @@ module.exports = {
       }
       obj[el] = el;
     });
+    console.log(obj);
+
     return dot.object(obj);
   },
 
   extractI18nStringsFromFilesCollection(filesCollection) {
-    const content = [];
-    return new Promise((resolve) => {
-      async.eachSeries(filesCollection, (file, callback) => {
-        ssearch.find(file.content, /[$ ]tc?\(['`](.*)['`](, [0-9]+)?/gi).then((res) => {
-          if (res.length > 0) {
-            res.forEach((r) => {
-              let { text } = r;
-
-              text = text.replace('$tc(\'', 'i18nSTART###');
-              text = text.replace('$t(\'', 'i18nSTART###');
-
-              text = text.replace('$tc(`', 'i18nSTART###');
-              text = text.replace('$t(`', 'i18nSTART###');
-
-              text = text.replace(' tc(`', 'i18nSTART###');
-              text = text.replace(' t(`', 'i18nSTART###');
-
-              text = text.replace(' tc(\'', 'i18nSTART###');
-              text = text.replace(' t(\'', 'i18nSTART###');
-
-              text = text.replace('\', ', '###i18nEND');
-              text = text.replace('`, ', '###i18nEND');
-
-              text = text.replace('\')', '###i18nEND');
-              text = text.replace('`)', '###i18nEND');
-
-              content.push({
-                line: r.line,
-                text: text.substring(text.lastIndexOf('i18nSTART###') + 12, text.lastIndexOf('###i18nEND')),
-                file: file.name,
-              });
-            });
-          }
-          callback();
-        });
-      }, (err) => {
-        if (err) /* eslint-disable */ throw new Error(err); /* eslint-enable */
-        resolve(content);
-      });
+    return new Promise(async (resolve) => {
+      const keysInFile = await Promise.all(
+        filesCollection.map(async file => [
+          ...await this.searchAndReplaceForMethods(file),
+          ...await this.searchAndReplaceForComponent(file),
+          ...await this.searchAndReplaceForDirective(file),
+        ]),
+      );
+      resolve(keysInFile.flat(1));
     });
+  },
+
+  async searchAndReplaceForMethods(file) {
+    const content = [];
+    const methodRegex = /\$?tc?\(["'`](.*)["'`]/;
+    // use string-search for getting the line number
+    // but it doesn't return the RegEX capture group so...
+    const res = await ssearch.find(file.content, methodRegex);
+    if (res.length > 0) {
+      res.forEach((r) => {
+        // We can use the RegEX exec method to get the capture group
+        // This removes the need for string replacement
+        const key = methodRegex.exec(r.text)[1];
+        content.push(this.createI18nItem(r, key, file));
+      });
+    }
+    return content;
+  },
+
+  async searchAndReplaceForComponent(file) {
+    const content = [];
+    const componentRegex = /(?:<i18n|<I18N)(?:.|\s)*(?:path=(?:"|'))(.*)(?:"|')/;
+    const res = await ssearch.find(file.content, componentRegex);
+    if (res.length > 0) {
+      res.forEach((r) => {
+        const key = componentRegex.exec(r.text)[1];
+        content.push(this.createI18nItem(r, key, file));
+      });
+    }
+    return content;
+  },
+
+  async searchAndReplaceForDirective(file) {
+    const content = [];
+    const directiveRegex = /v-t="'(.*)'"/;
+    const res = await ssearch.find(file.content, directiveRegex);
+    if (res.length > 0) {
+      res.forEach((r) => {
+        const key = directiveRegex.exec(r.text)[1];
+        content.push(this.createI18nItem(r, key, file));
+      });
+    }
+    return content;
+  },
+
+  createI18nItem(r, text, file) {
+    return {
+      line: r.line,
+      text,
+      file: file.name,
+    };
   },
 
   parseRhs(rhs) {

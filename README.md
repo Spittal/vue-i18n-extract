@@ -36,7 +36,7 @@ $ yarn add --dev vue-i18n-extract
 ```
 
 ## :smirk: The problem solved
-This module analyses code statically for key usages in ($t(''), t(''), $t(``), t(``), $tc(''), tc(''), $tc(``), tc(``)) and all the language files (ex. de_DE.js, en_EN.json, ...), in order to:
+This module analyses code statically for key usages in (ex. $t(''), $tc(''), ...) and all the language files (ex. de_DE.js, en_EN.json, ...), in order to:
 
 - [x] Report keys that are missing in the language files
 - [x] Report unused keys in the language files
@@ -134,6 +134,15 @@ t('key.static') and tc('key.static')
 - [x] template string:
 ```js
 $t((`key.template`) and $tc((`key.template`)
+```
+- [x] template i18n component:
+```js
+<i18n path="key.template.component">
+</i18n>
+```
+- [x] v-t directive with string literal (no path support to the component data):
+```js
+<p v-t="'key.directive.string'"></p>
 ```
 
 
