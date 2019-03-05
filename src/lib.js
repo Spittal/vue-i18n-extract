@@ -13,6 +13,14 @@ const deepDiff = require('deep-diff');
 const Table = require('cli-table3');
 const isValidGlob = require('is-valid-glob');
 
+Object.defineProperty(Array.prototype, 'flat', {
+  value: function(depth = 1) {
+    return this.reduce(function (flat, toFlatten) {
+      return flat.concat((Array.isArray(toFlatten) && (depth-1)) ? toFlatten.flat(depth-1) : toFlatten);
+    }, []);
+  }
+});
+
 module.exports = {
   logReportUnusedKeys(analysis, title) {
     const table = new Table({
@@ -88,8 +96,6 @@ module.exports = {
       }
       obj[el] = el;
     });
-    console.log(obj);
-
     return dot.object(obj);
   },
 
