@@ -2,36 +2,23 @@
   "name": "@pika/typescript-package",
   "description": "A simple example Pika package written in TypeScript",
   "version": "1.0.0",
-  "scripts": {
-    "build": "rm -fr pkg && pack build",
-    "demo": "node ./pkg/dist-node/index.bin.js diff -s './demo/vue_files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
-    "test": "jest --config=jest.config.js",
-    "test:watch": "jest --watch",
-    "lint": "tslint src/**/*"
-  },
   "license": "MIT",
+  "bin": {
+    "vue-i18n-extract": "dist-node/index.bin.js"
+  },
+  "source": "dist-src/index.js",
+  "types": "dist-types/index.d.ts",
+  "main": "dist-node/index.js",
+  "pika": true,
+  "sideEffects": false,
+  "files": [
+    "dist-*/",
+    "assets/",
+    "bin/"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/@pikapkg/examples.git"
-  },
-  "@pika/pack": {
-    "pipeline": [
-      [
-        "@pika/plugin-ts-standard-pkg"
-      ],
-      [
-        "@pika/plugin-build-node",
-        {
-          "minNodeVersion": "10"
-        }
-      ],
-      [
-        "@pika/plugin-simple-bin",
-        {
-          "bin": "vue-i18n-extract"
-        }
-      ]
-    ]
   },
   "dependencies": {},
   "devDependencies": {

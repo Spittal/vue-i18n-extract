@@ -1,7 +1,7 @@
 /* eslint-disable */
 require = require('esm')(module);
 /* eslint-disable */
-const lib = require('../lib');
+const lib = require('../src/lib');
 const demoArr = [
   'a.b.c',
   'd.e.f',

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "lib": ["esnext.array", "es2018"],
+    "paths": {
+        "*": [
+            "node_modules/*",
+            "src/typings/*"
+        ]
+    }
+  },
+  "include": ["src/index.ts"],
+  "exclude": ["node_modules", "**/__tests__/*"]
+}

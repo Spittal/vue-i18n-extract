@@ -1,7 +1,7 @@
 /* eslint-disable */
 require = require('esm')(module);
 /* eslint-disable */
-const api = require('../api');
+const api = require('../src/api');
 
 describe('API', () => {
   test('analyzeVueFiles', async () => {
