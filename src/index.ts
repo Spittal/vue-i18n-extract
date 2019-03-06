@@ -1,15 +1,16 @@
 import yargs from 'yargs';
 import Api from './Api';
 import { I18NItem, I18NLanguage } from './library/models';
+import path from 'path';
 
-const srcOptions: yargs.Options = {
+const vueFilesOptions: yargs.Options = {
   // tslint:disable-next-line:max-line-length
-  describe: 'The file/files you want to analyze. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern), ... ',
+  describe: 'The file/files you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern), ... ',
   demand: true,
-  alias: 's',
+  alias: 'v',
 };
 
-const langFolderOptions: yargs.Options = {
+const languageFilesOptions: yargs.Options = {
   // tslint:disable-next-line:max-line-length
   describe: 'The language file/files you want to analyze. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern), ... ',
   demand: true,
@@ -18,8 +19,8 @@ const langFolderOptions: yargs.Options = {
 
 const argv = yargs
 .command('diff', 'Diff', {
-  src: srcOptions,
-  langFolder: langFolderOptions,
+  vueFiles: vueFilesOptions,
+  languageFiles: languageFilesOptions,
 })
 .help()
 .demandCommand(1, '')
@@ -38,10 +39,13 @@ export default async function run (): Promise<any> {
 async function diff (command: any): Promise<any> {
   const api = new Api();
 
-  const { src, langFolder } = command;
+  const { vueFiles, languageFiles } = command;
 
-  const parsedVueFiles: I18NItem[] = await api.parseVueFiles(src);
-  const parsedLanguageFiles: I18NLanguage = api.parseLanguageFiles(langFolder);
+  const resolvedVueFiles = path.resolve(process.cwd(), vueFiles);
+  const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
+
+  const parsedVueFiles: I18NItem[] = await api.parseVueFiles(resolvedVueFiles);
+  const parsedLanguageFiles: I18NLanguage = api.parseLanguageFiles(resolvedLanguageFiles);
 
   const report = api.createReport(parsedVueFiles, parsedLanguageFiles);
 

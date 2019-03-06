@@ -1,4 +1,3 @@
-import { merge } from 'lodash';
 import { I18NItem } from './models';
 
 export function diffParsedSources (

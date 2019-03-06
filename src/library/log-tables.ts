@@ -13,7 +13,7 @@ export function logMissingKeys (keys: I18NItem[]): void {
   });
 
   keys.forEach((key, i) => {
-    table.push([i, key.language, key.file, key.line, key.path]);
+    table.push([i, key.language, key.file, key.line, key.path] as any);
   });
   // tslint:disable-next-line
   console.log(table.toString());
@@ -31,7 +31,7 @@ export function logUnusedKeys (keys: I18NItem[]): void {
   });
 
   keys.forEach((key, i) => {
-    table.push([i, key.language, key.file, key.line, key.path]);
+    table.push([i, key.language, key.file, key.line, key.path] as any);
   });
   // tslint:disable-next-line
   console.log(table.toString());

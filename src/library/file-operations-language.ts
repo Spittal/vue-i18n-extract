@@ -1,5 +1,5 @@
 import dot from 'dot-object';
-import { SimpleFile, I18NItem, I18NLanguage } from './models';
+import { SimpleFile, I18NLanguage } from './models';
 
 export function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLanguage {
   return languageFiles.reduce((accumulator, file) => {
