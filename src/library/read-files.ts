@@ -9,10 +9,15 @@ require = require('esm')(module);
 
 export function readVueFiles (src: string): SimpleFile[] {
   if (!isValidGlob(src)) {
-    throw new Error('Src folder isn\'\t a valid glob pattern.');
+    throw new Error('vueFiles isn\'\t a valid glob pattern.');
   }
 
   const targetFiles = glob.sync(src);
+
+  if (targetFiles.length === 0) {
+    throw new Error('vueFiles glob has no files.');
+  }
+
   return targetFiles.map((f) => {
     return { fileName: f, path: f, content: fs.readFileSync(f, 'utf8') };
   });
@@ -20,10 +25,15 @@ export function readVueFiles (src: string): SimpleFile[] {
 
 export function readLangFiles (src: string): SimpleFile[] {
   if (!isValidGlob(src)) {
-    throw new Error('langFolder folder isn\'\t a valid glob pattern.');
+    throw new Error('languageFiles isn\'\t a valid glob pattern.');
   }
 
   const targetFiles = glob.sync(src);
+
+  if (targetFiles.length === 0) {
+    throw new Error('languageFiles glob has no files.');
+  }
+
   return targetFiles.map((f) => {
     const langPath = path.resolve(process.cwd(), f);
 
