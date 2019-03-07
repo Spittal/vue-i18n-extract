@@ -14,8 +14,8 @@
 
 `vue-i18n-extract` is built to work with your Vue.js projects using [vue-i18n](https://kazupon.github.io/vue-i18n/). When run `vue-18n-extract` analyses your Vue.js source code for any `vue-i18n` key usages (ex. $t(''), $tc(''), ...) as well as your language files (ex. de_DE.js, en_EN.json, ...), in order to:
 
-- [x] Report keys that are missing in the language files.
-- [x] Report unused keys in the language files.
+- [x] I18NReport keys that are missing in the language files.
+- [x] I18NReport unused keys in the language files.
 
 ## :rocket: Getting Started
 
@@ -41,28 +41,61 @@ Add the following section to your `package.json`:
 
 Finally, run:
 ```sh
-yarn vue-i18n-extract diff -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json)'
+yarn vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json)'
 ```
 
 This will print out a table of missing keys in your language files, as well as unused keys in your language files.
 
+### Running from command line
+You can run `vue-i18n-extract` directly from the CLI if you have install it globally
+```sh
+yarn global add vue-18n-extract
+```
+
+From anywhere you can now run:
+```sh
+vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json)'
+```
+
+### Outputting report to file
+To generate a json file of missing and unused keys use the `-output` or `-o` argument with the desired path to the file.
+```sh
+vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json)' -o output.json
+```
+
+### Usage in NodeJS
+Make sure you have `vue-i18n-extract` installed locally and then just import
+```js
+const VueI18NExtract = require('vue-i18n-extract').default;
+
+// Then use the async function createI18NReport
+VueI18NExtract.createI18NReport(
+  './path/to/vue-files/**/*.?(js|vue)',
+  './path/to/language-files/*.?(js|json)'
+).then((report) => {
+  console.log(report);
+});
+```
+
+> Note: `vue-i18n-extract` has Typescript typings built in! :tada:
+
 ## :key: Supported keys
 
-- [x] Static in template or script:
+- Static in template or script:
 ```js
 $t('key.static') $t("key.static") $t(`key.static`) // Single or double quote, and template literals
 t('key.static') t("key.static") t(`key.static`) // Without dollar sign
 
-$tc('key.static.plural') $tc('key.static.plural') $tc(`key.static`) // $tc Support for use with plurals
-tc('key.static.plural') tc('key.static.plural') tc(`key.static`) // Without dollar sign
+$tc('key.static', 0) $tc("key.static", 1) $tc(`key.static`, 2) // $tc Support for use with plurals
+tc('key.static', 0) tc("key.static", 1) tc(`key.static`, 2) // Without dollar sign
 ```
-- [x] i18n component:
+- i18n component:
 ```html
-<i18n path="key.template.component"></i18n>
+<i18n path="key.component"></i18n>
 ```
-- [x] v-t directive with string literal:
+- v-t directive with string literal:
 ```html
-<p v-t="'key.directive.string'"></p>
+<p v-t="'key.directive'"></p>
 ```
 > Note: As of right now there is no object support to reference that path from component data
 
@@ -98,7 +131,7 @@ That's why I wrote vue-i18n-extract; I needed a way to analyze and compare my la
 
 ## :white_check_mark: To-Do
 - [ ] Write test
-- [x] Report unused keys in the language files
+- [x] I18NReport unused keys in the language files
 - [x] Add "static (without $)" support
 - [x] Add template string support
 

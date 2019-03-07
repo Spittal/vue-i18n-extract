@@ -8,20 +8,23 @@ import {
   logUnusedKeys,
 } from './library/index';
 
-import { SimpleFile, I18NItem, I18NLanguage, Report } from './library/models';
+import { SimpleFile, I18NItem, I18NLanguage, I18NReport } from './library/models';
 
-export default class API {
+export default class VueI18NExtract {
   public async parseVueFiles (vueFilesPath: string): Promise<I18NItem[]> {
     const filesList: SimpleFile[] = readVueFiles(vueFilesPath);
     return extractI18nItemsFromVueFiles(filesList);
   }
 
-  public parseLanguageFiles (langFilesPath: string): I18NLanguage {
-    const filesList: SimpleFile[] = readLangFiles(langFilesPath);
+  public parseLanguageFiles (languageFilesPath: string): I18NLanguage {
+    const filesList: SimpleFile[] = readLangFiles(languageFilesPath);
     return extractI18nItemsFromLanguageFiles(filesList);
   }
 
-  public createReport (parsedVueFiles: I18NItem[], parsedLanguageFiles: I18NLanguage): Report {
+  public async createI18NReport (vueFilesPath: string, languageFilesPath: string): Promise<I18NReport> {
+    const parsedVueFiles: I18NItem[] = await this.parseVueFiles(vueFilesPath);
+    const parsedLanguageFiles: I18NLanguage = this.parseLanguageFiles(languageFilesPath);
+
     const missingKeys = [];
     const unusedKeys = [];
 
@@ -41,7 +44,7 @@ export default class API {
     };
   }
 
-  public logReport (report: Report): void {
+  public logI18NReport (report: I18NReport): void {
     logMissingKeys(report.missingKeys);
     logUnusedKeys(report.unusedKeys);
   }

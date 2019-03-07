@@ -1,53 +1,75 @@
 import yargs from 'yargs';
-import Api from './Api';
-import { I18NItem, I18NLanguage } from './library/models';
+import VueI18NExtract from './Api';
+import { I18NReport } from './library/models';
 import path from 'path';
+import fs from 'fs';
+
+const api = new VueI18NExtract();
 
 const vueFilesOptions: yargs.Options = {
   // tslint:disable-next-line:max-line-length
-  describe: 'The file/files you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern), ... ',
+  describe: 'The Vue.js file(s) you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern)',
   demand: true,
   alias: 'v',
 };
 
 const languageFilesOptions: yargs.Options = {
   // tslint:disable-next-line:max-line-length
-  describe: 'The language file/files you want to analyze. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern), ... ',
+  describe: 'The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern) ',
   demand: true,
   alias: 'l',
 };
 
+const outputOptions: yargs.Options = {
+  // tslint:disable-next-line:max-line-length
+  describe: 'Use if you want to create a json file out of your report. (ex. -o output.json)',
+  demand: false,
+  alias: 'o',
+};
+
 const argv = yargs
-.command('diff', 'Diff', {
+.command('report', 'Create a report from a glob of your Vue.js source files and your language files.', {
   vueFiles: vueFilesOptions,
   languageFiles: languageFilesOptions,
+  output: outputOptions,
 })
 .help()
 .demandCommand(1, '')
 .showHelpOnFail(true);
 
-export default async function run (): Promise<any> {
+export async function run (): Promise<any> {
   const command = argv.argv;
 
   switch (command._[0]) {
-    case 'diff':
-      diff(command);
+    case 'report':
+      report(command);
       break;
   }
 }
 
-async function diff (command: any): Promise<any> {
-  const api = new Api();
-
-  const { vueFiles, languageFiles } = command;
+async function report (command: any): Promise<any> {
+  const { vueFiles, languageFiles, output } = command;
 
   const resolvedVueFiles = path.resolve(process.cwd(), vueFiles);
   const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
 
-  const parsedVueFiles: I18NItem[] = await api.parseVueFiles(resolvedVueFiles);
-  const parsedLanguageFiles: I18NLanguage = api.parseLanguageFiles(resolvedLanguageFiles);
+  const i18nReport: I18NReport = await api.createI18NReport(resolvedVueFiles, resolvedLanguageFiles);
+  api.logI18NReport(i18nReport);
 
-  const report = api.createReport(parsedVueFiles, parsedLanguageFiles);
-
-  api.logReport(report);
+  if (output) {
+    const reportString = JSON.stringify(i18nReport);
+    fs.writeFile(
+      path.resolve(process.cwd(), output),
+      JSON.stringify(i18nReport),
+      (err) => {
+        if (err) {
+          throw err;
+        }
+        // tslint:disable-next-line
+        console.log(`The report has been has been saved to ${output}`);
+      }
+    );
+  }
 }
+
+export default api;
