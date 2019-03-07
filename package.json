@@ -1,7 +1,7 @@
 {
-  "name": "@pika/typescript-package",
-  "description": "A simple example Pika package written in TypeScript",
-  "version": "1.0.0",
+  "name": "vue-i18n-extract",
+  "version": "0.4.0",
+  "description": "Manage vue-i18n localization with static analysis",
   "scripts": {
     "build": "rm -fr pkg && pack build",
     "demo": "node ./pkg/dist-node/index.bin.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
@@ -12,8 +12,21 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/@pikapkg/examples.git"
+    "url": "https://github.com/pixari/vue-i18n-extract"
   },
+  "homepage": "https://github.com/pixari/vue-i18n-extract",
+  "bugs": {
+    "url": "https://github.com/pixari/vue-i18n-extract/issues"
+  },
+  "keywords": [
+    "javascript",
+    "vue i18n",
+    "vue",
+    "plugin",
+    "internationalization",
+    "internationalization-plugin"
+  ],
+  "author": "Raffaele Pizzari <raffaele.pizzari@gmail.com> (https://raffaelepizzari.com)",
   "@pika/pack": {
     "pipeline": [
       [
