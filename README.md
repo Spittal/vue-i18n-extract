@@ -1,202 +1,100 @@
-# vue-i18n-extract
-[![npm version](https://img.shields.io/npm/v/vue-i18n-extract.svg?style=flat-square)](https://www.npmjs.com/package/vue-i18n-extract)
-[![npm downloads](https://img.shields.io/npm/dm/vue-i18n-extract.svg?style=flat-square)](https://www.npmjs.com/package/vue-i18n-extract)
-[![CircleCI](https://circleci.com/gh/pixari/vue-i18n-extract/tree/master.png?style=shield)](https://circleci.com/gh/pixari/vue-i18n-extract)
-[![Known Vulnerabilities](https://snyk.io/test/github/pixari/vue-i18n-extract/badge.svg?targetFile=package.json)](https://snyk.io/test/github/pixari/vue-i18n-extract?targetFile=package.json)
-[![Maintainability](https://api.codeclimate.com/v1/badges/d21f341c33b2bfb6fe0e/maintainability)](https://codeclimate.com/github/pixari/vue-i18n-extract/maintainability)
-> Manage vue-i18n localization with static analysis
+<h1 align="center">vue-i18n-extract</h1>
+<p align="center">
+  <img align="center" src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-3.png">
+</p>
+<p align="center">
+  <a href="https://www.npmjs.com/package/vue-i18n-extract"><img src="https://img.shields.io/npm/v/vue-i18n-extract.svg?style=flat-square" alt="NPM Version"></a>
+  <a href="https://www.npmjs.com/package/vue-i18n-extract"><img src="https://img.shields.io/npm/dm/vue-i18n-extract.svg?style=flat-square" alt="Downloads"></a>
+  <a href="https://circleci.com/gh/pixari/vue-i18n-extract"><img src="https://circleci.com/gh/pixari/vue-i18n-extract/tree/master.png?style=shield" alt="CircleCI Status"></a>
+  <a href="https://snyk.io/test/github/pixari/vue-i18n-extract?targetFile=package.json"><img src="https://snyk.io/test/github/pixari/vue-i18n-extract/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a>
+  <a href="https://codeclimate.com/github/pixari/vue-i18n-extract/maintainability"><img src="https://api.codeclimate.com/v1/badges/d21f341c33b2bfb6fe0e/maintainability" alt="Maintainability"></a>
+</p>
 
-## :bookmark_tabs: Index:
+---
 
-* [Installation](#installation)
-* [The problem solved](#smirk-the-problem-solved)
-* [Documentation](#book-documentation)
-* [Supported keys](#key-supported-keys)
-* [Why?](#grey_question-why)
-* [Screenshot](#camera-screenshot)
-* [How to run the script](#rocket-how-to-run-the-script)
-* [Demo](#demo)
-* [Test](#gear-test)
-* [To Do](#white_check_mark-to-do)
-* [Issues](#exclamation-issues)
-* [Contribution](#muscle-contribution)
-* [License](#copyright-license)
+`vue-i18n-extract` is built to work with your Vue.js projects using [vue-i18n](https://kazupon.github.io/vue-i18n/). When run `vue-18n-extract` analyses your Vue.js source code for any `vue-i18n` key usages (ex. $t(''), $tc(''), ...) as well as your language files (ex. de_DE.js, en_EN.json, ...), in order to:
 
-## :cloud: Installation
-Use NPM:
+- [x] Report keys that are missing in the language files.
+- [x] Report unused keys in the language files.
 
+## :rocket: Getting Started
+
+Install `vue-i18n-extract` using [Yarn](https://yarnpkg.com)
 ```sh
-$ npm install --save-dev vue-i18n-extract
+yarn add --dev vue-i18n-extract
+```
+Or [NPM](https://www.npmjs.com/)
+```sh
+npm install --save-dev vue-i18n-extract
 ```
 
-or install with yarn:
+> Note: `vue-i18n-extract` documentation uses `yarn` commands, but `npm` will also work. You can compare `yarn` and `npm` commands in the `yarn` docs, [here](https://yarnpkg.com/en/docs/migrating-from-npm#toc-cli-commands-comparison).
 
-```sh
-$ yarn add --dev vue-i18n-extract
+Add the following section to your `package.json`:
+```json
+{
+  "scripts": {
+    "vue-i18n-extract": "vue-i18n-extract"
+  }
+}
 ```
 
-## :smirk: The problem solved
-This module analyses code statically for key usages in (ex. $t(''), $tc(''), ...) and all the language files (ex. de_DE.js, en_EN.json, ...), in order to:
+Finally, run:
+```sh
+yarn vue-i18n-extract diff -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json)'
+```
 
-- [x] Report keys that are missing in the language files
-- [x] Report unused keys in the language files
-
-I strongly suggest to use the `dot notation` in the placeholders. The language file is a JS object anyway and it is very helpful to organize the keys with a clear and readable structure.
-
-This module works well in conjunction with:
-* [VueI18n](https://kazupon.github.io/vue-i18n/)
-
-## :book: Documentation
-Currently 4 API are exposed:
-
-* analyzeVueFiles
-* analyzeLanguageFiles
-* analyzeI18n
-* analyzeUnusedKeys
-* logReport
-* logReportUnusedKeys
-
-### analyzeVueFiles
-
-| Arguments | Description |
-| ------ | ----------- |
-| vueFilesPath  |  path to VueJs file/s. Accepts a glob pattern. (ex. './foo/**/*.(bar\|moo)') |
-
-An object based on same structure of a "language file" containing all the strings found in the given path. Strings provided in "object dot notation" will be parsed as objects. Ex: "foo.bar.test" will be { foo: { bar: { test }}}
-
-### analyzeLanguageFiles
-
-| Arguments | Description |
-| ------ | ----------- |
-| langFilesPath  |  path to language file/s. Accepts a glob pattern. (ex. './foo/lang/*.(bar\|moo)') |
-
-An array of objects. Every language files generates an element with 3 properties:
-* filename: filename of the language file
-* path: path of the language file
-* content: the object described in the language file. It does actually a "require".
-
-### analyzeI18n
-(langFileContent, vueFilesAnalysis)
-
-| Arguments | Description |
-| ------ | ----------- |
-| langFileContent  | The output of analyzeVueFiles |
-| vueFilesAnalysis  | One of output's element of analyzeLanguageFiles |
-
-Compares the vueI18nStrings (all the i18n strings have been found in the vueFilesPath) and langFileContent, the language object (analyzeLanguageFiles generates an array of them, one for each language file).
-
-Returns an object with 4 properties:
-* filename: name of the language file
-* currentEntries: current state of the language file
-* missingEntries: array of missing i18n entries,
-* fixedEntries: how the language object should be (the current entries + the missing ones)
-
-### analyzeUnusedKeys
-(langFileContent, vueFilesAnalysis)
-
-| Arguments | Description |
-| ------ | ----------- |
-| langFileContent  | The output of analyzeVueFiles |
-| vueFilesAnalysis  | One of output's element of analyzeLanguageFiles |
-
-Compares the language entries (langFileContent) with the vueI18nStrings (all the i18n strings have been found in the vueFilesPath).
-
-Returns an object with 4 properties:
-* filename: name of the language file
-* currentEntries: current state of the language file
-* missingEntries: array of unused i18n entries,
-* fixedEntries: how the language object should be (the current entries + the missing ones)
-
-### logReport
-| Arguments | Description |
-| ------ | ----------- |
-| i18nAnalysis  | One of the outputs elements of analyzeI18n |
-
-"Console.log" the missing entries.
-
-### logReportUnusedKeys
-| Arguments | Description |
-| ------ | ----------- |
-| i18nAnalysis  | One of the outputs elements of analyzeI18n |
-
-"Console.log" the unused entries.
+This will print out a table of missing keys in your language files, as well as unused keys in your language files.
 
 ## :key: Supported keys
 
-- [x] static (with $):
+- [x] Static in template or script:
 ```js
-$t('key.static') and $tc('key.static')
+$t('key.static') $t("key.static") $t(`key.static`) // Single or double quote, and template literals
+t('key.static') t("key.static") t(`key.static`) // Without dollar sign
+
+$tc('key.static.plural') $tc('key.static.plural') $tc(`key.static`) // $tc Support for use with plurals
+tc('key.static.plural') tc('key.static.plural') tc(`key.static`) // Without dollar sign
 ```
-- [x] static (without $):
-```js
-t('key.static') and tc('key.static')
+- [x] i18n component:
+```html
+<i18n path="key.template.component"></i18n>
 ```
-- [x] template string:
-```js
-$t((`key.template`) and $tc((`key.template`)
-```
-- [x] template i18n component:
-```js
-<i18n path="key.template.component">
-</i18n>
-```
-- [x] v-t directive with string literal (no path support to the component data):
-```js
+- [x] v-t directive with string literal:
+```html
 <p v-t="'key.directive.string'"></p>
 ```
+> Note: As of right now there is no object support to reference that path from component data
 
-
-## :grey_question: Why
-I'm a big fan of [VueI18n](https://kazupon.github.io/vue-i18n/), the best and most used *internationalization plugin* for [Vue.js](https://vuejs.org/)
-
-Setting up a Vue.js website with internationalization (i18n) support it easy nowadays: once you have installed the plugin and injected into the Vue instance, you can just put ‘{{ $t(‘Hello World’) }}‘ inside Vue component templates to use the plugin.
-
-In my personal experience I just found difficult to keep the language files and the placeholders in the .vue files in sync.
-
-That's why I wrote this small script to analyse and compare the language files and the .vue files, in order to
-Extract all $t('...') messages from a Vue.js (with vue-i18n) app and merge the new entries into the language files.
-
-
-## :camera: Screenshot
-That's how the result will look like:
-
-<img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-3.png" width="600">
-
-<img src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-4.png" width="600">
-
-## :rocket: How to run the script
-
-Execute `main.js` passing two arguments:
-
-| Arguments | Description |
-| ------ | ----------- |
-| -s   | path to VueJs file/s, accepts a glob pattern  |
-| -l | path to language file/s, accepts a glob pattern (ex. de_DE.js, en_EN.json) |
-| -k | use if you do not use dot notation for your keys but instead use the key as the translation value for fallback purposes. Default: False |
-
-For example, in order to execute the script using the `demo` folder, you will execute the following command:
-
+## Demo & Tests
+Clone this git repository:
 ```sh
-$ node ./bin/vue-i18n-extract.js -s './demo/**/*.?(js|vue)' -l './demo/lang/*.js'
+git clone git@github.com:pixari/vue-i18n-extract.git
 ```
 
-### Demo
-In `package.json` you'll find a demo script.
-Just run:
-
+Install dependencies:
 ```sh
-$ npm run demo
+yarn
 ```
 
-and it will execute the script taking all the files in ./demo.
-
-### :gear: Test
-In `package.json` you'll find a test script.
-Just run:
-
+Then run the demo:
 ```sh
-$ npm run test
+yarn demo
 ```
+
+This will use the data in the demo folder to generate a report.
+
+To run tests:
+```sh
+yarn test
+```
+
+## :grey_question: Why?
+I'm a big fan of [vue-i18n](https://kazupon.github.io/vue-i18n/). It's the best and most used *internationalization plugin* for [Vue.js](https://vuejs.org/)
+
+Setting up a Vue.js website with internationalization (i18n) support it easy nowadays: Once you have installed the plugin and injected into the Vue instance, you can just put ‘{{ $t(‘Hello World’) }}‘ inside Vue.js component templates to use the plugin. However, in my personal experience I found it very difficult to keep the language files and the placeholders in the .vue files in sync.
+
+That's why I wrote vue-i18n-extract; I needed a way to analyze and compare my language files to my Vue.js source files, then report the result in a useful way.
 
 ## :white_check_mark: To-Do
 - [ ] Write test
@@ -206,14 +104,11 @@ $ npm run test
 
 ## :exclamation: Issues
 
-I'm sure you'll find bug I'll never see. It would be great if you'd like to [report them here](https://github.com/pixari/vue-i18n-extract/issues).
-
+I'm sure you'll find bugs and when you do it would be great if you'd could [report them here](https://github.com/pixari/vue-i18n-extract/issues).
 
 ## :muscle: Contribution
 
-The project is still in its early stages and in progess.
-I think there's no need guidelines. Feel free to contribute or give feedback as you prefer.
-
+The project is still in its early stages and in progress. I think there's no need for guidelines yet, so feel free to contribute or give feedback as you prefer.
 
 ## :copyright: License
 
