@@ -1,6 +1,6 @@
 import Api from '@/Api';
 import path from 'path';
-import { I18NItem, I18NLanguage, Report } from '@/library/models';
+import { I18NItem, I18NLanguage, I18NReport } from '@/library/models';
 
 describe('Api.ts', () => {
   let api: Api;
@@ -24,13 +24,11 @@ describe('Api.ts', () => {
     expect(extractedI18NLanguage.de_DE).toHaveLength(6);
   });
 
-  it('function: createReport', async () => {
+  it('function: createI18NReport', async () => {
     const vueSrc: string = path.resolve(__dirname, './fixtures/vue-files/**/*.?(js|vue)');
-    const extractedI18NItems: I18NItem[] = await api.parseVueFiles(vueSrc);
     const langSrc: string = path.resolve(__dirname, './fixtures/language-files/**/*.?(js|json)');
-    const extractedI18NLanguage: I18NLanguage = await api.parseLanguageFiles(langSrc);
 
-    const report: Report = api.createReport(extractedI18NItems, extractedI18NLanguage);
+    const report: I18NReport = await api.createI18NReport(vueSrc, langSrc);
 
     expect(report.missingKeys).toEqual([
       {
