@@ -49,7 +49,7 @@ This will print out a table of missing keys in your language files, as well as u
 ### Running from command line
 You can run `vue-i18n-extract` directly from the CLI if you have install it globally
 ```sh
-yarn global add vue-18n-extract
+yarn global add vue-i18n-extract
 ```
 
 From anywhere you can now run:
