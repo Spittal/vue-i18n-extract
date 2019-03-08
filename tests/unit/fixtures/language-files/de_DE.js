@@ -7,8 +7,8 @@ export default {
     },
     paragraphs: {
       p_a: 'test',
-      p_b: 'test',
-      raffaele: 'test',
+      unused: 'test',
     },
   },
+  'Key As Fallback': 'Key As Fallback',
 };
