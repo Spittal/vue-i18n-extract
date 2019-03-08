@@ -1,23 +1,24 @@
+// tslint:disable
 declare namespace CliTable3 {
   type CharName =
-      "top" |
-      "top-mid" |
-      "top-left" |
-      "top-right" |
-      "bottom" |
-      "bottom-mid" |
-      "bottom-left" |
-      "bottom-right" |
-      "left" |
-      "left-mid" |
-      "mid" |
-      "mid-mid" |
-      "right" |
-      "right-mid" |
-      "middle";
+      'top' |
+      'top-mid' |
+      'top-left' |
+      'top-right' |
+      'bottom' |
+      'bottom-mid' |
+      'bottom-left' |
+      'bottom-right' |
+      'left' |
+      'left-mid' |
+      'mid' |
+      'mid-mid' |
+      'right' |
+      'right-mid' |
+      'middle';
 
-  type HorizontalAlignment = "left" | "center" | "right";
-  type VerticalAlignment = "top" | "center" | "bottom";
+  type HorizontalAlignment = 'left' | 'center' | 'right';
+  type VerticalAlignment = 'top' | 'center' | 'bottom';
 
   interface TableOptions {
       truncate: string;
@@ -32,8 +33,8 @@ declare namespace CliTable3 {
   interface TableInstanceOptions extends TableOptions {
       chars: Record<CharName, string>;
       style: {
-          "padding-left": number;
-          "padding-right": number;
+          'padding-left': number;
+          'padding-right': number;
           head: string[];
           border: string[];
           compact: boolean;
@@ -42,7 +43,7 @@ declare namespace CliTable3 {
 
   interface TableConstructorOptions extends Partial<TableOptions> {
       chars?: Partial<Record<CharName, string>>;
-      style?: Partial<TableInstanceOptions["style"]>;
+      style?: Partial<TableInstanceOptions['style']>;
   }
 
   type CellValue = boolean | number | string | null | undefined;
@@ -56,8 +57,8 @@ declare namespace CliTable3 {
       hAlign?: HorizontalAlignment;
       vAlign?: VerticalAlignment;
       style?: {
-          "padding-left"?: number;
-          "padding-right"?: number;
+          'padding-left'?: number;
+          'padding-right'?: number;
           head?: string[];
           border?: string[];
       };
