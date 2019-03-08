@@ -5,8 +5,6 @@ export function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NIt
     const methodMatches = extractMethodMatches(file);
     const componentMatches = extractComponentMatches(file);
     const directiveMatches = extractDirectiveMatches(file);
-    console.log(`${file.fileName}, method: ${methodMatches.length}, comp: ${componentMatches.length}, dir: ${directiveMatches.length}`);
-
     return [ ...accumulator, ...methodMatches, ...componentMatches, ...directiveMatches ];
   }, []);
 }

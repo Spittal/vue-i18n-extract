@@ -68,13 +68,7 @@ Make sure you have `vue-i18n-extract` installed locally and then just import
 ```js
 const VueI18NExtract = require('vue-i18n-extract').default;
 
-// Then use the async function createI18NReport
-VueI18NExtract.createI18NReport(
-  './path/to/vue-files/**/*.?(js|vue)',
-  './path/to/language-files/*.?(js|json)'
-).then((report) => {
-  console.log(report);
-});
+const report = VueI18NExtract.createI18NReport('./path/to/vue-files/**/*.?(js|vue)', './path/to/language-files/*.?(js|json)');
 ```
 
 > Note: `vue-i18n-extract` has Typescript typings built in! :tada:

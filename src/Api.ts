@@ -21,7 +21,14 @@ export default class VueI18NExtract {
     return extractI18nItemsFromLanguageFiles(filesList);
   }
 
-  public createI18NReport (parsedVueFiles: I18NItem[], parsedLanguageFiles: I18NLanguage): I18NReport {
+  public createI18NReport (vueFiles: string, languageFiles: string): I18NReport {
+    const parsedVueFiles: I18NItem[] = this.parseVueFiles(vueFiles);
+    const parsedLanguageFiles: I18NLanguage = this.parseLanguageFiles(languageFiles);
+
+    return this.extractI18NReport(parsedVueFiles, parsedLanguageFiles);
+  }
+
+  public extractI18NReport (parsedVueFiles: I18NItem[], parsedLanguageFiles: I18NLanguage): I18NReport {
     const missingKeys = [];
     const unusedKeys = [];
 
