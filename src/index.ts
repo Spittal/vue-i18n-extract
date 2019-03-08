@@ -57,18 +57,7 @@ function report (command: any): void {
   api.logI18NReport(i18nReport);
 
   if (output) {
-    const reportString = JSON.stringify(i18nReport);
-    fs.writeFile(
-      path.resolve(process.cwd(), output),
-      reportString,
-      (err) => {
-        if (err) {
-          throw err;
-        }
-        // tslint:disable-next-line
-        console.log(`The report has been has been saved to ${output}`);
-      }
-    );
+    api.writeReportToFile(i18nReport, output);
   }
 }
 
