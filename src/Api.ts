@@ -1,3 +1,5 @@
+import path from 'path';
+import fs from 'fs';
 import {
   readVueFiles,
   readLangFiles,
@@ -51,5 +53,20 @@ export default class VueI18NExtract {
   public logI18NReport (report: I18NReport): void {
     logMissingKeys(report.missingKeys);
     logUnusedKeys(report.unusedKeys);
+  }
+
+  public writeReportToFile (report: I18NReport, writePath: string): void {
+    const reportString = JSON.stringify(report);
+    fs.writeFile(
+      path.resolve(process.cwd(), writePath),
+      reportString,
+      (err) => {
+        if (err) {
+          throw err;
+        }
+        // tslint:disable-next-line
+        console.log(`The report has been has been saved to ${writePath}`);
+      },
+    );
   }
 }

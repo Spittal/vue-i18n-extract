@@ -5,17 +5,22 @@ export function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NIt
     const methodMatches = extractMethodMatches(file);
     const componentMatches = extractComponentMatches(file);
     const directiveMatches = extractDirectiveMatches(file);
-    return [ ...accumulator, ...methodMatches, ...componentMatches, ...directiveMatches ];
+    return [
+      ...accumulator,
+      ...methodMatches,
+      ...componentMatches,
+      ...directiveMatches,
+    ];
   }, []);
 }
 
 function extractMethodMatches (file: SimpleFile): I18NItem[] {
-  const methodRegExp: RegExp = /\$?tc?\(["'`](.*)["'`]/g;
+  const methodRegExp: RegExp = /(?:\$tc?| tc?)\(["'`](.*?)["'`]/g;
   return [ ...getMatches(file, methodRegExp) ];
 }
 
 function extractComponentMatches (file: SimpleFile): I18NItem[] {
-  const componentRegExp: RegExp = /(?:<i18n|<I18N)(?:.|\s)*(?:path=(?:"|'))(.*)(?:"|')/g;
+  const componentRegExp: RegExp = /(?:<i18n|<I18N)(?:.|\n)*?(?:path=["'])(.*?)["']/g;
   return [ ...getMatches(file, componentRegExp) ];
 }
 
@@ -26,7 +31,7 @@ function extractDirectiveMatches (file: SimpleFile): I18NItem[] {
 
 function* getMatches (file: SimpleFile, regExp: RegExp): IterableIterator<I18NItem> {
   while (true) {
-    const match = regExp.exec(file.content);
+    const match: RegExpExecArray = regExp.exec(file.content);
     if (match === null) {
       break;
     }
