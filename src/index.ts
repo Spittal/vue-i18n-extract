@@ -1,6 +1,6 @@
 import yargs from 'yargs';
 import VueI18NExtract from './Api';
-import { I18NReport } from './library/models';
+import { I18NReport, I18NItem, I18NLanguage } from './library/models';
 import path from 'path';
 import fs from 'fs';
 
@@ -47,20 +47,23 @@ export async function run (): Promise<any> {
   }
 }
 
-async function report (command: any): Promise<any> {
+function report (command: any): void {
   const { vueFiles, languageFiles, output } = command;
 
   const resolvedVueFiles = path.resolve(process.cwd(), vueFiles);
   const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
 
-  const i18nReport: I18NReport = await api.createI18NReport(resolvedVueFiles, resolvedLanguageFiles);
+  const parsedVueFiles: I18NItem[] = api.parseVueFiles(resolvedVueFiles);
+  const parsedLanguageFiles: I18NLanguage = api.parseLanguageFiles(resolvedLanguageFiles);
+
+  const i18nReport: I18NReport = api.createI18NReport(parsedVueFiles, parsedLanguageFiles);
   api.logI18NReport(i18nReport);
 
   if (output) {
     const reportString = JSON.stringify(i18nReport);
     fs.writeFile(
       path.resolve(process.cwd(), output),
-      JSON.stringify(i18nReport),
+      reportString,
       (err) => {
         if (err) {
           throw err;

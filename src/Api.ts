@@ -11,7 +11,7 @@ import {
 import { SimpleFile, I18NItem, I18NLanguage, I18NReport } from './library/models';
 
 export default class VueI18NExtract {
-  public async parseVueFiles (vueFilesPath: string): Promise<I18NItem[]> {
+  public parseVueFiles (vueFilesPath: string): I18NItem[] {
     const filesList: SimpleFile[] = readVueFiles(vueFilesPath);
     return extractI18nItemsFromVueFiles(filesList);
   }
@@ -21,10 +21,7 @@ export default class VueI18NExtract {
     return extractI18nItemsFromLanguageFiles(filesList);
   }
 
-  public async createI18NReport (vueFilesPath: string, languageFilesPath: string): Promise<I18NReport> {
-    const parsedVueFiles: I18NItem[] = await this.parseVueFiles(vueFilesPath);
-    const parsedLanguageFiles: I18NLanguage = this.parseLanguageFiles(languageFilesPath);
-
+  public createI18NReport (parsedVueFiles: I18NItem[], parsedLanguageFiles: I18NLanguage): I18NReport {
     const missingKeys = [];
     const unusedKeys = [];
 
