@@ -20,6 +20,9 @@ jobs:
       - run:
           name: Run tests
           command: npm test
+      - run:
+          name: Run lint
+          command: npm lint
 
       - save_cache:
           paths:
