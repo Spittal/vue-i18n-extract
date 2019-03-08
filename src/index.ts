@@ -50,13 +50,10 @@ export async function run (): Promise<any> {
 function report (command: any): void {
   const { vueFiles, languageFiles, output } = command;
 
-  const resolvedVueFiles = path.resolve(process.cwd(), vueFiles);
-  const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
+  const resolvedVueFiles: string = path.resolve(process.cwd(), vueFiles);
+  const resolvedLanguageFiles: string = path.resolve(process.cwd(), languageFiles);
 
-  const parsedVueFiles: I18NItem[] = api.parseVueFiles(resolvedVueFiles);
-  const parsedLanguageFiles: I18NLanguage = api.parseLanguageFiles(resolvedLanguageFiles);
-
-  const i18nReport: I18NReport = api.createI18NReport(parsedVueFiles, parsedLanguageFiles);
+  const i18nReport: I18NReport = api.createI18NReport(resolvedVueFiles, resolvedLanguageFiles);
   api.logI18NReport(i18nReport);
 
   if (output) {

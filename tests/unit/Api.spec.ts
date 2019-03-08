@@ -28,10 +28,7 @@ describe('Api.ts', () => {
     const vueSrc: string = path.resolve(__dirname, './fixtures/vue-files/**/*.?(js|vue)');
     const langSrc: string = path.resolve(__dirname, './fixtures/language-files/**/*.?(js|json)');
 
-    const extractedI18NItems: I18NItem[] = api.parseVueFiles(vueSrc);
-    const extractedI18NLanguage: I18NLanguage = api.parseLanguageFiles(langSrc);
-
-    const report: I18NReport = api.createI18NReport(extractedI18NItems, extractedI18NLanguage);
+    const report: I18NReport = api.createI18NReport(vueSrc, langSrc);
 
     expect(report.missingKeys).toEqual([
       {
