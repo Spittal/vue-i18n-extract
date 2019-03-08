@@ -15,13 +15,13 @@ export function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NIt
 }
 
 function extractMethodMatches (file: SimpleFile): I18NItem[] {
-  const methodRegExp: RegExp = /(?:\$tc?| tc?)\(["'`](.*?)["'`]/g;
-  return [ ...getMatches(file, methodRegExp) ];
+  const methodRegExp: RegExp = /(?:\$tc?| tc?)\(("|'|`)(.*?)\1/g;
+  return [ ...getMatches(file, methodRegExp, 2) ];
 }
 
 function extractComponentMatches (file: SimpleFile): I18NItem[] {
-  const componentRegExp: RegExp = /(?:<i18n|<I18N)(?:.|\n)*?(?:path=["'])(.*?)["']/g;
-  return [ ...getMatches(file, componentRegExp) ];
+  const componentRegExp: RegExp = /(?:<i18n|<I18N)(?:.|\n)*?(?:path=("|'))(.*?)\1/g;
+  return [ ...getMatches(file, componentRegExp, 2) ];
 }
 
 function extractDirectiveMatches (file: SimpleFile): I18NItem[] {
@@ -29,7 +29,7 @@ function extractDirectiveMatches (file: SimpleFile): I18NItem[] {
   return [ ...getMatches(file, directiveRegExp) ];
 }
 
-function* getMatches (file: SimpleFile, regExp: RegExp): IterableIterator<I18NItem> {
+function* getMatches (file: SimpleFile, regExp: RegExp, captureGroup: number = 1): IterableIterator<I18NItem> {
   while (true) {
     const match: RegExpExecArray = regExp.exec(file.content);
     if (match === null) {
@@ -37,7 +37,7 @@ function* getMatches (file: SimpleFile, regExp: RegExp): IterableIterator<I18NIt
     }
     const line = (file.content.substring(0, match.index).match(/\n/g) || []).length + 1;
     yield {
-      path: match[1],
+      path: match[captureGroup],
       line,
       file: file.fileName,
     };
