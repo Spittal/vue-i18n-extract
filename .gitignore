@@ -1,4 +1,4 @@
-node_modules/
+.DS_STORE
+node_modules
 .vscode
-coverage/
-lab/
+pkg
