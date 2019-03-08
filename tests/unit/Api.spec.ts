@@ -9,26 +9,29 @@ describe('Api.ts', () => {
     api = new Api();
   });
 
-  it('function: parseVueFiles', async () => {
+  it('function: parseVueFiles', () => {
     const src: string = path.resolve(__dirname, './fixtures/vue-files/**/*.?(js|vue)');
-    const extractedI18NItems: I18NItem[] = await api.parseVueFiles(src);
+    const extractedI18NItems: I18NItem[] = api.parseVueFiles(src);
     expect(extractedI18NItems).toHaveLength(13);
   });
 
-  it('function: parseLanguageFiles', async () => {
+  it('function: parseLanguageFiles', () => {
     const src: string = path.resolve(__dirname, './fixtures/language-files/**/*.?(js|json)');
-    const extractedI18NLanguage: I18NLanguage = await api.parseLanguageFiles(src);
+    const extractedI18NLanguage: I18NLanguage = api.parseLanguageFiles(src);
     expect(extractedI18NLanguage).toHaveProperty('en_EN');
     expect(extractedI18NLanguage.en_EN).toHaveLength(7);
     expect(extractedI18NLanguage).toHaveProperty('de_DE');
     expect(extractedI18NLanguage.de_DE).toHaveLength(6);
   });
 
-  it('function: createI18NReport', async () => {
+  it('function: createI18NReport', () => {
     const vueSrc: string = path.resolve(__dirname, './fixtures/vue-files/**/*.?(js|vue)');
     const langSrc: string = path.resolve(__dirname, './fixtures/language-files/**/*.?(js|json)');
 
-    const report: I18NReport = await api.createI18NReport(vueSrc, langSrc);
+    const extractedI18NItems: I18NItem[] = api.parseVueFiles(vueSrc);
+    const extractedI18NLanguage: I18NLanguage = api.parseLanguageFiles(langSrc);
+
+    const report: I18NReport = api.createI18NReport(extractedI18NItems, extractedI18NLanguage);
 
     expect(report.missingKeys).toEqual([
       {

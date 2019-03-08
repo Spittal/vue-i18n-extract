@@ -5,9 +5,9 @@ export interface SimpleFile {
 }
 
 export interface I18NItem {
-  line: number;
+  line?: number;
   path: string;
-  file: string;
+  file?: string;
   language?: string;
 }
 

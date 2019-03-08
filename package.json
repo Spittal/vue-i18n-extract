@@ -65,7 +65,6 @@
     "is-valid-glob": "^1.0.0",
     "jest": "^24.1.0",
     "lodash": "^4.17.11",
-    "string-search": "^1.2.0",
     "ts-jest": "^24.0.0",
     "tslint": "^5.13.1",
     "typescript": "^3.2.2",

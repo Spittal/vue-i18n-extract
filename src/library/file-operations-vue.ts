@@ -1,66 +1,42 @@
-import * as ssearch from 'string-search';
 import { SimpleFile, I18NItem } from './models';
 
-export async function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): Promise<I18NItem[]> {
-  return new Promise(async (resolve) => {
-    const keysInFileCollection: any[] = await Promise.all(
-      sourceFiles.map(async (file: SimpleFile) => [
-        ...await searchAndReplaceForMethods(file),
-        ...await searchAndReplaceForComponent(file),
-        ...await searchAndReplaceForDirective(file),
-      ] as any[]),
-    );
-    resolve(keysInFileCollection.flat(1));
-  });
+export function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NItem[] {
+  return sourceFiles.reduce((accumulator, file) => {
+    const methodMatches = extractMethodMatches(file);
+    const componentMatches = extractComponentMatches(file);
+    const directiveMatches = extractDirectiveMatches(file);
+    console.log(`${file.fileName}, method: ${methodMatches.length}, comp: ${componentMatches.length}, dir: ${directiveMatches.length}`);
+
+    return [ ...accumulator, ...methodMatches, ...componentMatches, ...directiveMatches ];
+  }, []);
 }
 
-async function searchAndReplaceForMethods (file: SimpleFile): Promise<I18NItem[]> {
-  const content: I18NItem[] = [];
-  const methodRegex: RegExp = /\$?tc?\(["'`](.*)["'`]/;
-  // use string-search for getting the line number
-  // but it doesn't return the RegEX capture group so...
-  const res: StringSearchResult[] = await ssearch.find(file.content, methodRegex);
-  if (res.length > 0) {
-    res.forEach((r) => {
-      // We can use the RegEX exec method to get the capture group
-      // This removes the need for string replacement
-      const path = methodRegex.exec(r.text)[1];
-      content.push(createI18nItem(r, path, file));
-    });
+function extractMethodMatches (file: SimpleFile): I18NItem[] {
+  const methodRegExp: RegExp = /\$?tc?\(["'`](.*)["'`]/g;
+  return [ ...getMatches(file, methodRegExp) ];
+}
+
+function extractComponentMatches (file: SimpleFile): I18NItem[] {
+  const componentRegExp: RegExp = /(?:<i18n|<I18N)(?:.|\s)*(?:path=(?:"|'))(.*)(?:"|')/g;
+  return [ ...getMatches(file, componentRegExp) ];
+}
+
+function extractDirectiveMatches (file: SimpleFile): I18NItem[] {
+  const directiveRegExp: RegExp = /v-t="'(.*)'"/g;
+  return [ ...getMatches(file, directiveRegExp) ];
+}
+
+function* getMatches (file: SimpleFile, regExp: RegExp): IterableIterator<I18NItem> {
+  while (true) {
+    const match = regExp.exec(file.content);
+    if (match === null) {
+      break;
+    }
+    const line = (file.content.substring(0, match.index).match(/\n/g) || []).length + 1;
+    yield {
+      path: match[1],
+      line,
+      file: file.fileName,
+    };
   }
-  return content;
-}
-
-async function searchAndReplaceForComponent (file: SimpleFile): Promise<I18NItem[]> {
-  const content: I18NItem[] = [];
-  const componentRegex: RegExp = /(?:<i18n|<I18N)(?:.|\s)*(?:path=(?:"|'))(.*)(?:"|')/;
-  const res: StringSearchResult[] = await ssearch.find(file.content, componentRegex);
-  if (res.length > 0) {
-    res.forEach((r) => {
-      const path = componentRegex.exec(r.text)[1];
-      content.push(createI18nItem(r, path, file));
-    });
-  }
-  return content;
-}
-
-async function searchAndReplaceForDirective (file: SimpleFile): Promise<I18NItem[]> {
-  const content: I18NItem[] = [];
-  const directiveRegex: RegExp = /v-t="'(.*)'"/;
-  const res: StringSearchResult[] = await ssearch.find(file.content, directiveRegex);
-  if (res.length > 0) {
-    res.forEach((r) => {
-      const path = directiveRegex.exec(r.text)[1];
-      content.push(createI18nItem(r, path, file));
-    });
-  }
-  return content;
-}
-
-function createI18nItem (r: StringSearchResult, path: string, file: SimpleFile): I18NItem {
-  return {
-    line: r.line,
-    path,
-    file: file.fileName,
-  };
 }
