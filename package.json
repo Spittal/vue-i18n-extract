@@ -4,7 +4,7 @@
   "description": "Manage vue-i18n localization with static analysis",
   "scripts": {
     "build": "pack build",
-    "demo": "npm run build && node ./pkg/dist-node/index.bin.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
+    "demo": "node ./pkg/dist-node/index.bin.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "tslint src/**/*"
