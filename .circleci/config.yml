@@ -7,7 +7,7 @@ defaults: &defaults
 
 jobs:
   test:
-    <<: *defaults  
+    <<: *defaults
     steps:
       - checkout
 
@@ -41,9 +41,14 @@ jobs:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
-          name: Publish package
-          command: npm publish
-            
+          name: Build With Pika
+          command: npm run build
+      - run:
+          name: Publish Package
+          command: |
+            cd pkg
+            npm publish
+
 workflows:
   version: 2
   test-deploy:
