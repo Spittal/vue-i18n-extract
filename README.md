@@ -104,6 +104,11 @@ Install dependencies:
 yarn
 ```
 
+Compile typescript:
+```sh
+yarn build
+```
+
 Then run the demo:
 ```sh
 yarn demo
