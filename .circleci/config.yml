@@ -37,14 +37,16 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
-      - run: npm run build
-      - run: cd pkg
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
           name: Publish package
-          command: npm publish
+          command: |
+            npm run build
+            cd pkg
+            ls -la
+            npm publish
 
 workflows:
   version: 2
