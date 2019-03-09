@@ -43,7 +43,7 @@ jobs:
             npm run build
             cd pkg
             ls -la
-            echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+            echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/pkg/.npmrc
             npm publish
 
 workflows:
