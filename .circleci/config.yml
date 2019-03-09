@@ -38,12 +38,13 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run:
+        - npm install
+      - run: cd pkg
+      - run:
+        - npm run build
+      - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
-          npm install
-      -run:
-         - npm run build
-      - run: cd pkg
       - run:
           name: Publish package
           command: npm publish
