@@ -37,17 +37,14 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
+      - run: npm run build
+      - run: cd pkg
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
-          name: Build With Pika
-          command: npm run build
-      - run:
-          name: Publish Package
-          command: |
-            cd pkg
-            npm publish
+          name: Publish package
+          command: npm publish
 
 workflows:
   version: 2
