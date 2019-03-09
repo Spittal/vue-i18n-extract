@@ -49,6 +49,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@pika/pack": "^0.3.4",
     "@pika/plugin-build-node": "^0.3.14",
     "@pika/plugin-simple-bin": "^0.3.14",
     "@pika/plugin-ts-standard-pkg": "^0.3.14",
