@@ -55,9 +55,9 @@ export default class VueI18NExtract {
     logUnusedKeys(report.unusedKeys);
   }
 
-  public writeReportToFile (report: I18NReport, writePath: string): void {
+  public async writeReportToFile (report: I18NReport, writePath: string): Promise<void> {
     const reportString = JSON.stringify(report);
-    fs.writeFile(
+    return fs.writeFile(
       path.resolve(process.cwd(), writePath),
       reportString,
       (err) => {
