@@ -20,7 +20,7 @@ function extractMethodMatches (file: SimpleFile): I18NItem[] {
 }
 
 function extractComponentMatches (file: SimpleFile): I18NItem[] {
-  const componentRegExp: RegExp = /(?:<i18n|<I18N)(?:.|\n)*?(?:path=("|'))(.*?)\1/g;
+  const componentRegExp: RegExp = /(?:<i18n|<I18N)(?:.|\n)*?(?:[^:]path=("|'))(.*?)\1/g;
   return [ ...getMatches(file, componentRegExp, 2) ];
 }
 
