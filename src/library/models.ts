@@ -16,6 +16,6 @@ export interface I18NLanguage {
 }
 
 export interface I18NReport {
-  missingKeys: I18NItem[];
-  unusedKeys: I18NItem[];
+  missingKeys?: I18NItem[];
+  unusedKeys?: I18NItem[];
 }
