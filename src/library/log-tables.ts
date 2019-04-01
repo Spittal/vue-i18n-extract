@@ -36,3 +36,8 @@ export function logUnusedKeys (keys: I18NItem[]): void {
   // tslint:disable-next-line
   console.log(table.toString());
 }
+
+export default {
+  logMissingKeys,
+  logUnusedKeys,
+};

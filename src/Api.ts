@@ -1,4 +1,3 @@
-import path from 'path';
 import fs from 'fs';
 import {
   readVueFiles,
@@ -76,18 +75,20 @@ export default class VueI18NExtract {
     })
   }
 
-  public async writeReportToFile (report: I18NReport, writePath: string): Promise<void> {
+  public async writeReportToFile (report: I18NReport, writePath: string): Promise<NodeJS.ErrnoException | void> {
     const reportString = JSON.stringify(report);
-    return fs.writeFile(
-      path.resolve(process.cwd(), writePath),
-      reportString,
-      (err) => {
-        if (err) {
-          throw err;
-        }
-        // tslint:disable-next-line
-        console.log(`The report has been has been saved to ${writePath}`);
-      },
-    );
+    return new Promise((resolve, reject) => {
+      fs.writeFile(
+        writePath,
+        reportString,
+        (err) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve();
+        },
+      );
+    });
   }
 }
