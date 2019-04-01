@@ -12,6 +12,13 @@ import {
 
 import { SimpleFile, I18NItem, I18NLanguage, I18NReport } from './library/models';
 
+export enum VueI18NExtractReportTypes {
+  None = 0,
+  Missing = 1 << 0,
+  Unused = 1 << 1,
+  All = ~(~0 << 2)
+};
+
 export default class VueI18NExtract {
   public parseVueFiles (vueFilesPath: string): I18NItem[] {
     const filesList: SimpleFile[] = readVueFiles(vueFilesPath);
@@ -23,36 +30,50 @@ export default class VueI18NExtract {
     return extractI18nItemsFromLanguageFiles(filesList);
   }
 
-  public createI18NReport (vueFiles: string, languageFiles: string): I18NReport {
+  public createI18NReport (vueFiles: string, languageFiles: string, reportType: VueI18NExtractReportTypes = VueI18NExtractReportTypes.All): I18NReport {
     const parsedVueFiles: I18NItem[] = this.parseVueFiles(vueFiles);
     const parsedLanguageFiles: I18NLanguage = this.parseLanguageFiles(languageFiles);
 
-    return this.extractI18NReport(parsedVueFiles, parsedLanguageFiles);
+    return this.extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType);
   }
 
-  public extractI18NReport (parsedVueFiles: I18NItem[], parsedLanguageFiles: I18NLanguage): I18NReport {
+  public extractI18NReport (parsedVueFiles: I18NItem[], parsedLanguageFiles: I18NLanguage, reportType: VueI18NExtractReportTypes = VueI18NExtractReportTypes.All): I18NReport {
     const missingKeys = [];
     const unusedKeys = [];
 
     Object.keys(parsedLanguageFiles).forEach((language) => {
-      const languageMissingKeys = diffParsedSources(parsedVueFiles, parsedLanguageFiles[language])
-        .map((item) => ({ ...item, language }));
-      missingKeys.push(...languageMissingKeys);
+      if (reportType & VueI18NExtractReportTypes.Missing) {
+        const languageMissingKeys = diffParsedSources(parsedVueFiles, parsedLanguageFiles[language])
+          .map((item) => ({ ...item, language }));
+        missingKeys.push(...languageMissingKeys);
+      }
 
-      const languageUnusedKeys = diffParsedSources(parsedLanguageFiles[language], parsedVueFiles)
-        .map((item) => ({ ...item, language }));
-      unusedKeys.push(...languageUnusedKeys);
+      if (reportType & VueI18NExtractReportTypes.Unused) {
+        const languageUnusedKeys = diffParsedSources(parsedLanguageFiles[language], parsedVueFiles)
+          .map((item) => ({ ...item, language }));
+        unusedKeys.push(...languageUnusedKeys);
+      }
     });
 
-    return {
-      missingKeys,
-      unusedKeys,
-    };
+    let extracts = {};
+    if (reportType & VueI18NExtractReportTypes.Missing) {
+      extracts = Object.assign(extracts, { missingKeys });
+    }
+    if (reportType & VueI18NExtractReportTypes.Unused) {
+      extracts = Object.assign(extracts, { unusedKeys });
+    }
+
+    return extracts;
   }
 
   public logI18NReport (report: I18NReport): void {
-    logMissingKeys(report.missingKeys);
-    logUnusedKeys(report.unusedKeys);
+    Object.keys(report).forEach(key => {
+      if (key === 'missingKeys') {
+        logMissingKeys(report.missingKeys);
+      } else if (key === 'unusedKeys') {
+        logUnusedKeys(report.unusedKeys);
+      }
+    })
   }
 
   public async writeReportToFile (report: I18NReport, writePath: string): Promise<void> {
