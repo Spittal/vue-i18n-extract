@@ -24,7 +24,6 @@ describe('Api.ts', () => {
   });
 
   afterEach(() => {
-    //spyLog.mockClear();
     spyWriteFile.mockClear();
     spyLogUnusedKeys.mockClear();
     spyLogMissingKeys.mockClear();
