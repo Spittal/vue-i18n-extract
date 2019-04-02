@@ -2,7 +2,6 @@ import yargs from 'yargs';
 import VueI18NExtract from './Api';
 import { I18NReport, I18NItem, I18NLanguage } from './library/models';
 import path from 'path';
-import fs from 'fs';
 
 const api = new VueI18NExtract();
 
@@ -47,7 +46,7 @@ export async function run (): Promise<any> {
   }
 }
 
-function report (command: any): void {
+async function report (command: any): Promise<void> {
   const { vueFiles, languageFiles, output } = command;
 
   const resolvedVueFiles: string = path.resolve(process.cwd(), vueFiles);
@@ -57,7 +56,9 @@ function report (command: any): void {
   api.logI18NReport(i18nReport);
 
   if (output) {
-    api.writeReportToFile(i18nReport, output);
+    await api.writeReportToFile(i18nReport, path.resolve(process.cwd(), output));
+    // tslint:disable-next-line
+    console.log(`The report has been has been saved to ${output}`);
   }
 }
 
