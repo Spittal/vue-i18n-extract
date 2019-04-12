@@ -19,7 +19,8 @@ export function readVueFiles (src: string): SimpleFile[] {
   }
 
   return targetFiles.map((f) => {
-    return { fileName: f, path: f, content: fs.readFileSync(f, 'utf8') };
+    const fileName = f.replace(process.cwd(), '');
+    return { fileName, path: f, content: fs.readFileSync(f, 'utf8') };
   });
 }
 
@@ -42,6 +43,8 @@ export function readLangFiles (src: string): SimpleFile[] {
 
     const langObj = (defaultImport) ? defaultImport : langModule;
 
-    return { fileName: f, path: f, content: langObj };
+    const fileName = f.replace(process.cwd(), '');
+
+    return { fileName, path: f, content: langObj };
   });
 }
