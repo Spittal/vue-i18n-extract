@@ -10,6 +10,16 @@
   <a href="https://codeclimate.com/github/pixari/vue-i18n-extract/maintainability"><img src="https://api.codeclimate.com/v1/badges/d21f341c33b2bfb6fe0e/maintainability" alt="Maintainability"></a>
 </p>
 
+<p align="center">
+  <a href=https://www.patreon.com/bePatron?u=17437545" target="_blank">
+    <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patreon">
+  </a>                                                                                   
+</p>
+         
+> I love contribution to the open-source community and basically I'd like to focus on the Vue.js ecosystem and tools.
+> My first patreon goal is to have the *freedom to work* on some projects and to *reward the main contributors* of my libraries.
+> I get continuous support from *very kind and smart people*, and I'd like to have also a *budget for them*.
+                                                                                     
 ---
 
 `vue-i18n-extract` is built to work with your Vue.js projects using [vue-i18n](https://kazupon.github.io/vue-i18n/). When run `vue-18n-extract` analyses your Vue.js source code for any `vue-i18n` key usages (ex. $t(''), $tc(''), ...) as well as your language files (ex. de_DE.js, en_EN.json, ...), in order to:
