@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=https://www.patreon.com/bePatron?u=17437545" target="_blank">
+  <a href="https://www.patreon.com/bePatron?u=17437545" target="_blank">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patreon">
   </a>                                                                                   
 </p>
