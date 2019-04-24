@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>How to test it | vue-i18n-extract</title>
+    <meta name="description" content="Manage vue-i18n localization with static analysis.">
+    
+    
+    <link rel="preload" href="/vue-i18n-extract/assets/css/0.styles.b1ec4c52.css" as="style"><link rel="preload" href="/vue-i18n-extract/assets/js/app.ef45488f.js" as="script"><link rel="preload" href="/vue-i18n-extract/assets/js/4.862ceafb.js" as="script"><link rel="prefetch" href="/vue-i18n-extract/assets/js/2.d8f505d4.js"><link rel="prefetch" href="/vue-i18n-extract/assets/js/3.ea4636ab.js"><link rel="prefetch" href="/vue-i18n-extract/assets/js/5.c97a2692.js"><link rel="prefetch" href="/vue-i18n-extract/assets/js/6.bb9f3ecd.js"><link rel="prefetch" href="/vue-i18n-extract/assets/js/7.d71211a0.js">
+    <link rel="stylesheet" href="/vue-i18n-extract/assets/css/0.styles.b1ec4c52.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/vue-i18n-extract/" class="home-link router-link-active"><!----> <span class="site-name">vue-i18n-extract</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/vue-i18n-extract/" class="nav-link">Home</a></div><div class="nav-item"><a href="https://github.com/kazupon/vue-i18n" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  vue-i18n
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/kazupon/vue-cli-plugin-i18n" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  vue-cli-plugin-i18n
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://www.patreon.com/bePatron?u=17437545" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Donate
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/pixari/vue-i18n-extract/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/vue-i18n-extract/" class="nav-link">Home</a></div><div class="nav-item"><a href="https://github.com/kazupon/vue-i18n" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  vue-i18n
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/kazupon/vue-cli-plugin-i18n" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  vue-cli-plugin-i18n
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://www.patreon.com/bePatron?u=17437545" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Donate
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/pixari/vue-i18n-extract/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/vue-i18n-extract/" class="sidebar-link">Home</a></li><li><a href="/vue-i18n-extract/getting-started.html" class="sidebar-link">How to use it</a></li><li><a href="/vue-i18n-extract/demo-test.html" class="active sidebar-link">How to test it</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/vue-i18n-extract/demo-test.html#demo-test" class="sidebar-link">Demo &amp; Test</a></li></ul></li><li><a href="/vue-i18n-extract/features.html" class="sidebar-link">Features</a></li></ul> </div> <div class="page"> <div class="content"><h1 id="how-to-test-it"><a href="#how-to-test-it" aria-hidden="true" class="header-anchor">#</a> How to test it</h1> <h2 id="demo-test"><a href="#demo-test" aria-hidden="true" class="header-anchor">#</a> Demo &amp; Test</h2> <p>Clone this git repository:</p> <div class="language-sh extra-class"><pre class="language-text"><code>git clone git@github.com:pixari/vue-i18n-extract.git
+</code></pre></div><div class="language-sh extra-class"><pre class="language-text"><code>// install dependencies:
+npm install
+// compile typescript:
+npm run build
+// this will use the data in the demo folder to generate a report.
+npm run demo
+</code></pre></div><p>or</p> <div class="language-sh extra-class"><pre class="language-text"><code>// install dependencies:
+yarn install
+// compile typescript:
+yarn build
+// this will use the data in the demo folder to generate a report.
+yarn demo
+</code></pre></div><p>To run tests:</p> <div class="language-sh extra-class"><pre class="language-text"><code>npm run test
+</code></pre></div><p>or</p> <div class="language-sh extra-class"><pre class="language-text"><code>yarn test
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/vue-i18n-extract/getting-started.html" class="prev">
+          How to use it
+        </a></span> <span class="next"><a href="/vue-i18n-extract/features.html">
+          Features
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/vue-i18n-extract/assets/js/app.ef45488f.js" defer></script><script src="/vue-i18n-extract/assets/js/4.862ceafb.js" defer></script>
+  </body>
+</html>

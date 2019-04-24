@@ -7,7 +7,9 @@
     "demo": "node ./pkg/dist-node/index.bin.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "tslint src/**/*"
+    "lint": "tslint src/**/*",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "license": "MIT",
   "repository": {
@@ -69,6 +71,7 @@
     "jest": "^24.3.1",
     "ts-jest": "^24.0.0",
     "tslint": "^5.13.1",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.2",
+    "vuepress": "^0.14.11"
   }
 }

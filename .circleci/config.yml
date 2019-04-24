@@ -46,6 +46,21 @@ jobs:
             echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/pkg/.npmrc
             npm publish
 
+  deployDocs:
+    <<: *defaults
+    filters:
+      branches:
+        only: master
+    environment:
+      - SOURCE_BRANCH: master
+      - TARGET_BRANCH: gh-pages
+    docker:
+      - image: circleci/node:8.11.2
+    steps:
+      - checkout
+      - run: yarn global add vuepress
+      - run: sh ./deploy.sh
+
 workflows:
   version: 2
   test-deploy:
@@ -62,3 +77,4 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
+      - deployDocs
