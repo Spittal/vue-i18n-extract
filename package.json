@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n-extract",
-  "version": "0.4.14",
+  "version": "1.0.0",
   "description": "Manage vue-i18n localization with static analysis",
   "scripts": {
     "build": "pack build",
