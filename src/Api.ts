@@ -4,7 +4,6 @@ import {
   readLangFiles,
   extractI18nItemsFromVueFiles,
   extractI18nItemsFromLanguageFiles,
-  diffParsedSources,
   logMissingKeys,
   logUnusedKeys,
 } from './library/index';
@@ -41,17 +40,17 @@ export default class VueI18NExtract {
     const unusedKeys = [];
 
     Object.keys(parsedLanguageFiles).forEach((language) => {
-      if (reportType & VueI18NExtractReportTypes.Missing) {
-        const languageMissingKeys = diffParsedSources(parsedVueFiles, parsedLanguageFiles[language])
-          .map((item) => ({ ...item, language }));
-        missingKeys.push(...languageMissingKeys);
-      }
+      let languageItems = parsedLanguageFiles[language];
 
-      if (reportType & VueI18NExtractReportTypes.Unused) {
-        const languageUnusedKeys = diffParsedSources(parsedLanguageFiles[language], parsedVueFiles)
-          .map((item) => ({ ...item, language }));
-        unusedKeys.push(...languageUnusedKeys);
-      }
+      parsedVueFiles.forEach((vueItem) => {
+        const usedByVueItem = ({ path }) => path === vueItem.path || path.startsWith(vueItem.path + '.');
+        if (!parsedLanguageFiles[language].some(usedByVueItem)) {
+          missingKeys.push(({ ...vueItem, language }));
+        }
+        languageItems = languageItems.filter((i) => !usedByVueItem(i));
+      });
+
+      unusedKeys.push(...languageItems.map((item) => ({ ...item, language })));
     });
 
     let extracts = {};
