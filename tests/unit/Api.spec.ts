@@ -32,7 +32,7 @@ describe('Api.ts', () => {
   it('function: parseVueFiles', () => {
     const src: string = path.resolve(__dirname, './fixtures/vue-files/**/*.?(js|vue)');
     const extractedI18NItems: I18NItem[] = api.parseVueFiles(src);
-    expect(extractedI18NItems).toHaveLength(14);
+    expect(extractedI18NItems).toHaveLength(15);
   });
 
   it('function: parseLanguageFiles', () => {
