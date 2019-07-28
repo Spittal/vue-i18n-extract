@@ -32,6 +32,7 @@ describe('Api.ts', () => {
   it('function: parseVueFiles', () => {
     const src: string = path.resolve(__dirname, './fixtures/vue-files/**/*.?(js|vue)');
     const extractedI18NItems: I18NItem[] = api.parseVueFiles(src);
+    expect(extractedI18NItems).toHaveLength(14);
     expect(extractedI18NItems).toHaveLength(15);
   });
 
@@ -39,9 +40,9 @@ describe('Api.ts', () => {
     const src: string = path.resolve(__dirname, './fixtures/language-files/**/*.?(js|json)');
     const extractedI18NLanguage: I18NLanguage = api.parseLanguageFiles(src);
     expect(extractedI18NLanguage).toHaveProperty('en_EN');
-    expect(extractedI18NLanguage.en_EN).toHaveLength(7);
+    expect(extractedI18NLanguage.en_EN).toHaveLength(10);
     expect(extractedI18NLanguage).toHaveProperty('de_DE');
-    expect(extractedI18NLanguage.de_DE).toHaveLength(6);
+    expect(extractedI18NLanguage.de_DE).toHaveLength(9);
   });
 
   it('function: createI18NReport', () => {
