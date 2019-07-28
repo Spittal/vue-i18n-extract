@@ -15,7 +15,7 @@ export function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NIt
 }
 
 function extractMethodMatches (file: SimpleFile): I18NItem[] {
-  const methodRegExp: RegExp = /(?:\$tc?| tc?)\(("|'|`)(.*?)\1/g;
+  const methodRegExp: RegExp = /(?:[$ .]tc?)\(\s*?("|'|`)(.*?)\1/g;
   return [ ...getMatches(file, methodRegExp, 2) ];
 }
 
