@@ -1,7 +1,7 @@
 import Table from 'cli-table3';
 import { I18NItem } from './models';
 
-export function logMissingKeys (keys: I18NItem[]): void {
+export function logMissingKeys(keys: I18NItem[]): void {
   const table = new Table({
     style: {
       head: ['green'],
@@ -13,13 +13,14 @@ export function logMissingKeys (keys: I18NItem[]): void {
   });
 
   keys.forEach((key, i) => {
-    table.push([i, key.language, key.file, key.line, key.path] as any);
+    const file_trunc = key.file.length > 40 ? `…${key.file.slice(key.file.length - 36, key.file.length)}` : key.file;
+    table.push([i, key.language, file_trunc, key.line, key.path] as any);
   });
   // tslint:disable-next-line
   console.log(table.toString());
 }
 
-export function logUnusedKeys (keys: I18NItem[]): void {
+export function logUnusedKeys(keys: I18NItem[]): void {
   const table = new Table({
     style: {
       head: ['yellow'],
