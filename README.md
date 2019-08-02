@@ -29,6 +29,9 @@ I'm sure you'll find bugs and when you do it would be great if you'd could [repo
 
 The project is still in its early stages and in progress. I think there's no need for guidelines yet, so feel free to contribute or give feedback as you prefer.
 
+PLEASE: don't forget to update the documentation if you change the API. (https://github.com/pixari/vue-i18n-extract/tree/master/docs)
+
+
 ## :copyright: License
 
 [MIT](http://opensource.org/licenses/MIT)
