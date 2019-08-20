@@ -26,17 +26,25 @@ const outputOptions: yargs.Options = {
   alias: 'o',
 };
 
-const argv = yargs
-.command('report', 'Create a report from a glob of your Vue.js source files and your language files.', {
-  vueFiles: vueFilesOptions,
-  languageFiles: languageFilesOptions,
-  output: outputOptions,
-})
-.help()
-.demandCommand(1, '')
-.showHelpOnFail(true);
+const generateOptions: yargs.Options = {
+  // tslint:disable-next-line:max-line-length
+  describe: 'Use if you want to create a json file with the missing keys. (.json | .js) (ex. -g schema.json)',
+  demand: false,
+  alias: 'g',
+};
 
-export async function run (): Promise<any> {
+const argv = yargs
+  .command('report', 'Create a report from a glob of your Vue.js source files and your language files.', {
+    vueFiles: vueFilesOptions,
+    languageFiles: languageFilesOptions,
+    output: outputOptions,
+    generate: generateOptions,
+  })
+  .help()
+  .demandCommand(1, '')
+  .showHelpOnFail(true);
+
+export async function run(): Promise<any> {
   const command = argv.argv;
 
   switch (command._[0]) {
@@ -46,8 +54,8 @@ export async function run (): Promise<any> {
   }
 }
 
-async function report (command: any): Promise<void> {
-  const { vueFiles, languageFiles, output } = command;
+async function report(command: any): Promise<void> {
+  const { vueFiles, languageFiles, output, generate } = command;
 
   const resolvedVueFiles: string = path.resolve(process.cwd(), vueFiles);
   const resolvedLanguageFiles: string = path.resolve(process.cwd(), languageFiles);
@@ -59,6 +67,12 @@ async function report (command: any): Promise<void> {
     await api.writeReportToFile(i18nReport, path.resolve(process.cwd(), output));
     // tslint:disable-next-line
     console.log(`The report has been has been saved to ${output}`);
+  }
+
+  if (generate) {
+    await api.generateSchemaFile(i18nReport, path.resolve(process.cwd(), generate));
+    // tslint:disable-next-line
+    console.log(`The schema was generated to ${generate}`);
   }
 }
 

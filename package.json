@@ -5,6 +5,7 @@
   "scripts": {
     "build": "pack build",
     "demo": "node ./pkg/dist-node/index.bin.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
+    "demo-generate": "node ./pkg/dist-node/index.bin.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)' -g miss-schema.json",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "tslint src/**/*",
