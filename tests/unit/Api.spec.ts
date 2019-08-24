@@ -152,9 +152,9 @@ describe('Api.ts', () => {
     api.logI18NReport(report);
 
     expect(spyLogMissingKeys).toHaveBeenCalledTimes(1);
-    expect(spyLogMissingKeys.mock.calls[0][0]).toEqual(report['missingKeys']);
+    expect(spyLogMissingKeys.mock.calls[0][0]).toEqual(report.missingKeys);
     expect(spyLogUnusedKeys).toHaveBeenCalledTimes(1);
-    expect(spyLogUnusedKeys.mock.calls[0][0]).toEqual(report['unusedKeys']);
+    expect(spyLogUnusedKeys.mock.calls[0][0]).toEqual(report.unusedKeys);
   });
 
   it('function: writeReportToFile', async () => {
