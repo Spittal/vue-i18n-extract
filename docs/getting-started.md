@@ -36,7 +36,13 @@ This will print out a table of missing keys in your language files, as well as u
 
 ## Running from command line
 
-You can run `vue-i18n-extract` directly from the CLI if you have install it globally
+You can run `vue-i18n-extract` directly from the CLI without having to install anything using npx
+
+```sh
+npx vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json)'
+```
+
+If you want to install it install it globally
 
 ```sh
 npm install --global vue-i18n-extract
@@ -48,7 +54,8 @@ or
 yarn global add vue-i18n-extract
 ```
 
-From anywhere you can now run:
+Then from anywhere you can now run:
+
 ```sh
 vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json)'
 ```
