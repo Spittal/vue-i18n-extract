@@ -1,7 +1,7 @@
+import path from 'path';
 import yargs from 'yargs';
 import VueI18NExtract from './Api';
 import { I18NReport, I18NItem, I18NLanguage } from './library/models';
-import path from 'path';
 
 const api = new VueI18NExtract();
 
@@ -26,11 +26,19 @@ const outputOptions: yargs.Options = {
   alias: 'o',
 };
 
+const addOptions: yargs.Options = {
+  // tslint:disable-next-line:max-line-length
+  describe: 'Use if you want to add missing keys into json language files. (ex. -a en.json)',
+  demand: false,
+  alias: 'a',
+};
+
 const argv = yargs
 .command('report', 'Create a report from a glob of your Vue.js source files and your language files.', {
   vueFiles: vueFilesOptions,
   languageFiles: languageFilesOptions,
   output: outputOptions,
+  add: addOptions,
 })
 .help()
 .demandCommand(1, '')
@@ -47,7 +55,7 @@ export async function run (): Promise<any> {
 }
 
 async function report (command: any): Promise<void> {
-  const { vueFiles, languageFiles, output } = command;
+  const { vueFiles, languageFiles, output, add } = command;
 
   const resolvedVueFiles: string = path.resolve(process.cwd(), vueFiles);
   const resolvedLanguageFiles: string = path.resolve(process.cwd(), languageFiles);
@@ -59,6 +67,19 @@ async function report (command: any): Promise<void> {
     await api.writeReportToFile(i18nReport, path.resolve(process.cwd(), output));
     // tslint:disable-next-line
     console.log(`The report has been has been saved to ${output}`);
+  }
+
+  if (add) {
+    // tslint:disable-next-line
+    console.log(`
+      - dot.dot language file
+      - forEach missing keys add it in the flatened language file
+      - Re json it`);
+    // tslint:disable-next-line
+    console.log(`${i18nReport.missingKeys}`);
+
+    // tslint:disable-next-line
+    console.log(`The missing keys has been has been saved to ${add}`);
   }
 }
 
