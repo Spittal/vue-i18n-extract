@@ -1,5 +1,8 @@
 import path from 'path';
 import yargs from 'yargs';
+import dot from 'dot-object';
+import fs from 'fs';
+import glob from 'glob';
 import VueI18NExtract from './Api';
 import { I18NReport, I18NItem, I18NLanguage } from './library/models';
 
@@ -28,13 +31,13 @@ const outputOptions: yargs.Options = {
 
 const addOptions: yargs.Options = {
   // tslint:disable-next-line:max-line-length
-  describe: 'Use if you want to add missing keys into json language files. (ex. -a en.json)',
+  describe: 'Use if you want to add missing keys into your json language files. (ex. -a true)',
   demand: false,
   alias: 'a',
 };
 
 const argv = yargs
-.command('report', 'Create a report from a glob of your Vue.js source files and your language files.', {
+.command('report', '- Create a report from a glob of your Vue.js source files and your language files.', {
   vueFiles: vueFilesOptions,
   languageFiles: languageFilesOptions,
   output: outputOptions,
@@ -69,17 +72,24 @@ async function report (command: any): Promise<void> {
     console.log(`The report has been has been saved to ${output}`);
   }
 
-  if (add) {
-    // tslint:disable-next-line
-    console.log(`
-      - dot.dot language file
-      - forEach missing keys add it in the flatened language file
-      - Re json it`);
-    // tslint:disable-next-line
-    console.log(`${i18nReport.missingKeys}`);
+  if (add && i18nReport.missingKeys.length > 0) {
+    var globArray: any = glob.sync(resolvedLanguageFiles)
+    var parsedContent: any = globArray
+      .map(f => fs.readFileSync(f, 'utf8'))
+      .map(i => JSON.parse(i));
+
+    i18nReport.missingKeys.forEach(item => {
+      parsedContent.forEach(i => dot.str(item.path, '', i))
+    })
+
+    let stringifyiedContent: any = parsedContent
+      .map(i => JSON.stringify(i, null, 2));
+
+    stringifyiedContent
+      .forEach((i, index) => fs.writeFileSync(globArray[index], i))
 
     // tslint:disable-next-line
-    console.log(`The missing keys has been has been saved to ${add}`);
+    console.log('The missing keys has been has been saved to your languages files');
   }
 }
 
