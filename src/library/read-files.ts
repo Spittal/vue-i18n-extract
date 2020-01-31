@@ -2,6 +2,7 @@ import isValidGlob from 'is-valid-glob';
 import glob from 'glob';
 import path from 'path';
 import fs from 'fs';
+import yaml from 'js-yaml';
 import { SimpleFile } from './models';
 
 // tslint:disable-next-line
@@ -37,7 +38,14 @@ export function readLangFiles (src: string): SimpleFile[] {
   return targetFiles.map((f) => {
     const langPath = path.resolve(process.cwd(), f);
 
-    const langModule = require(langPath);
+    let langModule;
+    const extension = langPath.substring(langPath.lastIndexOf('.')).toLowerCase();
+    if ( extension === '.yaml' || extension === '.yml') {
+      langModule = yaml.safeLoad(fs.readFileSync(langPath, 'utf8'));
+    } else {
+      langModule = require(langPath);
+    }
+    
     const { default: defaultImport } = langModule;
 
     const langObj = (defaultImport) ? defaultImport : langModule;
