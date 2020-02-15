@@ -32,7 +32,7 @@ describe('Api.ts', () => {
   it('function: parseVueFiles', () => {
     const src: string = path.resolve(__dirname, './fixtures/vue-files/**/*.?(js|vue)');
     const extractedI18NItems: I18NItem[] = api.parseVueFiles(src);
-    expect(extractedI18NItems).toHaveLength(16);
+    expect(extractedI18NItems).toHaveLength(24);
   });
 
   it('function: parseLanguageFiles', () => {
@@ -58,6 +58,30 @@ describe('Api.ts', () => {
         path: 'missing.a',
       },
       {
+        file: '/tests/unit/fixtures/vue-files/file1.js',
+        language: 'de_DE',
+        line: 9,
+        path: 'Don\\\'t leave me behind!',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file1.js',
+        language: 'de_DE',
+        line: 10,
+        path: 'Early ',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file1.js',
+        language: 'de_DE',
+        line: 11,
+        path: 'Early ',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file1.js',
+        language: 'de_DE',
+        line: 12,
+        path: 'Backtick: \\\`',
+      },
+      {
         file: '/tests/unit/fixtures/vue-files/file2.js',
         language: 'de_DE',
         line: 2,
@@ -68,6 +92,30 @@ describe('Api.ts', () => {
         language: 'de_DE',
         line: 2,
         path: 'Missing',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file3.vue',
+        language: 'de_DE',
+        line: 3,
+        path: 'Don\\\'t leave me behind!',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file3.vue',
+        language: 'de_DE',
+        line: 4,
+        path: 'Early ',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file3.vue',
+        language: 'de_DE',
+        line: 5,
+        path: 'Early ',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file3.vue',
+        language: 'de_DE',
+        line: 6,
+        path: 'Backtick: \\\`',
       },
       {
         file: '/tests/unit/fixtures/vue-files/folder/file3.vue',
@@ -106,6 +154,30 @@ describe('Api.ts', () => {
         path: 'missing.a',
       },
       {
+        file: '/tests/unit/fixtures/vue-files/file1.js',
+        language: 'en_EN',
+        line: 9,
+        path: 'Don\\\'t leave me behind!',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file1.js',
+        language: 'en_EN',
+        line: 10,
+        path: 'Early ',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file1.js',
+        language: 'en_EN',
+        line: 11,
+        path: 'Early ',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file1.js',
+        language: 'en_EN',
+        line: 12,
+        path: 'Backtick: \\\`',
+      },
+      {
         file: '/tests/unit/fixtures/vue-files/file2.js',
         language: 'en_EN',
         line: 2,
@@ -116,6 +188,30 @@ describe('Api.ts', () => {
         language: 'en_EN',
         line: 2,
         path: 'Missing',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file3.vue',
+        language: 'en_EN',
+        line: 3,
+        path: 'Don\\\'t leave me behind!',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file3.vue',
+        language: 'en_EN',
+        line: 4,
+        path: 'Early ',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file3.vue',
+        language: 'en_EN',
+        line: 5,
+        path: 'Early ',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file3.vue',
+        language: 'en_EN',
+        line: 6,
+        path: 'Backtick: \\\`',
       },
       {
         file: '/tests/unit/fixtures/vue-files/folder/file3.vue',
