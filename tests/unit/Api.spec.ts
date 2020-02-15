@@ -32,7 +32,7 @@ describe('Api.ts', () => {
   it('function: parseVueFiles', () => {
     const src: string = path.resolve(__dirname, './fixtures/vue-files/**/*.?(js|vue)');
     const extractedI18NItems: I18NItem[] = api.parseVueFiles(src);
-    expect(extractedI18NItems).toHaveLength(24);
+    expect(extractedI18NItems).toHaveLength(26);
   });
 
   it('function: parseLanguageFiles', () => {
@@ -80,6 +80,18 @@ describe('Api.ts', () => {
         language: 'de_DE',
         line: 12,
         path: 'Backtick: \\\`',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file1.js',
+        language: 'de_DE',
+        line: 13,
+        path: 'Optimistic match 1',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file1.js',
+        language: 'de_DE',
+        line: 14,
+        path: 'Optimistic match 2',
       },
       {
         file: '/tests/unit/fixtures/vue-files/file2.js',
@@ -176,6 +188,18 @@ describe('Api.ts', () => {
         language: 'en_EN',
         line: 12,
         path: 'Backtick: \\\`',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file1.js',
+        language: 'en_EN',
+        line: 13,
+        path: 'Optimistic match 1',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/file1.js',
+        language: 'en_EN',
+        line: 14,
+        path: 'Optimistic match 2',
       },
       {
         file: '/tests/unit/fixtures/vue-files/file2.js',
