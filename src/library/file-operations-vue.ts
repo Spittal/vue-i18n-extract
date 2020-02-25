@@ -14,8 +14,31 @@ export function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NIt
   }, []);
 }
 
+/**
+ * Extracts translation keys from methods such as `$t` and `$tc`.
+ *
+ * - **regexp pattern**: (?:[$ .]tc?)\(
+ *
+ *   **description**: Matches the sequence t( or tc(, optionally with either “$”, “.” or “ ” in front of it.
+ *
+ * - **regexp pattern**: (["'`])
+ *
+ *   **description**: 1. capturing group. Matches either “"”, “'”, or “`”.
+ *
+ * - **regexp pattern**: ((?:[^\\]|\\.)*?)
+ *
+ *   **description**: 2. capturing group. Matches anything except a backslash
+ *   *or* matches any backslash followed by any character (e.g. “\"”, “\`”, “\t”, etc.)
+ *
+ * - **regexp pattern**: \1
+ *
+ *   **description**: matches whatever was matched by capturing group 1 (e.g. the starting string character)
+ *
+ * @param file a file object
+ * @returns a list of translation keys found in `file`.
+ */
 function extractMethodMatches (file: SimpleFile): I18NItem[] {
-  const methodRegExp: RegExp = /(?:[$ .]tc?)\(\s*?("|'|`)(.*?)\1/g;
+  const methodRegExp: RegExp = /(?:[$ .]tc?)\(\s*?(["'`])((?:[^\\]|\\.)*?)\1/g;
   return [ ...getMatches(file, methodRegExp, 2) ];
 }
 
