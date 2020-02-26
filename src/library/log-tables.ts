@@ -2,6 +2,8 @@ import Table from 'cli-table3';
 import { I18NItem } from './models';
 
 export function logMissingKeys(keys: I18NItem[]): void {
+  const maxDigits = (keys.length - 1).toString().length
+
   const table = new Table({
     style: {
       head: ['green'],
@@ -9,7 +11,7 @@ export function logMissingKeys(keys: I18NItem[]): void {
       compact: true,
     },
     head: ['#', 'Language', 'File', 'Line', 'Missing i18n Entry'],
-    colWidths: [4, 12, 40, 8, 30],
+    colWidths: [maxDigits + 2, 12, 40, 8, 30],
   });
 
   keys.forEach((key, i) => {
