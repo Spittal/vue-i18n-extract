@@ -7,7 +7,7 @@ describe('file-operations-vue.ts', () => {
     const src: string = path.resolve(__dirname, '../fixtures/vue-files/**/*.?(js|vue)');
     const filesCollection: SimpleFile[] = readVueFiles(src);
     const results: I18NItem[] = extractI18nItemsFromVueFiles(filesCollection);
-    expect(results.length).toEqual(26);
+    expect(results.length).toEqual(28);
   });
 
   it('extracts translation keys from methods correctly', () => {
