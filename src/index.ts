@@ -1,8 +1,5 @@
 import path from 'path';
 import yargs from 'yargs';
-import dot from 'dot-object';
-import fs from 'fs';
-import glob from 'glob';
 import VueI18NExtract from './Api';
 import { I18NReport, I18NItem, I18NLanguage } from './library/models';
 
@@ -73,21 +70,7 @@ async function report (command: any): Promise<void> {
   }
 
   if (add && i18nReport.missingKeys.length > 0) {
-    var globArray: any = glob.sync(resolvedLanguageFiles)
-    var parsedContent: any = globArray
-      .map(f => fs.readFileSync(f, 'utf8'))
-      .map(i => JSON.parse(i));
-
-    i18nReport.missingKeys.forEach(item => {
-      parsedContent.forEach(i => dot.str(item.path, '', i))
-    })
-
-    let stringifyiedContent: any = parsedContent
-      .map(i => JSON.stringify(i, null, 2));
-
-    stringifyiedContent
-      .forEach((i, index) => fs.writeFileSync(globArray[index], i))
-
+    api.writeMissingToLanguage(resolvedLanguageFiles, i18nReport)
     // tslint:disable-next-line
     console.log('The missing keys has been has been saved to your languages files');
   }
