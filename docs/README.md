@@ -37,6 +37,7 @@ This library analyses your Vue.js source code looking for any `vue-i18n` key usa
 
 - extract and report all the **missing keys** in the language files;
 - extract and report all the **unused keys** in the language files;
+- optionnaly write every **missing keys** into every language files;
 
 ## :copyright: License
 
