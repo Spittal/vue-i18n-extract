@@ -1,4 +1,6 @@
 import fs from 'fs';
+import glob from 'glob';
+import dot from 'dot-object';
 import {
   readVueFiles,
   readLangFiles,
@@ -72,6 +74,23 @@ export default class VueI18NExtract {
         logUnusedKeys(report.unusedKeys);
       }
     })
+  }
+
+  public writeMissingToLanguage (resolvedLanguageFiles: string, i18nReport: I18NReport): void {
+    var globArray: any = glob.sync(resolvedLanguageFiles)
+    var parsedContent: any = globArray
+      .map(f => fs.readFileSync(f, 'utf8'))
+      .map(i => JSON.parse(i));
+
+    i18nReport.missingKeys.forEach(item => {
+      parsedContent.forEach(i => dot.str(item.path, '', i))
+    })
+
+    let stringifyiedContent: any = parsedContent
+      .map(i => JSON.stringify(i, null, 2));
+
+    stringifyiedContent
+      .forEach((i, index) => fs.writeFileSync(globArray[index], i))
   }
 
   public async writeReportToFile (report: I18NReport, writePath: string): Promise<NodeJS.ErrnoException | void> {
