@@ -32,7 +32,7 @@ describe('Api.ts', () => {
   it('function: parseVueFiles', () => {
     const src: string = path.resolve(__dirname, './fixtures/vue-files/**/*.?(js|vue)');
     const extractedI18NItems: I18NItem[] = api.parseVueFiles(src);
-    expect(extractedI18NItems).toHaveLength(26);
+    expect(extractedI18NItems).toHaveLength(28);
   });
 
   it('function: parseLanguageFiles', () => {
@@ -160,6 +160,18 @@ describe('Api.ts', () => {
         path: 'missing.f.a',
       },
       {
+        file: '/tests/unit/fixtures/vue-files/folder/folder 2/file4.vue',
+        language: 'de_DE',
+        line: 4,
+        path: 'missing.f.b',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/folder/folder 2/file4.vue',
+        language: 'de_DE',
+        line: 4,
+        path: 'missing.f.c',
+      },
+      {
         file: '/tests/unit/fixtures/vue-files/file1.js',
         language: 'en_EN',
         line: 2,
@@ -260,6 +272,18 @@ describe('Api.ts', () => {
         language: 'en_EN',
         line: 3,
         path: 'missing.f.a',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/folder/folder 2/file4.vue',
+        language: 'en_EN',
+        line: 4,
+        path: 'missing.f.b',
+      },
+      {
+        file: '/tests/unit/fixtures/vue-files/folder/folder 2/file4.vue',
+        language: 'en_EN',
+        line: 4,
+        path: 'missing.f.c',
       },
     ]);
   });
