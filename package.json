@@ -30,25 +30,6 @@
     "internationalization-plugin"
   ],
   "author": "Raffaele Pizzari <raffaele.pizzari@gmail.com> (https://raffaelepizzari.com)",
-  "@pika/pack": {
-    "pipeline": [
-      [
-        "@pika/plugin-ts-standard-pkg"
-      ],
-      [
-        "@pika/plugin-build-node",
-        {
-          "minNodeVersion": "10"
-        }
-      ],
-      [
-        "@pika/plugin-simple-bin",
-        {
-          "bin": "vue-i18n-extract"
-        }
-      ]
-    ]
-  },
   "dependencies": {
     "cli-table3": "^0.5.1",
     "dot-object": "^1.7.1",
@@ -59,10 +40,6 @@
     "yargs": "^13.2.2"
   },
   "devDependencies": {
-    "@pika/pack": "^0.3.4",
-    "@pika/plugin-build-node": "^0.3.14",
-    "@pika/plugin-simple-bin": "^0.3.14",
-    "@pika/plugin-ts-standard-pkg": "^0.3.14",
     "@types/dot-object": "^1.7.0",
     "@types/glob": "^7.1.1",
     "@types/is-valid-glob": "^1.0.0",
@@ -71,7 +48,6 @@
     "@types/yargs": "^12.0.9",
     "jest": "^24.3.1",
     "ts-jest": "^24.0.0",
-    "tslint": "^5.13.1",
     "typescript": "^3.2.2",
     "vuepress": "^1.0.2"
   }
