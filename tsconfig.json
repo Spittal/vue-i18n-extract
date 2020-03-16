@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es2018",
-    "module": "esnext",
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "baseUrl": ".",
+    "module": "esnext",
+    "target": "esnext",
     "moduleResolution": "node",
-    "lib": ["esnext.array", "es2018"],
-    "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@tests/*": [
-        "tests/*"
-      ]
-    }
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "baseUrl": "./",
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "__tests__"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "__tests__"
+  ]
 }

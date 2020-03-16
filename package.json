@@ -3,15 +3,18 @@
   "version": "1.0.3",
   "description": "Manage vue-i18n localization with static analysis",
   "scripts": {
-    "build": "pack build",
-    "demo": "node ./pkg/dist-node/index.bin.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
+    "build": "rm -fr dist && microbundle -f modern,umd",
+    "dev": "microbundle watch",
+    "demo": "node ./dist/vue-i18n-extract.umd.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "tslint src/**/*",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
   "license": "MIT",
+  "source": "src/index.ts",
+  "main": "dist/vue-i18n-extract.umd.js",
+  "module": "dist/vue-i18n-extract.modern.module.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/pixari/vue-i18n-extract"
@@ -31,24 +34,29 @@
   ],
   "author": "Raffaele Pizzari <raffaele.pizzari@gmail.com> (https://raffaelepizzari.com)",
   "dependencies": {
-    "cli-table3": "^0.5.1",
-    "dot-object": "^1.7.1",
-    "esm": "^3.2.13",
+    "commander": "^5.0.0",
+    "dot-object": "^2.1.3",
+    "esm": "^3.2.25",
     "glob": "^7.1.3",
     "is-valid-glob": "^1.0.0",
-    "js-yaml": "^3.13.1",
-    "yargs": "^13.2.2"
+    "js-yaml": "^3.13.1"
   },
   "devDependencies": {
     "@types/dot-object": "^1.7.0",
+    "@types/esm": "^3.2.0",
     "@types/glob": "^7.1.1",
     "@types/is-valid-glob": "^1.0.0",
-    "@types/jest": "^24.0.10",
-    "@types/lodash": "^4.14.122",
-    "@types/yargs": "^12.0.9",
-    "jest": "^24.3.1",
-    "ts-jest": "^24.0.0",
-    "typescript": "^3.2.2",
+    "@types/jest": "^25.1.4",
+    "@types/js-yaml": "^3.12.2",
+    "@types/yargs": "^15.0.4",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
+    "@yarnpkg/pnpify": "^2.0.0-rc.19",
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0",
+    "microbundle": "^0.12.0-next.8",
+    "ts-jest": "^25.2.1",
+    "typescript": "^3.8.3",
     "vuepress": "^1.0.2"
   }
 }
