@@ -3,7 +3,7 @@
  /* eslint-disable */
 'use strict';
 const program = require('commander');
-const VueI18NExtract = require('../dist/index.umd.js');
+const VueI18NExtract = require('../dist/vue-i18n-extract.umd.js');
 
 program
   .command('report', { isDefault: true })
