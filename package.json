@@ -8,6 +8,7 @@
     "demo": "node ./dist/vue-i18n-extract.umd.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
     "test": "yarn build && jest",
     "test:watch": "yarn build && jest --watch",
+    "lint": "eslint **/*.ts",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
