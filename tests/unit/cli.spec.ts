@@ -9,7 +9,7 @@ function runCLI (args: string[] = []): Promise<{
 }> {
   return new Promise(resolve => {
     exec(
-      `node ${path.resolve('./dist/bin/vue-i18n-extract.js')} ${args.join(' ')}`,
+      `node ${path.resolve(__dirname + '../../../bin/vue-i18n-extract.js')} ${args.join(' ')}`,
       { cwd: '.' },
       (error, stdout, stderr) => {
         resolve({
@@ -48,23 +48,23 @@ describe('vue-i18n-extract CLI', () => {
       expect((await runCLI([
         'report',
         '-v',
-        `'./demo/**/*.(vue|js)'`,
+        `'./fixtures/vue-files/**/*.?(vue|js)'`,
       ])).code).not.toBe(0);
 
       expect((await runCLI([
         'report',
         '-v',
-        `'./demo/vue-files/**/*.?(vue|js)'`,
+        `'./fixtures/vue-files/**/*.?(vue|js)'`,
         '-l',
-        `'./demo/lang/**/*.?(js|json|yml|yaml)'`,
+        `'./fixtures/language-files/**/*.?(js|json|yml|yaml)'`,
       ])).code).toBe(0);
 
       expect((await runCLI([
         'report',
         '-v',
-        `'./demo/vue-files/**/*.?(vue|js)'`,
+        `'./fixtures/vue-files/**/*.?(vue|js)'`,
         '-l',
-        `'./demo/lang/**/*.?(js|json|yml|yaml)'`,
+        `'./fixtures/language-files/**/*.?(js|json|yml|yaml)'`,
         '-o',
         `'/dev/null'`
       ])).code).toBe(0);
@@ -72,9 +72,9 @@ describe('vue-i18n-extract CLI', () => {
       expect((await runCLI([
         'report',
         '-v',
-        `'./demo/vue-files/**/*.?(vue|js)'`,
+        `'./fixtures/vue-files/**/*.?(vue|js)'`,
         '-l',
-        `'./demo/lang/**/*.?(js|json|yml|yaml)'`,
+        `'./fixtures/language-files/**/*.?(js|json|yml|yaml)'`,
         '-o',
         `'/dev/null'`,
         '-a',
