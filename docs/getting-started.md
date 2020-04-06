@@ -42,29 +42,17 @@ You can run `vue-i18n-extract` directly from the CLI without having to install a
 npx vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json)'
 ```
 
-If you want to install it install it globally
-
-```sh
-npm install --global vue-i18n-extract
-```
-
 or
 
 ```sh
-yarn global add vue-i18n-extract
-```
-
-Then from anywhere you can now run:
-
-```sh
-vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json)'
+yarn dlx vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json)'
 ```
 
 ## Usage in NodeJS
 Make sure you have `vue-i18n-extract` installed locally and then just import the library and uses the API:
 
 ```js
-const VueI18NExtract = require('vue-i18n-extract').default;
+const VueI18NExtract = require('vue-i18n-extract');
 
 const report = VueI18NExtract.createI18NReport('./path/to/vue-files/**/*.?(js|vue)', './path/to/language-files/*.?(js|json)');
 ```

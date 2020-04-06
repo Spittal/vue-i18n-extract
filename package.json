@@ -3,9 +3,9 @@
   "version": "1.0.3",
   "description": "Manage vue-i18n localization with static analysis",
   "scripts": {
-    "build": "rm -fr dist && microbundle -f modern,umd",
+    "build": "rm -fr dist/bundle && microbundle -f modern,umd",
     "dev": "microbundle watch",
-    "demo": "node ./dist/vue-i18n-extract.umd.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
+    "demo": "node ./dist/bin/vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
     "test": "yarn build && jest",
     "test:watch": "yarn build && jest --watch",
     "lint": "eslint **/*.ts",
@@ -14,8 +14,9 @@
   },
   "license": "MIT",
   "source": "src/index.ts",
-  "main": "dist/vue-i18n-extract.umd.js",
-  "module": "dist/vue-i18n-extract.modern.module.js",
+  "bin": "dist/bin/vue-i18n-extract.js",
+  "main": "dist/bundle/vue-i18n-extract.umd.js",
+  "module": "dist/bundle/vue-i18n-extract.modern.module.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/pixari/vue-i18n-extract"
