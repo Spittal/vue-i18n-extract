@@ -1,20 +1,24 @@
 import path from 'path';
 
-import { ReportOptions } from '../types';
+import { ReportOptions, I18NReport } from '../types';
 import { parseVueFiles } from './vue-files';
 import { parseLanguageFiles, writeMissingToLanguage } from './language-files';
 import { extractI18NReport, writeReportToFile } from './report';
 
-export async function reportCommand (command: ReportOptions): Promise<void> {
-  const { vueFiles, languageFiles, output, add } = command;
-
+export function createI18NReport (vueFiles: string, languageFiles: string): I18NReport {
   const resolvedVueFiles = path.resolve(process.cwd(), vueFiles);
   const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
 
   const parsedVueFiles = parseVueFiles(resolvedVueFiles);
   const parsedLanguageFiles = parseLanguageFiles(resolvedLanguageFiles);
 
-  const report = extractI18NReport(parsedVueFiles, parsedLanguageFiles);
+  return extractI18NReport(parsedVueFiles, parsedLanguageFiles);
+}
+
+export async function reportCommand (command: ReportOptions): Promise<void> {
+  const { vueFiles, languageFiles, output, add } = command;
+
+  const report = createI18NReport(vueFiles, languageFiles);
 
   if (report.missingKeys) console.table(report.missingKeys);
   if (report.unusedKeys) console.table(report.unusedKeys);
@@ -25,6 +29,7 @@ export async function reportCommand (command: ReportOptions): Promise<void> {
   }
 
   if (add && report.missingKeys && report.missingKeys.length > 0) {
+    const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
     writeMissingToLanguage(resolvedLanguageFiles, report.missingKeys);
     console.log('The missing keys have been added to your languages files');
   }

@@ -1,5 +1,6 @@
-import { reportCommand } from './report-command';
+import { createI18NReport, reportCommand } from './report-command';
 
 export default {
-  report: reportCommand
+  createI18NReport,
+  reportCommand,
 };

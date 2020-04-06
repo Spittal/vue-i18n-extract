@@ -21,9 +21,9 @@ program
     'Use if you want to create a json file out of your report. (ex. -o output.json)',
   )
   .option(
-    '-a, --add',
+    '-a, --add <add>',
     'Use if you want to add missing keys into your json language files.',
   )
-  .action(VueI18NExtract.report);
+  .action(VueI18NExtract.reportCommand);
 
 program.parseAsync(process.argv);
