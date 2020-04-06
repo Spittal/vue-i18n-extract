@@ -35,9 +35,6 @@ jobs:
     executor:
       name: node/default
       tag: '13.12.0'
-    filters:
-      branches:
-        only: master
     environment:
       - SOURCE_BRANCH: master
       - TARGET_BRANCH: gh-pages
@@ -61,4 +58,7 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
-      - deployDocs
+      - deployDocs:
+          filters:
+            branches:
+              only: master
