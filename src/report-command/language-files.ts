@@ -11,7 +11,7 @@ require = esm(module);
 
 function readLangFiles (src: string): SimpleFile[] {
   if (!isValidGlob(src)) {
-    throw new Error('languageFiles isn\'\t a valid glob pattern.');
+    throw new Error(`languageFiles isn't a valid glob pattern.`);
   }
 
   const targetFiles = glob.sync(src);
@@ -31,7 +31,7 @@ function readLangFiles (src: string): SimpleFile[] {
 
     const fileName = f.replace(process.cwd(), '');
 
-    return { fileName, path: f, content: langObj };
+    return { fileName, path: f, content: JSON.stringify(langObj) };
   });
 }
 
@@ -39,7 +39,7 @@ function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLa
   return languageFiles.reduce((accumulator, file) => {
     const language = file.fileName.substring(file.fileName.lastIndexOf('/') + 1, file.fileName.lastIndexOf('.'));
 
-    const flattenedObject = dot.dot(file.content);
+    const flattenedObject = dot.dot(JSON.parse(file.content));
     const i18nInFile = Object.keys(flattenedObject).map((key, index) => {
       return {
         line: index,
@@ -54,23 +54,33 @@ function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLa
 }
 
 export function writeMissingToLanguage (resolvedLanguageFiles: string, missingKeys: I18NItem[]): void {
-  const globArray = glob.sync(resolvedLanguageFiles)
-  const parsedContent = globArray
-    .map(f => fs.readFileSync(f, 'utf8'))
-    .map(i => JSON.parse(i));
+  const languageFiles = readLangFiles(resolvedLanguageFiles);
+  languageFiles.forEach(languageFile => {
+    const languageFileContent = JSON.parse(languageFile.content);
 
-  missingKeys.forEach(item => {
-    parsedContent.forEach(i => dot.str(item.path, '', i));
+    missingKeys.forEach(item => {
+      if (item.language && languageFile.fileName.includes(item.language) || !item.language) {
+        dot.str(item.path, '', languageFileContent);
+      }
+    });
+
+    const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
+    const filePath = path.resolve(process.cwd() + languageFile.fileName);
+    const stringifiedContent = JSON.stringify(languageFileContent, null, 2);
+
+    if (fileExtension === 'json') {
+      fs.writeFileSync(filePath, stringifiedContent);
+    } else if (fileExtension === 'js') {
+      const jsFile = `export default ${stringifiedContent}; \n`;
+      fs.writeFileSync(filePath, jsFile);
+    } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
+      const yamlFile = yaml.safeDump(languageFileContent);
+      fs.writeFileSync(filePath, yamlFile);
+    }
   });
-
-  const stringifyiedContent = parsedContent
-    .map(i => JSON.stringify(i, null, 2));
-
-  stringifyiedContent
-    .forEach((i, index) => fs.writeFileSync(globArray[index], i));
 }
 
 export function parseLanguageFiles (languageFilesPath: string): I18NLanguage {
-  const filesList: SimpleFile[] = readLangFiles(languageFilesPath);
+  const filesList = readLangFiles(languageFilesPath);
   return extractI18nItemsFromLanguageFiles(filesList);
 }

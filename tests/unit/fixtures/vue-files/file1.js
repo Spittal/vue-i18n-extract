@@ -1,6 +1,6 @@
 $t('header.titles.title_a');
 $tc('missing.a', 2);
-$t('header.steps');
+$t('header.steps[0]');
 i18n.t('header.titles.title_a');
 i18n.t(
   'header.titles.title_a',

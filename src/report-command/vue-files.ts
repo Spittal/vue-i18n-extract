@@ -3,9 +3,9 @@ import isValidGlob from 'is-valid-glob';
 import glob from 'glob';
 import fs from 'fs';
 
-function readVueFiles (src: string): SimpleFile[] {
+export function readVueFiles (src: string): SimpleFile[] {
   if (!isValidGlob(src)) {
-    throw new Error('vueFiles isn\'\t a valid glob pattern.');
+    throw new Error(`vueFiles isn't a valid glob pattern.`);
   }
 
   const targetFiles = glob.sync(src);
@@ -88,6 +88,6 @@ function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NItem[] {
 }
 
 export function parseVueFiles (vueFilesPath: string): I18NItem[] {
-  const filesList: SimpleFile[] = readVueFiles(vueFilesPath);
+  const filesList = readVueFiles(vueFilesPath);
   return extractI18nItemsFromVueFiles(filesList);
 }

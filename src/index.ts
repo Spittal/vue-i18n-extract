@@ -19,7 +19,7 @@ program
   )
   .option(
     '-a, --add',
-    'Use if you want to add missing keys into your json language files. (ex. -a true)',
+    'Use if you want to add missing keys into your json language files.',
   )
   .action(reportCommand);
 

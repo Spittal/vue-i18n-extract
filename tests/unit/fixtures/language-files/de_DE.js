@@ -7,6 +7,7 @@ export default {
     },
     paragraphs: {
       p_a: 'test',
+      german_only: 'test',
       unused: 'test',
     },
     "steps": [

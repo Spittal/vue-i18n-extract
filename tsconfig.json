@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "module": "esnext",
     "target": "esnext",
     "moduleResolution": "node",
@@ -8,14 +9,17 @@
     "strict": true,
     "noImplicitAny": false,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    }
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
-    "node_modules",
-    "__tests__"
+    "**/*.spec.ts"
   ]
 }
