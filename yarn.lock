@@ -13744,6 +13744,8 @@ resolve@1.11.1:
     ts-jest: ^25.2.1
     typescript: ^3.8.3
     vuepress: ^1.0.2
+  bin:
+    vue-i18n-extract: dist/bin/vue-i18n-extract.js
   languageName: unknown
   linkType: soft
 
