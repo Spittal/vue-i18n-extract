@@ -17,6 +17,7 @@
   "bin": "dist/bin/vue-i18n-extract.js",
   "main": "dist/bundle/vue-i18n-extract.umd.js",
   "module": "dist/bundle/vue-i18n-extract.modern.module.js",
+  "types": "dist/bundle/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/pixari/vue-i18n-extract"
