@@ -9,7 +9,7 @@ function runCLI (args: string[] = []): Promise<{
 }> {
   return new Promise(resolve => {
     exec(
-      `node ${path.resolve('./dist/vue-i18n-extract.umd.js')} ${args.join(' ')}`,
+      `node ${path.resolve('./dist/bin/vue-i18n-extract.js')} ${args.join(' ')}`,
       { cwd: '.' },
       (error, stdout, stderr) => {
         resolve({
@@ -36,11 +36,11 @@ describe('vue-i18n-extract CLI', () => {
   it('Show help', async () => {
     const result = await runCLI(['--help']);
     expect(result.code).toBe(0);
-    expect(result.stdout).toContain(`Usage: vue-i18n-extract.umd`);
+    expect(result.stdout).toContain(`Usage: vue-i18n-extract`);
 
     const result2 = await runCLI(['report', '--help']);
     expect(result2.code).toBe(0);
-    expect(result2.stdout).toContain(`Usage: vue-i18n-extract.umd report`);
+    expect(result2.stdout).toContain(`Usage: vue-i18n-extract report`);
   });
 
   describe('Report Command', () => {
