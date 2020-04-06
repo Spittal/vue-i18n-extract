@@ -15,9 +15,6 @@ jobs:
       - run:
           name: Run Lint
           command: yarn lint
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
   deploy:
     executor:
       name: node/default
