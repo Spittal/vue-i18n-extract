@@ -1,64 +1,48 @@
-version: 2
-
-defaults: &defaults
-  working_directory: ~/repo
-  docker:
-    - image: circleci/node:8.9.1
+version: 2.1
+orbs:
+  node: circleci/node@2.0.1
 
 jobs:
   test:
-    <<: *defaults
+    executor:
+      name: node/default
+      tag: '13.12.0'
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-
-      - run: npm install
       - run:
-          name: Run tests
-          command: npm test
+          name: Run Unit Tests
+          command: yarn test
       - run:
-          name: Run lint
-          command: npm run lint
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
+          name: Run Lint
+          command: yarn lint
       - persist_to_workspace:
           root: ~/repo
           paths: .
   deploy:
-    <<: *defaults
+    executor:
+      name: node/default
+      tag: '13.12.0'
     steps:
       - attach_workspace:
           at: ~/repo
       - run:
           name: Build, authenticate, and publish package
           command: |
-            npm run build
-            cd pkg
-            ls -la
+            yarn build
             echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/pkg/.npmrc
-            npm publish
-
+            yarn npm publish
   deployDocs:
-    <<: *defaults
+    executor:
+      name: node/default
+      tag: '13.12.0'
     filters:
       branches:
         only: master
     environment:
       - SOURCE_BRANCH: master
       - TARGET_BRANCH: gh-pages
-    docker:
-      - image: circleci/node:8.11.2
     steps:
       - checkout
-      - run: yarn global add vuepress
       - run: sh ./deploy.sh
 
 workflows:
