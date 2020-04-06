@@ -1,5 +1,6 @@
-import { reportCommand } from './report-command';
+import { createI18NReport, reportCommand } from './report-command';
 declare const _default: {
-    report: typeof reportCommand;
+    createI18NReport: typeof createI18NReport;
+    reportCommand: typeof reportCommand;
 };
 export default _default;
