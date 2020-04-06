@@ -56,7 +56,7 @@ describe('vue-i18n-extract CLI', () => {
         '-v',
         `'./demo/vue-files/**/*.?(vue|js)'`,
         '-l',
-        `'./demo/lang/**/*.?(js|json)'`,
+        `'./demo/lang/**/*.?(js|json|yml|yaml)'`,
       ])).code).toBe(0);
 
       expect((await runCLI([
@@ -64,7 +64,7 @@ describe('vue-i18n-extract CLI', () => {
         '-v',
         `'./demo/vue-files/**/*.?(vue|js)'`,
         '-l',
-        `'./demo/lang/**/*.?(js|json)'`,
+        `'./demo/lang/**/*.?(js|json|yml|yaml)'`,
         '-o',
         `'/dev/null'`
       ])).code).toBe(0);
@@ -74,7 +74,7 @@ describe('vue-i18n-extract CLI', () => {
         '-v',
         `'./demo/vue-files/**/*.?(vue|js)'`,
         '-l',
-        `'./demo/lang/**/*.?(js|json)'`,
+        `'./demo/lang/**/*.?(js|json|yml|yaml)'`,
         '-o',
         `'/dev/null'`,
         '-a',

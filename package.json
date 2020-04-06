@@ -8,9 +8,7 @@
     "demo": "node ./bin/vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
     "test": "yarn build && jest",
     "test:watch": "yarn build && jest --watch",
-    "lint": "eslint **/*.ts",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "lint": "eslint **/*.ts"
   },
   "license": "MIT",
   "source": "src/index.ts",
@@ -60,7 +58,6 @@
     "jest-config": "^25.2.7",
     "microbundle": "^0.12.0-next.8",
     "ts-jest": "^25.2.1",
-    "typescript": "^3.8.3",
-    "vuepress": "^1.0.2"
+    "typescript": "^3.8.3"
   }
 }
