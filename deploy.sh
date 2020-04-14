@@ -1,6 +1,6 @@
 set -e
 
-yarn docs:build
+npx vuepress build docs
 
 cd docs/.vuepress/dist
 

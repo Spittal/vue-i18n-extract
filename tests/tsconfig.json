@@ -3,5 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".."
   },
-  "include": [ "**/*" ]
+  "include": [
+    "./**/*"
+  ],
+  "exclude": []
 }
