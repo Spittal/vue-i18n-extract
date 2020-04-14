@@ -34,3 +34,7 @@ export async function reportCommand (command: ReportOptions): Promise<void> {
     console.log('The missing keys have been added to your languages files');
   }
 }
+
+export * from './vue-files';
+export * from './language-files';
+export * from './report';

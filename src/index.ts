@@ -1,6 +1,9 @@
-import { createI18NReport, reportCommand } from './report-command';
+import * as report from './report-command';
 
+export * from './types';
+export * from './report-command';
+
+// Needed for compatibility with versions < 1.1.0 of vue-i18n-extract.
 export default {
-  createI18NReport,
-  reportCommand,
+  ...report
 };
