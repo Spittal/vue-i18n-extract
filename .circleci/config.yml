@@ -25,7 +25,7 @@ jobs:
           name: Build, authenticate, and publish package
           command: |
             yarn build
-            echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/pkg/.npmrc
+            echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > $(pwd)/.npmrc
             yarn npm publish
   deployDocs:
     executor:
