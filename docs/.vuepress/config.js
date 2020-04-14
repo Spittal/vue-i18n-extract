@@ -7,9 +7,9 @@ module.exports = {
   themeConfig: {
     sidebar: [
       ['/', 'Home'],
-      'getting-started',
-      'demo-test',
+      'how-to-use',
       'features',
+      'testing',
     ],
     nav: [
       { text: 'Home', link: '/' },

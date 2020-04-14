@@ -1,5 +1,7 @@
 .DS_STORE
 node_modules
-.vscode
-pkg
+.yarn/*
+!.yarn/cache
+!.yarn/releases
+!.yarn/plugins
 *.log

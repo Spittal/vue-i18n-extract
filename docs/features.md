@@ -1,15 +1,12 @@
 # Features
 
-Make sure you have `vue-i18n-extract` installed locally and then just import
-```js
-const VueI18NExtract = require('vue-i18n-extract').default;
+- Support for every standard `vue-i18n` key.
+- JSON, YAML, and JS language file support.
+- Logs missing and unused keys.
+- Can write report to a JSON file.
+- Can add missing keys to language files, if that's part of your workflow.
 
-const report = VueI18NExtract.createI18NReport('./path/to/vue-files/**/*.?(js|vue)', './path/to/language-files/*.?(js|json)');
-```
-
-> Note: `vue-i18n-extract` has Typescript typings built in! :tada:
-
-## Supported keys
+## Supported Keys
 
 - Static in template or script:
 ```js
