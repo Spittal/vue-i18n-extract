@@ -25,6 +25,7 @@ jobs:
           name: Build, authenticate, and publish package
           command: |
             yarn build
+            yarn config set npmAuthToken $NPM_TOKEN
             yarn npm publish
   deployDocs:
     executor:
