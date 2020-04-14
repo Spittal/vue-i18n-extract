@@ -3,7 +3,7 @@
  /* eslint-disable */
 'use strict';
 const program = require('commander');
-const VueI18NExtract = require('../dist/vue-i18n-extract.umd.js');
+const { reportCommand } = require('../dist/vue-i18n-extract.umd.js');
 
 program
   .command('report', { isDefault: true })
@@ -24,6 +24,6 @@ program
     '-a, --add',
     'Use if you want to add missing keys into your json language files.',
   )
-  .action(VueI18NExtract.reportCommand);
+  .action(reportCommand);
 
 program.parseAsync(process.argv);
