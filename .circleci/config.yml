@@ -20,8 +20,7 @@ jobs:
       name: node/default
       tag: '13.12.0'
     steps:
-      - attach_workspace:
-          at: ~/repo
+      - checkout
       - run:
           name: Build, authenticate, and publish package
           command: |
