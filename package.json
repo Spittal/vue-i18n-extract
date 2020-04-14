@@ -16,14 +16,9 @@
   "main": "dist/vue-i18n-extract.umd.js",
   "module": "dist/vue-i18n-extract.modern.js",
   "types": "dist/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pixari/vue-i18n-extract"
-  },
+  "repository": "https://github.com/pixari/vue-i18n-extract",
   "homepage": "https://github.com/pixari/vue-i18n-extract",
-  "bugs": {
-    "url": "https://github.com/pixari/vue-i18n-extract/issues"
-  },
+  "bugs": "https://github.com/pixari/vue-i18n-extract/issues",
   "keywords": [
     "javascript",
     "typescript",
