@@ -3,7 +3,7 @@ import * as report from './report-command';
 export * from './types';
 export * from './report-command';
 declare const _default: {
-    createI18NReport(vueFiles: string, languageFiles: string, command: import("./types").ReportOptions): import("./types").I18NReport;
+    createI18NReport(vueFiles: string, languageFiles: string): import("./types").I18NReport;
     reportCommand(command: import("./types").ReportOptions): Promise<void>;
     readVueFiles(src: string): import("./types").SimpleFile[];
     parseVueFiles(vueFilesPath: string): import("./types").I18NItem[];
