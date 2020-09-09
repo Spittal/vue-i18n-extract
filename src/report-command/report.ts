@@ -5,13 +5,19 @@ export enum VueI18NExtractReportTypes {
   None = 0,
   Missing = 1 << 0,
   Unused = 1 << 1,
-  All = ~(~0 << 2)
+  Dynamic = 1 << 2,
+  All = ~(~0 << 3)
 };
 
+const mightBeUsedDynamically = function (languageItem: I18NItem, dynamicKeys: I18NItem[]): boolean {
+  return dynamicKeys.some(dynamicKey => languageItem.path.includes(dynamicKey.path));
+}
 
-export function extractI18NReport (parsedVueFiles: I18NItem[], parsedLanguageFiles: I18NLanguage, reportType: VueI18NExtractReportTypes = VueI18NExtractReportTypes.All): I18NReport {
+export function extractI18NReport (parsedVueFiles: I18NItem[], parsedLanguageFiles: I18NLanguage, reportType: VueI18NExtractReportTypes = VueI18NExtractReportTypes.Missing + VueI18NExtractReportTypes.Unused): I18NReport {
   const missingKeys: I18NItem[] = [];
   const unusedKeys: I18NItem[] = [];
+  const dynamicKeys: I18NItem[] = [];
+  const dynamicReportEnabled = reportType & VueI18NExtractReportTypes.Dynamic;
 
   Object.keys(parsedLanguageFiles).forEach(language => {
     let languageItems = parsedLanguageFiles[language];
@@ -21,11 +27,18 @@ export function extractI18NReport (parsedVueFiles: I18NItem[], parsedLanguageFil
         return languageItem.path === vueItem.path || languageItem.path.startsWith(vueItem.path + '.');
       }
 
+      if (dynamicReportEnabled && (vueItem.path.includes('${') || vueItem.path.endsWith('.'))) {
+        dynamicKeys.push(({ ...vueItem, language }))
+        return
+      }
+
       if (!parsedLanguageFiles[language].some(usedByVueItem)) {
         missingKeys.push(({ ...vueItem, language }));
       }
 
-      languageItems = languageItems.filter(languageItem => !usedByVueItem(languageItem));
+      languageItems = languageItems.filter(languageItem => dynamicReportEnabled ?
+        !mightBeUsedDynamically(languageItem, dynamicKeys) && !usedByVueItem(languageItem) :
+        !usedByVueItem(languageItem));
     });
 
     unusedKeys.push(...languageItems.map((item) => ({ ...item, language })));
@@ -37,6 +50,9 @@ export function extractI18NReport (parsedVueFiles: I18NItem[], parsedLanguageFil
   }
   if (reportType & VueI18NExtractReportTypes.Unused) {
     extracts = Object.assign(extracts, { unusedKeys });
+  }
+  if (dynamicReportEnabled) {
+    extracts = Object.assign(extracts, { dynamicKeys });
   }
 
   return extracts;

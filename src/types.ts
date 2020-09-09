@@ -3,6 +3,7 @@ export type ReportOptions = {
   languageFiles: string;
   output?: string;
   add?: boolean;
+  dynamic?: number;
 }
 
 export type SimpleFile = {
@@ -25,4 +26,5 @@ export type I18NLanguage = {
 export type I18NReport = {
   missingKeys?: I18NItem[];
   unusedKeys?: I18NItem[];
+  dynamicKeys?: I18NItem[];
 }
