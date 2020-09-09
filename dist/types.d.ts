@@ -3,6 +3,7 @@ export declare type ReportOptions = {
     languageFiles: string;
     output?: string;
     add?: boolean;
+    dynamic?: number;
 };
 export declare type SimpleFile = {
     fileName: string;
@@ -21,4 +22,5 @@ export declare type I18NLanguage = {
 export declare type I18NReport = {
     missingKeys?: I18NItem[];
     unusedKeys?: I18NItem[];
+    dynamicKeys?: I18NItem[];
 };
