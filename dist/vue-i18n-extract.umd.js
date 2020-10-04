@@ -1,15 +1,14 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('path'), require('is-valid-glob'), require('glob'), require('fs'), require('dot-object'), require('js-yaml'), require('esm')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'path', 'is-valid-glob', 'glob', 'fs', 'dot-object', 'js-yaml', 'esm'], factory) :
-  (global = global || self, factory(global.vueI18NExtract = {}, global.path, global.isValidGlob, global.glob, global.fs, global.dotObject, global.jsYaml, global.esm));
-}(this, (function (exports, path, isValidGlob, glob, fs, dot, yaml, esm) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('path'), require('is-valid-glob'), require('glob'), require('fs'), require('dot-object'), require('js-yaml')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'path', 'is-valid-glob', 'glob', 'fs', 'dot-object', 'js-yaml'], factory) :
+  (global = global || self, factory(global.vueI18NExtract = {}, global.path, global.isValidGlob, global.glob, global.fs, global.dotObject, global.jsYaml));
+}(this, (function (exports, path, isValidGlob, glob, fs, dot, yaml) {
   path = path && Object.prototype.hasOwnProperty.call(path, 'default') ? path['default'] : path;
   isValidGlob = isValidGlob && Object.prototype.hasOwnProperty.call(isValidGlob, 'default') ? isValidGlob['default'] : isValidGlob;
   glob = glob && Object.prototype.hasOwnProperty.call(glob, 'default') ? glob['default'] : glob;
   fs = fs && Object.prototype.hasOwnProperty.call(fs, 'default') ? fs['default'] : fs;
   dot = dot && Object.prototype.hasOwnProperty.call(dot, 'default') ? dot['default'] : dot;
   yaml = yaml && Object.prototype.hasOwnProperty.call(yaml, 'default') ? yaml['default'] : yaml;
-  esm = esm && Object.prototype.hasOwnProperty.call(esm, 'default') ? esm['default'] : esm;
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -119,8 +118,6 @@
     const filesList = readVueFiles(vueFilesPath);
     return extractI18nItemsFromVueFiles(filesList);
   }
-
-  const esmImport = esm(module);
 
   function readLangFiles(src) {
     if (!isValidGlob(src)) {

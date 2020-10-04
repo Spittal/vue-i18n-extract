@@ -4,7 +4,6 @@ import glob from 'glob';
 import fs from 'fs';
 import dot from 'dot-object';
 import yaml from 'js-yaml';
-import esm from 'esm';
 
 function _extends() {
   _extends = Object.assign || function (target) {
@@ -114,8 +113,6 @@ function parseVueFiles(vueFilesPath) {
   const filesList = readVueFiles(vueFilesPath);
   return extractI18nItemsFromVueFiles(filesList);
 }
-
-const esmImport = esm(module);
 
 function readLangFiles(src) {
   if (!isValidGlob(src)) {

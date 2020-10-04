@@ -50,7 +50,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["commander", "npm:6.1.0"],
             ["dot-object", "npm:2.1.4"],
             ["eslint", "npm:7.10.0"],
-            ["esm", "npm:3.2.25"],
             ["glob", "npm:7.1.6"],
             ["is-valid-glob", "npm:1.0.0"],
             ["jest", "npm:26.4.2"],
@@ -4949,15 +4948,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/eslint-visitor-keys-npm-2.0.0-5c9523822c-429dabdcab.zip/node_modules/eslint-visitor-keys/",
           "packageDependencies": [
             ["eslint-visitor-keys", "npm:2.0.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["esm", [
-        ["npm:3.2.25", {
-          "packageLocation": "./.yarn/cache/esm-npm-3.2.25-762b3ebd40-12a0272aaa.zip/node_modules/esm/",
-          "packageDependencies": [
-            ["esm", "npm:3.2.25"]
           ],
           "linkType": "HARD",
         }]
@@ -10934,7 +10924,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["commander", "npm:6.1.0"],
             ["dot-object", "npm:2.1.4"],
             ["eslint", "npm:7.10.0"],
-            ["esm", "npm:3.2.25"],
             ["glob", "npm:7.1.6"],
             ["is-valid-glob", "npm:1.0.0"],
             ["jest", "npm:26.4.2"],
