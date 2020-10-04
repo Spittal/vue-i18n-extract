@@ -13,7 +13,7 @@
   "license": "MIT",
   "source": "src/index.ts",
   "bin": "bin/vue-i18n-extract.js",
-  "main": "dist/vue-i18n-extract.js",
+  "main": "dist/vue-i18n-extract.umd.js",
   "module": "dist/vue-i18n-extract.modern.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/pixari/vue-i18n-extract",
