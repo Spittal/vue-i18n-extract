@@ -1,6 +1,6 @@
 {
   "eslint.nodePath": ".yarn/sdks",
-  "typescript.tsdk": ".vscode/pnpify/typescript/lib",
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "search.exclude": {
     "**/.yarn": true,
     "**/.pnp.*": true
