@@ -24,12 +24,12 @@ Add the following section to your `package.json`:
 Finally, run:
 
 ```sh
-npm run vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json|yml|yaml)'
+npm run vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(json|yml|yaml)'
 ```
 or
 
 ```sh
-yarn vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json|yml|yaml)'
+yarn vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(json|yml|yaml)'
 ```
 
 This will print out a table of missing keys in your language files, as well as unused keys in your language files.
@@ -39,13 +39,13 @@ This will print out a table of missing keys in your language files, as well as u
 You can run `vue-i18n-extract` directly from the CLI without having to install anything using npx
 
 ```sh
-npx vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json|yml|yaml)'
+npx vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(json|yml|yaml)'
 ```
 
 or
 
 ```sh
-yarn dlx vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(js|json|yml|yaml)'
+yarn dlx vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(json|yml|yaml)'
 ```
 
 ### CLI Options
@@ -56,7 +56,7 @@ The Vue.js file(s) you want to extract i18n strings from. It can be a path to a 
 
 #### `-l, --languageFiles` Required
 The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns.
-`./path/to/your/language-files/*.?(js|json|yml|yaml)`
+`./path/to/your/language-files/*.?(json|yml|yaml)`
 
 #### `-o, --output`
 Use if you want to create a json file out of your report.
@@ -72,5 +72,5 @@ Make sure you have `vue-i18n-extract` installed locally and then just import the
 ```js
 const VueI18NExtract = require('vue-i18n-extract');
 
-const report = VueI18NExtract.createI18NReport('./path/to/vue-files/**/*.?(js|vue)', './path/to/language-files/*.?(js|json|yml|yaml)');
+const report = VueI18NExtract.createI18NReport('./path/to/vue-files/**/*.?(js|vue)', './path/to/language-files/*.?(json|yml|yaml)');
 ```

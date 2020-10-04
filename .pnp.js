@@ -43,6 +43,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/is-valid-glob", "npm:1.0.0"],
             ["@types/jest", "npm:26.0.14"],
             ["@types/js-yaml", "npm:3.12.5"],
+            ["@types/node", "npm:14.11.2"],
             ["@types/yargs", "npm:15.0.7"],
             ["@typescript-eslint/eslint-plugin", "virtual:74af230845667393f4d5bea656d932ad582b6e1e60bb8660eba0b3a40c10eeede4fb76a16a716ca7a1fa19cb2cdcf43bd73f75a2ef3fb742ea0f6f85f97517f1#npm:4.3.0"],
             ["@typescript-eslint/parser", "virtual:74af230845667393f4d5bea656d932ad582b6e1e60bb8660eba0b3a40c10eeede4fb76a16a716ca7a1fa19cb2cdcf43bd73f75a2ef3fb742ea0f6f85f97517f1#npm:4.3.0"],
@@ -2746,6 +2747,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-13.9.0-a623733bf2-54c040abe4.zip/node_modules/@types/node/",
           "packageDependencies": [
             ["@types/node", "npm:13.9.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:14.11.2", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.11.2-53170144b7-3badcce399.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:14.11.2"]
           ],
           "linkType": "HARD",
         }]
@@ -10919,6 +10927,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/is-valid-glob", "npm:1.0.0"],
             ["@types/jest", "npm:26.0.14"],
             ["@types/js-yaml", "npm:3.12.5"],
+            ["@types/node", "npm:14.11.2"],
             ["@types/yargs", "npm:15.0.7"],
             ["@typescript-eslint/eslint-plugin", "virtual:74af230845667393f4d5bea656d932ad582b6e1e60bb8660eba0b3a40c10eeede4fb76a16a716ca7a1fa19cb2cdcf43bd73f75a2ef3fb742ea0f6f85f97517f1#npm:4.3.0"],
             ["@typescript-eslint/parser", "virtual:74af230845667393f4d5bea656d932ad582b6e1e60bb8660eba0b3a40c10eeede4fb76a16a716ca7a1fa19cb2cdcf43bd73f75a2ef3fb742ea0f6f85f97517f1#npm:4.3.0"],

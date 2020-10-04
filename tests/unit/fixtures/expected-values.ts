@@ -166,52 +166,52 @@ export const expectedFromParsedLanguageFiles = {
     {
       line: 0,
       path: 'header.titles.title_a',
-      file: '/tests/unit/fixtures/language-files/de_DE.js'
+      file: '/tests/unit/fixtures/language-files/de_DE.json'
     },
     {
       line: 1,
       path: 'header.titles.title_b',
-      file: '/tests/unit/fixtures/language-files/de_DE.js'
+      file: '/tests/unit/fixtures/language-files/de_DE.json'
     },
     {
       line: 2,
       path: 'header.titles.title_c',
-      file: '/tests/unit/fixtures/language-files/de_DE.js'
+      file: '/tests/unit/fixtures/language-files/de_DE.json'
     },
     {
       line: 3,
       path: 'header.paragraphs.p_a',
-      file: '/tests/unit/fixtures/language-files/de_DE.js'
+      file: '/tests/unit/fixtures/language-files/de_DE.json'
     },
     {
       line: 4,
       path: 'header.paragraphs.german_only',
-      file: '/tests/unit/fixtures/language-files/de_DE.js'
+      file: '/tests/unit/fixtures/language-files/de_DE.json'
     },
     {
       line: 5,
       path: 'header.paragraphs.unused',
-      file: '/tests/unit/fixtures/language-files/de_DE.js'
+      file: '/tests/unit/fixtures/language-files/de_DE.json'
     },
     {
       line: 6,
       path: 'header.steps[0]',
-      file: '/tests/unit/fixtures/language-files/de_DE.js'
+      file: '/tests/unit/fixtures/language-files/de_DE.json'
     },
     {
       line: 7,
       path: 'header.steps[1]',
-      file: '/tests/unit/fixtures/language-files/de_DE.js'
+      file: '/tests/unit/fixtures/language-files/de_DE.json'
     },
     {
       line: 8,
       path: 'header.steps[2]',
-      file: '/tests/unit/fixtures/language-files/de_DE.js'
+      file: '/tests/unit/fixtures/language-files/de_DE.json'
     },
     {
       line: 9,
       path: 'Key As Fallback',
-      file: '/tests/unit/fixtures/language-files/de_DE.js'
+      file: '/tests/unit/fixtures/language-files/de_DE.json'
     }
   ],
   en_EN: [
@@ -682,25 +682,25 @@ export const expectedI18NReport = {
     {
       line: 4,
       path: 'header.paragraphs.german_only',
-      file: '/tests/unit/fixtures/language-files/de_DE.js',
+      file: '/tests/unit/fixtures/language-files/de_DE.json',
       language: 'de_DE'
     },
     {
       line: 5,
       path: 'header.paragraphs.unused',
-      file: '/tests/unit/fixtures/language-files/de_DE.js',
+      file: '/tests/unit/fixtures/language-files/de_DE.json',
       language: 'de_DE'
     },
     {
       line: 7,
       path: 'header.steps[1]',
-      file: '/tests/unit/fixtures/language-files/de_DE.js',
+      file: '/tests/unit/fixtures/language-files/de_DE.json',
       language: 'de_DE'
     },
     {
       line: 8,
       path: 'header.steps[2]',
-      file: '/tests/unit/fixtures/language-files/de_DE.js',
+      file: '/tests/unit/fixtures/language-files/de_DE.json',
       language: 'de_DE'
     },
     {

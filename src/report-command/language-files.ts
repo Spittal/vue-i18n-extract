@@ -6,6 +6,7 @@ import yaml from 'js-yaml';
 import isValidGlob from 'is-valid-glob';
 import { SimpleFile, I18NLanguage, I18NItem } from '../types';
 import esm from 'esm';
+const esmImport = esm(module);
 
 
 function readLangFiles (src: string): SimpleFile[] {
@@ -32,7 +33,7 @@ function readLangFiles (src: string): SimpleFile[] {
     } else if (isYAML) {
       langObj = yaml.safeLoad(fs.readFileSync(langPath, 'utf8'));
     } else {
-      langObj = esm(module)(langPath).default;
+      throw new Error(`Language file at path ${langPath} is not on of the support file extensions: .json, .yaml/.yml`);
     }
 
     const fileName = f.replace(process.cwd(), '');

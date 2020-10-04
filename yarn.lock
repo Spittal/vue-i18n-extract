@@ -2074,6 +2074,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^14.11.2":
+  version: 14.11.2
+  resolution: "@types/node@npm:14.11.2"
+  checksum: 3badcce3991cd8487b549b2541c9a9809f77ded06a2846dd9c73948d12a442290b31abef2d4b0304cc7e30539614ae82ff3b70d93a4b9a82e19128b3d17a9e0f
+  languageName: node
+  linkType: hard
+
 "@types/normalize-package-data@npm:^2.4.0":
   version: 2.4.0
   resolution: "@types/normalize-package-data@npm:2.4.0"
@@ -9459,6 +9466,7 @@ typescript@^4.0.3:
     "@types/is-valid-glob": ^1.0.0
     "@types/jest": ^26.0.14
     "@types/js-yaml": ^3.12.5
+    "@types/node": ^14.11.2
     "@types/yargs": ^15.0.7
     "@typescript-eslint/eslint-plugin": ^4.3.0
     "@typescript-eslint/parser": ^4.3.0

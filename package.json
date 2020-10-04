@@ -5,9 +5,9 @@
   "scripts": {
     "build": "rm -fr dist && microbundle --target node -f umd,modern",
     "dev": "microbundle watch --target node",
-    "demo": "node ./bin/vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|js)'",
-    "test": "yarn build && jest",
-    "test:watch": "yarn build && jest --watch",
+    "demo": "node ./bin/vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|yaml|yml)'",
+    "test": "jest",
+    "test:dev": "jest --watch",
     "lint": "eslint **/*.ts"
   },
   "license": "MIT",
@@ -44,6 +44,7 @@
     "@types/is-valid-glob": "^1.0.0",
     "@types/jest": "^26.0.14",
     "@types/js-yaml": "^3.12.5",
+    "@types/node": "^14.11.2",
     "@types/yargs": "^15.0.7",
     "@typescript-eslint/eslint-plugin": "^4.3.0",
     "@typescript-eslint/parser": "^4.3.0",
