@@ -115,6 +115,8 @@ function parseVueFiles(vueFilesPath) {
   return extractI18nItemsFromVueFiles(filesList);
 }
 
+const esmImport = esm(module);
+
 function readLangFiles(src) {
   if (!isValidGlob(src)) {
     throw new Error(`languageFiles isn't a valid glob pattern.`);
@@ -138,7 +140,7 @@ function readLangFiles(src) {
     } else if (isYAML) {
       langObj = yaml.safeLoad(fs.readFileSync(langPath, 'utf8'));
     } else {
-      langObj = esm(module)(langPath).default;
+      throw new Error(`Language file at path ${langPath} is not on of the support file extensions: .json, .yaml/.yml`);
     }
 
     const fileName = f.replace(process.cwd(), '');
