@@ -5,9 +5,6 @@ import dot from 'dot-object';
 import yaml from 'js-yaml';
 import isValidGlob from 'is-valid-glob';
 import { SimpleFile, I18NLanguage, I18NItem } from '../types';
-import esm from 'esm';
-const esmImport = esm(module);
-
 
 function readLangFiles (src: string): SimpleFile[] {
   if (!isValidGlob(src)) {
