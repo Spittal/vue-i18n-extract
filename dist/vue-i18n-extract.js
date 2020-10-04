@@ -94,7 +94,7 @@ function extractMethodMatches(file) {
 }
 
 function extractComponentMatches(file) {
-  const componentRegExp = /(?:<i18n|<I18N)(?:.|\n)*?(?:[^:]path=("|'))(.*?)\1/g;
+  const componentRegExp = /(?:<i18n)(?:.|\n)*?(?:[^:]path=("|'))(.*?)\1/gi;
   return [...getMatches(file, componentRegExp, 2)];
 }
 
