@@ -1,6 +1,6 @@
 {
   "eslint.nodePath": ".yarn/sdks",
-  "typescript.tsdk": "/Users/jamie/web/vue-i18n-extract/.yarn/sdks/typescript/lib",
+  "typescript.tsdk": ".vscode/pnpify/typescript/lib",
   "search.exclude": {
     "**/.yarn": true,
     "**/.pnp.*": true
