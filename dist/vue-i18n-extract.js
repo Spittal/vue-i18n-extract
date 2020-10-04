@@ -1,10 +1,12 @@
-import path from 'path';
-import isValidGlob from 'is-valid-glob';
-import glob from 'glob';
-import fs from 'fs';
-import dot from 'dot-object';
-import yaml from 'js-yaml';
-import esm from 'esm';
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var path = _interopDefault(require('path'));
+var isValidGlob = _interopDefault(require('is-valid-glob'));
+var glob = _interopDefault(require('glob'));
+var fs = _interopDefault(require('fs'));
+var dot = _interopDefault(require('dot-object'));
+var yaml = _interopDefault(require('js-yaml'));
+var esm = _interopDefault(require('esm'));
 
 function _extends() {
   _extends = Object.assign || function (target) {
@@ -195,25 +197,23 @@ function parseLanguageFiles(languageFilesPath) {
   return extractI18nItemsFromLanguageFiles(filesList);
 }
 
-var VueI18NExtractReportTypes;
-
 (function (VueI18NExtractReportTypes) {
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["None"] = 0] = "None";
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["Missing"] = 1] = "Missing";
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["Unused"] = 2] = "Unused";
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["Dynamic"] = 4] = "Dynamic";
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["All"] = 7] = "All";
-})(VueI18NExtractReportTypes || (VueI18NExtractReportTypes = {}));
+})(exports.VueI18NExtractReportTypes || (exports.VueI18NExtractReportTypes = {}));
 
 const mightBeUsedDynamically = function (languageItem, dynamicKeys) {
   return dynamicKeys.some(dynamicKey => languageItem.path.includes(dynamicKey.path));
 };
 
-function extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType = VueI18NExtractReportTypes.Missing + VueI18NExtractReportTypes.Unused) {
+function extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType = exports.VueI18NExtractReportTypes.Missing + exports.VueI18NExtractReportTypes.Unused) {
   const missingKeys = [];
   const unusedKeys = [];
   const dynamicKeys = [];
-  const dynamicReportEnabled = reportType & VueI18NExtractReportTypes.Dynamic;
+  const dynamicReportEnabled = reportType & exports.VueI18NExtractReportTypes.Dynamic;
   Object.keys(parsedLanguageFiles).forEach(language => {
     let languageItems = parsedLanguageFiles[language];
     parsedVueFiles.forEach(vueItem => {
@@ -242,13 +242,13 @@ function extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType = Vue
   });
   let extracts = {};
 
-  if (reportType & VueI18NExtractReportTypes.Missing) {
+  if (reportType & exports.VueI18NExtractReportTypes.Missing) {
     extracts = Object.assign(extracts, {
       missingKeys
     });
   }
 
-  if (reportType & VueI18NExtractReportTypes.Unused) {
+  if (reportType & exports.VueI18NExtractReportTypes.Unused) {
     extracts = Object.assign(extracts, {
       unusedKeys
     });
@@ -281,7 +281,7 @@ function createI18NReport(vueFiles, languageFiles, command) {
   const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
   const parsedVueFiles = parseVueFiles(resolvedVueFiles);
   const parsedLanguageFiles = parseLanguageFiles(resolvedLanguageFiles);
-  const reportType = command.dynamic ? VueI18NExtractReportTypes.All : VueI18NExtractReportTypes.Missing + VueI18NExtractReportTypes.Unused;
+  const reportType = command.dynamic ? exports.VueI18NExtractReportTypes.All : exports.VueI18NExtractReportTypes.Missing + exports.VueI18NExtractReportTypes.Unused;
   return extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType);
 }
 async function reportCommand(command) {
@@ -317,14 +317,20 @@ var report = {
   parseVueFiles: parseVueFiles,
   writeMissingToLanguage: writeMissingToLanguage,
   parseLanguageFiles: parseLanguageFiles,
-  get VueI18NExtractReportTypes () { return VueI18NExtractReportTypes; },
+  get VueI18NExtractReportTypes () { return exports.VueI18NExtractReportTypes; },
   extractI18NReport: extractI18NReport,
   writeReportToFile: writeReportToFile
 };
 
 var index = _extends({}, report);
 
-export default index;
-export { VueI18NExtractReportTypes, createI18NReport, extractI18NReport, parseLanguageFiles, parseVueFiles, readVueFiles, reportCommand, writeMissingToLanguage, writeReportToFile };
-//# sourceMappingURL=vue-i18n-extract.modern.js.map
-URL=vue-i18n-extract.modern.js.map
+exports.createI18NReport = createI18NReport;
+exports.default = index;
+exports.extractI18NReport = extractI18NReport;
+exports.parseLanguageFiles = parseLanguageFiles;
+exports.parseVueFiles = parseVueFiles;
+exports.readVueFiles = readVueFiles;
+exports.reportCommand = reportCommand;
+exports.writeMissingToLanguage = writeMissingToLanguage;
+exports.writeReportToFile = writeReportToFile;
+//# sourceMappingURL=vue-i18n-extract.js.map
