@@ -5,9 +5,8 @@ import dot from 'dot-object';
 import yaml from 'js-yaml';
 import isValidGlob from 'is-valid-glob';
 import { SimpleFile, I18NLanguage, I18NItem } from '../types';
-
 import esm from 'esm';
-require = esm(module);
+
 
 function readLangFiles (src: string): SimpleFile[] {
   if (!isValidGlob(src)) {
@@ -24,10 +23,17 @@ function readLangFiles (src: string): SimpleFile[] {
     const langPath = path.resolve(process.cwd(), f);
 
     const extension = langPath.substring(langPath.lastIndexOf('.')).toLowerCase();
-    const isYaml = extension === '.yaml' || extension === '.yml';
+    const isJSON = extension === '.json';
+    const isYAML = extension === '.yaml' || extension === '.yml';
 
-    const langModule = (isYaml) ? yaml.safeLoad(fs.readFileSync(langPath, 'utf8')) : require(langPath);
-    const langObj = (langModule.default) ? langModule.default : langModule;
+    let langObj;
+    if (isJSON) {
+      langObj = JSON.parse(fs.readFileSync(langPath, 'utf8'));
+    } else if (isYAML) {
+      langObj = yaml.safeLoad(fs.readFileSync(langPath, 'utf8'));
+    } else {
+      langObj = esm(module)(langPath).default;
+    }
 
     const fileName = f.replace(process.cwd(), '');
 
