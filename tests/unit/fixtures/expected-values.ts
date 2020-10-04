@@ -110,8 +110,28 @@ export const expectedFromParsedVueFiles = [
     file: '/tests/unit/fixtures/vue-files/folder/file3.vue'
   },
   {
+    path: 'missing.e',
+    line: 7,
+    file: '/tests/unit/fixtures/vue-files/folder/file3.vue'
+  },
+  {
+    path: 'missing.f',
+    line: 10,
+    file: '/tests/unit/fixtures/vue-files/folder/file3.vue'
+  },
+  {
     path: 'header.paragraphs.p_a',
     line: 3,
+    file: '/tests/unit/fixtures/vue-files/folder/file3.vue'
+  },
+  {
+    path: 'header.paragraphs.p_b',
+    line: 6,
+    file: '/tests/unit/fixtures/vue-files/folder/file3.vue'
+  },
+  {
+    path: 'header.paragraphs.p_c',
+    line: 9,
     file: '/tests/unit/fixtures/vue-files/folder/file3.vue'
   },
   {
