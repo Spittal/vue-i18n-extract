@@ -4006,13 +4006,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esm@npm:^3.2.25":
-  version: 3.2.25
-  resolution: "esm@npm:3.2.25"
-  checksum: 12a0272aaa15ce4bc07e52cbb66d471cf56ad81ad1a3c1d9f6fa1e29e8c2712716333825e2572f9dbdfdc787e5717a75cb00ce2846e2a50e2bba6971c24402f3
-  languageName: node
-  linkType: hard
-
 "espree@npm:^7.3.0":
   version: 7.3.0
   resolution: "espree@npm:7.3.0"
@@ -9473,7 +9466,6 @@ typescript@^4.0.3:
     commander: ^6.1.0
     dot-object: ^2.1.4
     eslint: ^7.10.0
-    esm: ^3.2.25
     glob: ^7.1.6
     is-valid-glob: ^1.0.0
     jest: ^26.4.2
