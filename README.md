@@ -18,7 +18,7 @@
 </p>
 
 
-## Table of Contents
+## :green_book: Table of Contents
 
 1. [Install](#install)
 2. [Introduction](#introduction)
@@ -54,7 +54,7 @@ Optionally you can decide to show the output in the console on in a json file.
 
 The missing keys can be also automatically added to the given language files.
 
-<h2>How to use it</h2>
+<h2>:rocket: How to use it</h2>
 
 ```bash
 yarn run vue-i18n-extract report -v <vueFiles> -l --languageFiles <languageFiles>
@@ -97,7 +97,7 @@ npm run vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './de
 ```
 
 
-<h2>Contributing</h2>
+<h2>:love_letter: Contributing</h2>
 
 We are very happy to get any kind of contribution to this project and we would like to make contributing to this project as easy and transparent as possible.
 
@@ -127,7 +127,7 @@ Pull requests are the best way to propose changes to the codebase. We actively w
 <h3> Any contributions you make will be under the MIT Software License </h3>
 In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
-<h3> Report bugs using Github's [issues](https://github.com/pixari/vue-i18n-extract/issues)</h3>
+<h3> :bug: Report bugs using Github's [issues](https://github.com/pixari/vue-i18n-extract/issues)</h3>
 
 We use GitHub issues to track public bugs. Report a bug by [opening a new issue]().
 
@@ -138,7 +138,7 @@ Great Bug Reports tend to have:
 - What you expected would happen
 - What actually happens
 
-<h2>Core Team</h2>
+<h2>:house: Core Team</h2>
 
 <table>
   <tbody>
@@ -157,5 +157,5 @@ Great Bug Reports tend to have:
   </tbody>
 </table>
 
-<h2>License</h2>
+<h2>:copyright: License</h2>
 By contributing, you agree that your contributions will be licensed under its MIT](http://opensource.org/licenses/MIT) License.
