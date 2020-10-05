@@ -1,7 +1,10 @@
-<h1 align="center">vue-i18n-extract</h1>
-<p align="center">
-  <img align="center" src="https://raw.githubusercontent.com/pixari/vue-i18n-extract/master/demo/screenshots/vue-i18n-extract-3.png">
-</p>
+<h1 align="center">
+  <br>
+  <a href="https://github.com/pixari/vue-i18n-extract"><img align="center" width="70%"src="demo/img/logo_vuei18nextract.png" alt="vue-i18n-logo"></a>
+</h1>
+
+<h4 align="center">Analyse all the <a href="https://kazupon.github.io/vue-i18n/" target="_blank">vue-i18n</a> language files and placeholders of your project</a>.</h4>
+
 <p align="center">
   <a href="https://www.npmjs.com/package/vue-i18n-extract"><img src="https://img.shields.io/npm/v/vue-i18n-extract.svg?style=flat-square" alt="NPM Version"></a>
   <a href="https://www.npmjs.com/package/vue-i18n-extract"><img src="https://img.shields.io/npm/dm/vue-i18n-extract.svg?style=flat-square" alt="Downloads"></a>
@@ -9,28 +12,149 @@
   <a href="https://codeclimate.com/github/pixari/vue-i18n-extract/maintainability"><img src="https://api.codeclimate.com/v1/badges/d21f341c33b2bfb6fe0e/maintainability" alt="Maintainability"></a>
 </p>
 
----
-
-`vue-i18n-extract` is built to work with your Vue.js projects using [vue-i18n](https://kazupon.github.io/vue-i18n/). When run `vue-18n-extract` analyses your Vue.js source code for any `vue-i18n` key usages (ex. $t(''), $tc(''), ...) as well as your language files (ex. de_DE.json, en_EN.yaml, ...), in order to:
-
-- [x] I18NReport keys that are missing in the language files.
-- [x] I18NReport unused keys in the language files.
-
-## :book: Documentation
-
-Check the official documentation here: https://pixari.github.io/vue-i18n-extract/
-
-## :exclamation: Issues
-
-I'm sure you'll find bugs and when you do it would be great if you'd could [report them here](https://github.com/pixari/vue-i18n-extract/issues).
-
-## :muscle: Contribution
-
-The project is still in its early stages and in progress. I think there's no need for guidelines yet, so feel free to contribute or give feedback as you prefer.
-
-PLEASE: don't forget to update the documentation if you change the API. (https://github.com/pixari/vue-i18n-extract/tree/master/docs)
+<p align="center">
+  <img align="center" src="demo/img/vue-i18n-extract-screenshot.png">
+</p>
 
 
-## :copyright: License
+## Table of Contents
 
-[MIT](http://opensource.org/licenses/MIT)
+1. [Install](#install)
+2. [Introduction](#introduction)
+3. [How to use it](#how-to-use-it)
+4. [Contributing](#contributing)
+5. [Core Team](#core-team)
+6. [License](#license)
+
+<h2>Install</h2>
+
+Install with yarn:
+
+```bash
+yarn add vue-i18-extract --dev
+```
+
+Install with npm:
+
+```bash
+npm install --save-dev vue-i18-extract
+```
+
+<h2>Introduction</h2>
+<a href="https://kazupon.github.io/vue-i18n/" target="_blank">Vue I18n</a>  is a plugin for Vue.js which makes the internazionalization and localizazion very easy.
+
+However, manage and maintan all the language files and the vue-i18n keys inside a project could be very demanding and **vue-i18n-extract solves this problem**.
+
+vue-i18n-extract performs a static analysis on a Vue.js project (which uses vue-i18n) and report the following information:
+- list of all the **unused vue-i18n keys** (entries found in the language files but not used in the project)
+- list of all the **missing keys** (entries fond in the project but not in the language files)
+
+Optionally you can decide to show the output in the console on in a json file.
+
+The missing keys can be also automatically added to the given language files.
+
+<h2>How to use it</h2>
+
+```bash
+yarn run vue-i18n-extract report -v <vueFiles> -l --languageFiles <languageFiles>
+```
+
+or
+
+```bash
+npm run vue-i18n-extract report -v <vueFiles> -l --languageFiles <languageFiles>
+```
+
+Required options
+
+```
+-v, --vueFiles <vueFiles>,
+The Vue.js file(s) you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern)
+
+-l, --languageFiles <languageFiles>,
+The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern)
+
+```
+
+Options
+
+```
+-o, --output <output>
+Use if you want to create a json file out of your report. (ex. -o output.json)
+
+-a, --add,
+Use if you want to add missing keys into your json language files.,
+
+-d, --dynamic,
+Use if you want to ignore dynamic keys false-positive. Use it 2 times to get dynamic keys report',
+```
+
+Examples
+
+```
+npm run vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|yaml|yml)'
+```
+
+
+<h2>Contributing</h2>
+
+We are very happy to get any kind of contribution to this project and we would like to make contributing to this project as easy and transparent as possible.
+
+When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
+
+Please note we have a code of conduct, please follow it in all your interactions with the project.
+
+You can use the GitHub repository page for the following contributions:
+
+- Reporting a bug
+- Discussing the current state of the code
+- Submitting a fix
+- Proposing new features
+- Becoming a maintainer
+
+<h3>We use [Github Flow](https://guides.github.com/introduction/flow/index.html), so all code changes happen through pull requests.</h3>
+
+Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests:
+
+1. Fork the repo and create your branch from `master`.
+2. If you've added code that should be tested, add tests.
+3. If you've changed APIs, update the documentation.
+4. Ensure the test suite passes.
+5. Make sure your code lints.
+6. Issue that pull request!
+
+<h3> Any contributions you make will be under the MIT Software License </h3>
+In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
+
+<h3> Report bugs using Github's [issues](https://github.com/pixari/vue-i18n-extract/issues)</h3>
+
+We use GitHub issues to track public bugs. Report a bug by [opening a new issue]().
+
+Great Bug Reports tend to have:
+
+- A quick summary and/or background
+- Steps to reproduce
+- What you expected would happen
+- What actually happens
+
+<h2>Core Team</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top">
+        <img width="150" height="150" src="https://github.com/Spittal.png?s=150">
+        <br>
+        <a href="https://github.com/Spittal">Jamie Spittal</a>
+      </td>
+      <td align="center" valign="top">
+        <img width="150" height="150" src="https://github.com/Pixari.png?s=150">
+        <br>
+        <a href="https://github.com/Pixari">Raffaele Pizzari</a>
+      </td>
+     </tr>
+  </tbody>
+</table>
+
+<h2>License</h2>
+By contributing, you agree that your contributions will be licensed under its MIT](http://opensource.org/licenses/MIT) License.

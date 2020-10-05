@@ -10,6 +10,9 @@
     "test:dev": "jest --watch",
     "lint": "eslint **/*.ts"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "license": "MIT",
   "source": "src/index.ts",
   "bin": "bin/vue-i18n-extract.js",
