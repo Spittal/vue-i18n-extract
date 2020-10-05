@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/pixari/vue-i18n-extract"><img align="center" width="70%"src="demo/img/logo_vuei18nextract_2.png" alt="vue-i18n-logo"></a>
+  <a href="https://github.com/pixari/vue-i18n-extract"><img align="center" width="70%"src="demo/img/logo_vuei18nextract.png" alt="vue-i18n-logo"></a>
 </h1>
 
 <h4 align="center">Analyse all the <a href="https://kazupon.github.io/vue-i18n/" target="_blank">vue-i18n</a> language files and placeholders of your project</a>.</h4>
@@ -54,7 +54,7 @@ Optionally you can decide to show the output in the console on in a json file.
 
 The missing keys can be also automatically added to the given language files.
 
-<h2>:rocket: How to use it</h2>
+<h2>How to use it</h2>
 
 ```bash
 yarn run vue-i18n-extract report -v <vueFiles> -l --languageFiles <languageFiles>
