@@ -30,7 +30,7 @@ function readLangFiles (src: string): SimpleFile[] {
     } else if (isYAML) {
       langObj = yaml.safeLoad(fs.readFileSync(langPath, 'utf8'));
     } else {
-      throw new Error(`Language file at path ${langPath} is not on of the support file extensions: .json, .yaml/.yml`);
+      langObj = eval(fs.readFileSync(langPath, 'utf8'));
     }
 
     const fileName = f.replace(process.cwd(), '');
