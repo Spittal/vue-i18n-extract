@@ -24,7 +24,7 @@ describe('file: report-command/index', () => {
       consoleLogSpy.mockImplementation(() => jest.fn());
     });
 
-    it('Log report to console', () => {
+    it.only('Log report to console', () => {
       reportCommand(command);
       expect(consoleTableSpy).toHaveBeenCalledTimes(2);
       expect(consoleTableSpy.mock.calls[0][0]).toEqual(expectedI18NReport.missingKeys);

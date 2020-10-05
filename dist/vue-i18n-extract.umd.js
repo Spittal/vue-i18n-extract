@@ -119,6 +119,8 @@
     return extractI18nItemsFromVueFiles(filesList);
   }
 
+  const imp = async path => await import(path);
+
   function readLangFiles(src) {
     if (!isValidGlob(src)) {
       throw new Error(`languageFiles isn't a valid glob pattern.`);
@@ -130,7 +132,7 @@
       throw new Error('languageFiles glob has no files.');
     }
 
-    return targetFiles.map(f => {
+    return targetFiles.map(async f => {
       const langPath = path.resolve(process.cwd(), f);
       const extension = langPath.substring(langPath.lastIndexOf('.')).toLowerCase();
       const isJSON = extension === '.json';
