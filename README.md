@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <img align="center" width="60%" src="demo/img/vue-i18n-extract-screenshot.png">
+  <img align="center" width="80%" src="demo/img/vue-i18n-extract-screenshot.png">
 </p>
 
 
