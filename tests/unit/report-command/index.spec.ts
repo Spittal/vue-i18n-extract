@@ -10,6 +10,7 @@ describe('file: report-command/index', () => {
   describe('function: reportCommand', () => {
     let consoleTableSpy: jest.SpyInstance<unknown>;
     let consoleLogSpy: jest.SpyInstance<unknown>;
+    let consoleInfoSpy: jest.SpyInstance<unknown>;
     let command: ReportOptions;
 
     beforeEach(() => {
@@ -20,11 +21,13 @@ describe('file: report-command/index', () => {
 
       consoleTableSpy = jest.spyOn(console, 'table');
       consoleLogSpy = jest.spyOn(console, 'log');
+      consoleInfoSpy = jest.spyOn(console, 'info');
       consoleTableSpy.mockImplementation(() => jest.fn());
       consoleLogSpy.mockImplementation(() => jest.fn());
+      consoleInfoSpy.mockImplementation(() => jest.fn());
     });
 
-    it.only('Log report to console', () => {
+    it('Log report to console', () => {
       reportCommand(command);
       expect(consoleTableSpy).toHaveBeenCalledTimes(2);
       expect(consoleTableSpy.mock.calls[0][0]).toEqual(expectedI18NReport.missingKeys);

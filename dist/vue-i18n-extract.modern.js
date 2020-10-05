@@ -114,8 +114,6 @@ function parseVueFiles(vueFilesPath) {
   return extractI18nItemsFromVueFiles(filesList);
 }
 
-const imp = async path => await import(path);
-
 function readLangFiles(src) {
   if (!isValidGlob(src)) {
     throw new Error(`languageFiles isn't a valid glob pattern.`);
@@ -127,7 +125,7 @@ function readLangFiles(src) {
     throw new Error('languageFiles glob has no files.');
   }
 
-  return targetFiles.map(async f => {
+  return targetFiles.map(f => {
     const langPath = path.resolve(process.cwd(), f);
     const extension = langPath.substring(langPath.lastIndexOf('.')).toLowerCase();
     const isJSON = extension === '.json';
@@ -139,7 +137,7 @@ function readLangFiles(src) {
     } else if (isYAML) {
       langObj = yaml.safeLoad(fs.readFileSync(langPath, 'utf8'));
     } else {
-      throw new Error(`Language file at path ${langPath} is not on of the support file extensions: .json, .yaml/.yml`);
+      langObj = eval(fs.readFileSync(langPath, 'utf8'));
     }
 
     const fileName = f.replace(process.cwd(), '');
