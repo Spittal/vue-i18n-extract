@@ -1,9 +1,9 @@
 name: CI
 
-on:
+on:  
   push:
     tags:
-      - v.*.*.*
+      - 'v.*.*.*'
 
 jobs:
   test:
