@@ -6,8 +6,10 @@ on:
 
 jobs:
   test:
+    if: github.event.base_ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Execute tests
         run: yarn test
         
