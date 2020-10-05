@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/pixari/vue-i18n-extract"><img align="center" width="70%"src="demo/img/logo_vuei18nextract.png" alt="vue-i18n-logo"></a>
+  <a href="https://github.com/pixari/vue-i18n-extract"><img align="center" width="70%"src="demo/img/logo_vuei18nextract_2.png" alt="vue-i18n-logo"></a>
 </h1>
 
 <h4 align="center">Analyse all the <a href="https://kazupon.github.io/vue-i18n/" target="_blank">vue-i18n</a> language files and placeholders of your project</a>.</h4>
@@ -97,7 +97,7 @@ npm run vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './de
 ```
 
 
-<h2>:love_letter: Contributing</h2>
+<h2>Contributing</h2>
 
 We are very happy to get any kind of contribution to this project and we would like to make contributing to this project as easy and transparent as possible.
 
@@ -113,7 +113,7 @@ You can use the GitHub repository page for the following contributions:
 - Proposing new features
 - Becoming a maintainer
 
-<h3>We use [Github Flow](https://guides.github.com/introduction/flow/index.html), so all code changes happen through pull requests.</h3>
+### We use [Github Flow](https://guides.github.com/introduction/flow/index.html), so all code changes happen through pull requests.
 
 Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests:
 
@@ -127,7 +127,7 @@ Pull requests are the best way to propose changes to the codebase. We actively w
 <h3> Any contributions you make will be under the MIT Software License </h3>
 In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
-<h3> :bug: Report bugs using Github's [issues](https://github.com/pixari/vue-i18n-extract/issues)</h3>
+### :bug: Report bugs using Github's [issues](https://github.com/pixari/vue-i18n-extract/issues)
 
 We use GitHub issues to track public bugs. Report a bug by [opening a new issue]().
 
@@ -138,7 +138,7 @@ Great Bug Reports tend to have:
 - What you expected would happen
 - What actually happens
 
-<h2>:house: Core Team</h2>
+<h2>Core Team</h2>
 
 <table>
   <tbody>
@@ -157,5 +157,5 @@ Great Bug Reports tend to have:
   </tbody>
 </table>
 
-<h2>:copyright: License</h2>
+<h2>License</h2>
 By contributing, you agree that your contributions will be licensed under its MIT](http://opensource.org/licenses/MIT) License.
