@@ -158,4 +158,4 @@ Great Bug Reports tend to have:
 </table>
 
 <h2>License</h2>
-By contributing, you agree that your contributions will be licensed under its MIT](http://opensource.org/licenses/MIT) License.
+By contributing, you agree that your contributions will be licensed under its [MIT](http://opensource.org/licenses/MIT) License.
