@@ -1,0 +1,13 @@
+name: Test
+
+on:  
+  push:
+    branch: master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Execute tests
+        run: yarn test
