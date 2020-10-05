@@ -2,7 +2,8 @@ name: CI
 
 on:
   push:
-    tags: v.*
+    tags:
+      - v.*.*.*
 
 jobs:
   test:
