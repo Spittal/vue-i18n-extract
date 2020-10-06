@@ -41,7 +41,7 @@ npm install --save-dev vue-i18-extract
 ```
 
 <h2>Introduction</h2>
-<a href="https://kazupon.github.io/vue-i18n/" target="_blank">Vue I18n</a>  is a plugin for Vue.js which makes the internazionalization and localizazion very easy.
+<a href="https://kazupon.github.io/vue-i18n/" target="_blank">Vue I18n</a>  is a plugin for Vue.js which makes the internazionalization and localization very easy.
 
 However, managing and maintaning all the language files and the vue-i18n keys inside a project could be very demanding and **vue-i18n-extract solves this problem**.
 
