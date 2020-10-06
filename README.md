@@ -17,17 +17,16 @@
   <img align="center" width="80%" src="demo/img/vue-i18n-extract-screenshot.png">
 </p>
 
-
 ## :green_book: Table of Contents
 
-1. [Install](#install)
+1. [Installation](#installation)
 2. [Introduction](#introduction)
-3. [How to use it](#how-to-use-it)
+3. [How to use it?](#how-to-use-it?)
 4. [Contributing](#contributing)
 5. [Core Team](#core-team)
 6. [License](#license)
 
-<h2>Install</h2>
+<h2>Installation</h2>
 
 Install with yarn:
 
@@ -44,17 +43,18 @@ npm install --save-dev vue-i18-extract
 <h2>Introduction</h2>
 <a href="https://kazupon.github.io/vue-i18n/" target="_blank">Vue I18n</a>  is a plugin for Vue.js which makes the internazionalization and localizazion very easy.
 
-However, manage and maintan all the language files and the vue-i18n keys inside a project could be very demanding and **vue-i18n-extract solves this problem**.
+However, managing and maintaning all the language files and the vue-i18n keys inside a project could be very demanding and **vue-i18n-extract solves this problem**.
 
-vue-i18n-extract performs a static analysis on a Vue.js project (which uses vue-i18n) and report the following information:
+Vue-i18n-extract performs a static analysis on a Vue.js project (which uses vue-i18n) and reports the following information:
+
 - list of all the **unused vue-i18n keys** (entries found in the language files but not used in the project)
-- list of all the **missing keys** (entries fond in the project but not in the language files)
+- list of all the **missing keys** (entries found in the project but not in the language files)
 
 Optionally you can decide to show the output in the console on in a json file.
 
-The missing keys can be also automatically added to the given language files.
+The missing keys can also be automatically added to the given language files.
 
-<h2>How to use it</h2>
+<h2>How to use it?</h2>
 
 ```bash
 yarn run vue-i18n-extract report -v <vueFiles> -l --languageFiles <languageFiles>
@@ -96,14 +96,13 @@ Examples
 npm run vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|yaml|yml)'
 ```
 
-
 <h2>Contributing</h2>
 
-We are very happy to get any kind of contribution to this project and we would like to make contributing to this project as easy and transparent as possible.
+We are very happy to get any kind of contribution to this project and we would like to make contribution to this project as easy and transparent as possible.
 
-When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
+When contributing to this repository, please first discuss the changes you wish to make via issue, email, or any other method with the owners of this repository before making a change.
 
-Please note we have a code of conduct, please follow it in all your interactions with the project.
+Please note we do have a code of conduct, please follow it in all your interactions with the project.
 
 You can use the GitHub repository page for the following contributions:
 
@@ -115,7 +114,9 @@ You can use the GitHub repository page for the following contributions:
 
 ### We use [Github Flow](https://guides.github.com/introduction/flow/index.html), so all code changes happen through pull requests.
 
-Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests:
+Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests.
+
+**Steps for contributing:**
 
 1. Fork the repo and create your branch from `master`.
 2. If you've added code that should be tested, add tests.
@@ -124,8 +125,8 @@ Pull requests are the best way to propose changes to the codebase. We actively w
 5. Make sure your code lints.
 6. Issue that pull request!
 
-<h3> Any contributions you make will be under the MIT Software License </h3>
-In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
+<h3> Any contributions that you make will be under the MIT Software License </h3>
+In short, when you submit the code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
 ### :bug: Report bugs using Github's [issues](https://github.com/pixari/vue-i18n-extract/issues)
 
