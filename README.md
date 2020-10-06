@@ -50,7 +50,7 @@ Vue-i18n-extract performs a static analysis on a Vue.js project (which uses vue-
 - list of all the **unused vue-i18n keys** (entries found in the language files but not used in the project)
 - list of all the **missing keys** (entries found in the project but not in the language files)
 
-Optionally you can decide to show the output in the console on in a json file.
+Optionally you can decide to show the output in the console or in a json file.
 
 The missing keys can also be automatically added to the given language files.
 
