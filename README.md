@@ -22,7 +22,7 @@
 1. [Installation](#installation)
 2. [Introduction](#introduction)
 3. [How to use it?](#how-to-use-it?)
-4. [Contributing](#contributing)
+4. [Contribution](#contribution)
 5. [Core Team](#core-team)
 6. [License](#license)
 
@@ -96,7 +96,7 @@ Examples
 npm run vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|yaml|yml)'
 ```
 
-<h2>Contributing</h2>
+<h2>Contribution</h2>
 
 We are very happy to get any kind of contribution to this project and we would like to make contribution to this project as easy and transparent as possible.
 
