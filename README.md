@@ -41,7 +41,7 @@ npm install --save-dev vue-i18-extract
 ```
 
 <h2>Introduction</h2>
-<a href="https://kazupon.github.io/vue-i18n/" target="_blank">Vue I18n</a>  is a plugin for Vue.js which makes the internazionalization and localization very easy.
+<a href="https://kazupon.github.io/vue-i18n/" target="_blank">Vue I18n</a>  is a plugin for Vue.js which makes the internationalization and localization very easy.
 
 However, managing and maintaning all the language files and the vue-i18n keys inside a project could be very demanding and **vue-i18n-extract solves this problem**.
 
@@ -98,11 +98,11 @@ npm run vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './de
 
 <h2>Contribution</h2>
 
-We are very happy to get any kind of contribution to this project and we would like to make contribution to this project as easy and transparent as possible.
+We are very happy to get any kind of contribution to this project and we would like to make contributions to this project as easy and transparent as possible.
 
 When contributing to this repository, please first discuss the changes you wish to make via issue, email, or any other method with the owners of this repository before making a change.
 
-Please note we do have a code of conduct, please follow it in all your interactions with the project.
+Please note we do have a code of conduct, please follow it in all of your interactions with the project.
 
 You can use the GitHub repository page for the following contributions:
 
@@ -116,7 +116,7 @@ You can use the GitHub repository page for the following contributions:
 
 Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests.
 
-**Steps for contributing:**
+**Instructions for contributing:**
 
 1. Fork the repo and create your branch from `master`.
 2. If you've added code that should be tested, add tests.
