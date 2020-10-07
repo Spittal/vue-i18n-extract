@@ -56,6 +56,7 @@ The missing keys can also be automatically added to the given language files.
 
 <h2>How to use it?</h2>
 
+<h3> Without config </h3>
 ```bash
 yarn run vue-i18n-extract report -v <vueFiles> -l --languageFiles <languageFiles>
 ```
@@ -94,6 +95,41 @@ Examples
 
 ```
 npm run vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|yaml|yml)'
+```
+
+<h3>With Config</h3>
+
+
+<h3>With config file</h3>
+
+Create an empty config file:
+
+```bash
+yarn run vue-i18n-extract init
+```
+
+Open the config file:
+
+```bash
+.vuei18nextract.js
+```
+
+Edit the file and change the values:
+
+```js
+module.exports = {
+  vueFilesPath: './', // The Vue.js file(s) you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern)
+  languageFilesPath: './', The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern)
+  options: {
+    output: false, // false | string => Use if you want to create a json file out of your report. (ex. output.json)
+    add: false, // false | true => Use if you want to add missing keys into your json language files.
+    dynamic: false, // false | 'ignore' | 'report' => 'ignore' if you want to ignore dynamic keys false-positive. 'report' to get dynamic keys report.
+  }
+};
+
+Run the program:
+```bash
+yarn run vue-i18n-extract use-config
 ```
 
 <h2>Contribution</h2>

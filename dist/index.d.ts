@@ -5,7 +5,7 @@ export * from './types';
 export * from './report-command';
 declare const _default: {
     createI18NReport(vueFiles: string, languageFiles: string, command: import("./types").ReportOptions): import("./types").I18NReport;
-    getCommandFromConfig(): import("./types").ReportOptions;
+    reportFromConfigCommand(): void | Promise<void>;
     reportCommand(command: import("./types").ReportOptions): Promise<void>;
     readVueFiles(src: string): import("./types").SimpleFile[];
     parseVueFiles(vueFilesPath: string): import("./types").I18NItem[];

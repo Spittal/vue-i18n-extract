@@ -208,7 +208,7 @@ var VueI18NExtractReportTypes;
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["All"] = 7] = "All";
 })(VueI18NExtractReportTypes || (VueI18NExtractReportTypes = {}));
 
-const mightBeUsedDynamically = function mightBeUsedDynamically(languageItem, dynamicKeys) {
+const mightBeUsedDynamically = function (languageItem, dynamicKeys) {
   return dynamicKeys.some(dynamicKey => languageItem.path.includes(dynamicKey.path));
 };
 
@@ -220,7 +220,7 @@ function extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType = Vue
   Object.keys(parsedLanguageFiles).forEach(language => {
     let languageItems = parsedLanguageFiles[language];
     parsedVueFiles.forEach(vueItem => {
-      const usedByVueItem = function usedByVueItem(languageItem) {
+      const usedByVueItem = function (languageItem) {
         return languageItem.path === vueItem.path || languageItem.path.startsWith(vueItem.path + '.');
       };
 
