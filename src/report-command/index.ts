@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 
 import { ReportOptions, I18NReport } from '../types';
 import { parseVueFiles } from './vue-files';
@@ -17,9 +18,24 @@ export function createI18NReport (vueFiles: string, languageFiles: string, comma
   return extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType);
 }
 
+export function reportFromConfigCommand(): Promise<void> | void {
+  try {
+    const configFile = eval(fs.readFileSync(path.resolve(process.cwd(), '.vuei18nextract.js'), 'utf8'));
+    return reportCommand({
+      vueFiles: configFile.vueFilesPath,
+      languageFiles: configFile.languageFilesPath,
+      ...(configFile.options.output && {output: configFile.options.output }),
+      ...(configFile.options.add && { add: Boolean(configFile.options.add) }),
+      ...(configFile.options.dynamic && {dynamic: [false, 'ignore', 'report'].findIndex(e => e === configFile.options.dynamic) }),
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 export async function reportCommand (command: ReportOptions): Promise<void> {
   const { vueFiles, languageFiles, output, add, dynamic } = command;
-
+  console.log(vueFiles);
   const report = createI18NReport(vueFiles, languageFiles, command);
 
   if (report.missingKeys) console.info('missing keys: '), console.table(report.missingKeys);

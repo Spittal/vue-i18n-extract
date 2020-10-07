@@ -1,5 +1,7 @@
+
 import path from 'path';
 import { exec, ExecException } from 'child_process';
+
 
 function runCLI (args: string[] = []): Promise<{
   code: number;
@@ -21,6 +23,7 @@ function runCLI (args: string[] = []): Promise<{
       },
     );
 })}
+
 
 describe('vue-i18n-extract CLI', () => {
   it('Not run without arguments, but show tip', async () => {
@@ -78,6 +81,20 @@ describe('vue-i18n-extract CLI', () => {
         '-o',
         `'/dev/null'`,
         '-a',
+      ])).code).toBe(0);
+    });
+  });
+
+  describe('Init Command', () => {
+
+    beforeEach(() => {
+      jest.resetModules();
+      jest.resetAllMocks();
+    });
+
+  it('creates a config file', async () => {
+      expect((await runCLI([
+        'init',
       ])).code).toBe(0);
     });
   });

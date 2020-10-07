@@ -1,9 +1,11 @@
-import path from 'path';
-import fs from 'fs';
-import isValidGlob from 'is-valid-glob';
-import glob from 'glob';
-import dot from 'dot-object';
-import yaml from 'js-yaml';
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var path = _interopDefault(require('path'));
+var fs = _interopDefault(require('fs'));
+var isValidGlob = _interopDefault(require('is-valid-glob'));
+var glob = _interopDefault(require('glob'));
+var dot = _interopDefault(require('dot-object'));
+var yaml = _interopDefault(require('js-yaml'));
 
 function _extends() {
   _extends = Object.assign || function (target) {
@@ -152,19 +154,15 @@ function readLangFiles(src) {
 function extractI18nItemsFromLanguageFiles(languageFiles) {
   return languageFiles.reduce((accumulator, file) => {
     const language = file.fileName.substring(file.fileName.lastIndexOf('/') + 1, file.fileName.lastIndexOf('.'));
-
-    if (!accumulator[language]) {
-      accumulator[language] = [];
-    }
-
     const flattenedObject = dot.dot(JSON.parse(file.content));
-    Object.keys(flattenedObject).forEach((key, index) => {
-      accumulator[language].push({
+    const i18nInFile = Object.keys(flattenedObject).map((key, index) => {
+      return {
         line: index,
         path: key,
         file: file.fileName
-      });
+      };
     });
+    accumulator[language] = i18nInFile;
     return accumulator;
   }, {});
 }
@@ -179,7 +177,7 @@ function writeMissingToLanguage(resolvedLanguageFiles, missingKeys) {
       }
     });
     const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
-    const filePath = path.resolve(process.cwd(), languageFile.fileName);
+    const filePath = path.resolve(process.cwd() + languageFile.fileName);
     const stringifiedContent = JSON.stringify(languageFileContent, null, 2);
 
     if (fileExtension === 'json') {
@@ -198,29 +196,27 @@ function parseLanguageFiles(languageFilesPath) {
   return extractI18nItemsFromLanguageFiles(filesList);
 }
 
-var VueI18NExtractReportTypes;
-
 (function (VueI18NExtractReportTypes) {
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["None"] = 0] = "None";
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["Missing"] = 1] = "Missing";
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["Unused"] = 2] = "Unused";
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["Dynamic"] = 4] = "Dynamic";
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["All"] = 7] = "All";
-})(VueI18NExtractReportTypes || (VueI18NExtractReportTypes = {}));
+})(exports.VueI18NExtractReportTypes || (exports.VueI18NExtractReportTypes = {}));
 
-const mightBeUsedDynamically = function mightBeUsedDynamically(languageItem, dynamicKeys) {
+const mightBeUsedDynamically = function (languageItem, dynamicKeys) {
   return dynamicKeys.some(dynamicKey => languageItem.path.includes(dynamicKey.path));
 };
 
-function extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType = VueI18NExtractReportTypes.Missing + VueI18NExtractReportTypes.Unused) {
+function extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType = exports.VueI18NExtractReportTypes.Missing + exports.VueI18NExtractReportTypes.Unused) {
   const missingKeys = [];
   const unusedKeys = [];
   const dynamicKeys = [];
-  const dynamicReportEnabled = reportType & VueI18NExtractReportTypes.Dynamic;
+  const dynamicReportEnabled = reportType & exports.VueI18NExtractReportTypes.Dynamic;
   Object.keys(parsedLanguageFiles).forEach(language => {
     let languageItems = parsedLanguageFiles[language];
     parsedVueFiles.forEach(vueItem => {
-      const usedByVueItem = function usedByVueItem(languageItem) {
+      const usedByVueItem = function (languageItem) {
         return languageItem.path === vueItem.path || languageItem.path.startsWith(vueItem.path + '.');
       };
 
@@ -245,13 +241,13 @@ function extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType = Vue
   });
   let extracts = {};
 
-  if (reportType & VueI18NExtractReportTypes.Missing) {
+  if (reportType & exports.VueI18NExtractReportTypes.Missing) {
     extracts = Object.assign(extracts, {
       missingKeys
     });
   }
 
-  if (reportType & VueI18NExtractReportTypes.Unused) {
+  if (reportType & exports.VueI18NExtractReportTypes.Unused) {
     extracts = Object.assign(extracts, {
       unusedKeys
     });
@@ -284,7 +280,7 @@ function createI18NReport(vueFiles, languageFiles, command) {
   const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
   const parsedVueFiles = parseVueFiles(resolvedVueFiles);
   const parsedLanguageFiles = parseLanguageFiles(resolvedLanguageFiles);
-  const reportType = command.dynamic ? VueI18NExtractReportTypes.All : VueI18NExtractReportTypes.Missing + VueI18NExtractReportTypes.Unused;
+  const reportType = command.dynamic ? exports.VueI18NExtractReportTypes.All : exports.VueI18NExtractReportTypes.Missing + exports.VueI18NExtractReportTypes.Unused;
   return extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType);
 }
 function reportFromConfigCommand() {
@@ -339,7 +335,7 @@ var report = {
   parseVueFiles: parseVueFiles,
   writeMissingToLanguage: writeMissingToLanguage,
   parseLanguageFiles: parseLanguageFiles,
-  get VueI18NExtractReportTypes () { return VueI18NExtractReportTypes; },
+  get VueI18NExtractReportTypes () { return exports.VueI18NExtractReportTypes; },
   extractI18NReport: extractI18NReport,
   writeReportToFile: writeReportToFile
 };
@@ -363,6 +359,15 @@ function initCommand() {
 
 var index = _extends({}, report);
 
-export default index;
-export { VueI18NExtractReportTypes, createI18NReport, extractI18NReport, initCommand, parseLanguageFiles, parseVueFiles, readVueFiles, reportCommand, reportFromConfigCommand, writeMissingToLanguage, writeReportToFile };
-//# sourceMappingURL=vue-i18n-extract.modern.js.map
+exports.createI18NReport = createI18NReport;
+exports.default = index;
+exports.extractI18NReport = extractI18NReport;
+exports.initCommand = initCommand;
+exports.parseLanguageFiles = parseLanguageFiles;
+exports.parseVueFiles = parseVueFiles;
+exports.readVueFiles = readVueFiles;
+exports.reportCommand = reportCommand;
+exports.reportFromConfigCommand = reportFromConfigCommand;
+exports.writeMissingToLanguage = writeMissingToLanguage;
+exports.writeReportToFile = writeReportToFile;
+//# sourceMappingURL=vue-i18n-extract.js.map
