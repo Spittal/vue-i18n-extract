@@ -126,6 +126,7 @@ module.exports = {
     dynamic: false, // false | 'ignore' | 'report' => 'ignore' if you want to ignore dynamic keys false-positive. 'report' to get dynamic keys report.
   }
 };
+```
 
 Run the program:
 ```bash
