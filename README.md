@@ -31,13 +31,13 @@
 Install with yarn:
 
 ```bash
-yarn add vue-i18-extract --dev
+yarn add vue-i18n-extract --dev
 ```
 
 Install with npm:
 
 ```bash
-npm install --save-dev vue-i18-extract
+npm install --save-dev vue-i18n-extract
 ```
 
 <h2>Introduction</h2>
