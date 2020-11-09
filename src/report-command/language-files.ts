@@ -43,16 +43,19 @@ function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLa
   return languageFiles.reduce((accumulator, file) => {
     const language = file.fileName.substring(file.fileName.lastIndexOf('/') + 1, file.fileName.lastIndexOf('.'));
 
+    if (!accumulator[language]) {
+      accumulator[language] = [];
+    }
+
     const flattenedObject = dot.dot(JSON.parse(file.content));
-    const i18nInFile = Object.keys(flattenedObject).map((key, index) => {
-      return {
+    Object.keys(flattenedObject).forEach((key, index) => {
+      accumulator[language]?.push({
         line: index,
         path: key,
         file: file.fileName,
-      };
+      });
     });
 
-    accumulator[language] = i18nInFile;
     return accumulator;
   }, {});
 }

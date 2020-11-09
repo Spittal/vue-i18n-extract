@@ -65,6 +65,11 @@ export const expectedFromParsedVueFiles = [
     file: '/tests/unit/fixtures/vue-files/file2.js'
   },
   {
+    path: 'footer.logout',
+    line: 3,
+    file: '/tests/unit/fixtures/vue-files/file2.js'
+  },
+  {
     path: 'Key As Fallback',
     line: 1,
     file: '/tests/unit/fixtures/vue-files/file3.vue'
@@ -269,6 +274,11 @@ export const expectedFromParsedLanguageFiles = {
   fr_FR: [
     {
       line: 0,
+      path: 'footer.logout',
+      file: '/tests/unit/fixtures/language-files/fr_FR.json'
+    },
+    {
+      line: 0,
       path: 'header.titles.title_a',
       file: '/tests/unit/fixtures/language-files/fr_FR.yaml'
     },
@@ -362,6 +372,12 @@ export const expectedI18NReport = {
     {
       path: 'missing.b',
       line: 2,
+      file: '/tests/unit/fixtures/vue-files/file2.js',
+      language: 'de_DE'
+    },
+    {
+      path: 'footer.logout',
+      line: 3,
       file: '/tests/unit/fixtures/vue-files/file2.js',
       language: 'de_DE'
     },
@@ -506,6 +522,12 @@ export const expectedI18NReport = {
     {
       path: 'missing.b',
       line: 2,
+      file: '/tests/unit/fixtures/vue-files/file2.js',
+      language: 'en_EN'
+    },
+    {
+      path: 'footer.logout',
+      line: 3,
       file: '/tests/unit/fixtures/vue-files/file2.js',
       language: 'en_EN'
     },
