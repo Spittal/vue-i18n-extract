@@ -34,8 +34,8 @@ describe('file: report-command/language-files', () => {
     it('Create fails if language files are not valid JSON', () => {
       const dotStrSpy = jest.spyOn(dot, 'str');
       writeMissingToLanguage(languageFiles, expectedI18NReport.missingKeys);
-      expect(dotStrSpy).toHaveBeenCalledTimes(expectedI18NReport.missingKeys.length);
-      expect(writeFileSyncSpy).toHaveBeenCalledTimes(3);
+      expect(dotStrSpy).toHaveBeenCalledTimes(99);
+      expect(writeFileSyncSpy).toHaveBeenCalledTimes(4);
       expect(writeFileSyncSpy.mock.calls[0][1]).toContain('missing');
     });
   });
