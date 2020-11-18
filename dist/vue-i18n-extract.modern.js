@@ -152,15 +152,19 @@ function readLangFiles(src) {
 function extractI18nItemsFromLanguageFiles(languageFiles) {
   return languageFiles.reduce((accumulator, file) => {
     const language = file.fileName.substring(file.fileName.lastIndexOf('/') + 1, file.fileName.lastIndexOf('.'));
+
+    if (!accumulator[language]) {
+      accumulator[language] = [];
+    }
+
     const flattenedObject = dot.dot(JSON.parse(file.content));
-    const i18nInFile = Object.keys(flattenedObject).map((key, index) => {
-      return {
+    Object.keys(flattenedObject).forEach((key, index) => {
+      accumulator[language].push({
         line: index,
         path: key,
         file: file.fileName
-      };
+      });
     });
-    accumulator[language] = i18nInFile;
     return accumulator;
   }, {});
 }
@@ -175,7 +179,7 @@ function writeMissingToLanguage(resolvedLanguageFiles, missingKeys) {
       }
     });
     const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
-    const filePath = path.resolve(process.cwd() + languageFile.fileName);
+    const filePath = path.resolve(process.cwd(), languageFile.fileName);
     const stringifiedContent = JSON.stringify(languageFileContent, null, 2);
 
     if (fileExtension === 'json') {
