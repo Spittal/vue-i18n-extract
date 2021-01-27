@@ -15,10 +15,16 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v2
-
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          registry-url: 'https://registry.npmjs.org'  
       - name: Build, authenticate, and publish package
         run: |
           yarn build
           yarn config set npmAuthToken ${{secrets.NPM_TOKEN}}
           yarn npm publish
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
 
