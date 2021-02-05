@@ -72,7 +72,7 @@ export function writeMissingToLanguage (resolvedLanguageFiles: string, missingKe
     });
 
     const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
-    const filePath = path.resolve(process.cwd(), languageFile.fileName);
+    const filePath = languageFile.path;
     const stringifiedContent = JSON.stringify(languageFileContent, null, 2);
 
     if (fileExtension === 'json') {
