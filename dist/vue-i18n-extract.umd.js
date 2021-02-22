@@ -315,7 +315,8 @@
       languageFiles,
       output,
       add,
-      dynamic
+      dynamic,
+      ci
     } = command;
     console.log(vueFiles);
     const report = createI18NReport(vueFiles, languageFiles, command);
@@ -332,6 +333,12 @@
       const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
       writeMissingToLanguage(resolvedLanguageFiles, report.missingKeys);
       console.log('The missing keys have been added to your languages files');
+    }
+
+    if(ci) {
+      const exitCode = report.missingKeys.length > 0 ? 1 : 0;
+      console.log('EXIT CODE');
+      process.exit(exitCode);
     }
   }
 
