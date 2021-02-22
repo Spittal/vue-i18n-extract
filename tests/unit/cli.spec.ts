@@ -82,6 +82,18 @@ describe('vue-i18n-extract CLI', () => {
         `'/dev/null'`,
         '-a',
       ])).code).toBe(0);
+
+      expect((await runCLI([
+        'report',
+        '-v',
+        `'./fixtures/vue-files/**/*.?(vue|js)'`,
+        '-l',
+        `'./fixtures/language-files/**/*.?(json|yml|yaml)'`,
+        '-o',
+        `'/dev/null'`,
+        '-a',
+        '-ci',
+      ])).code).toBe(0);
     });
   });
 

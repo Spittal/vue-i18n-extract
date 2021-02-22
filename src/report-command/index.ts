@@ -34,7 +34,7 @@ export function reportFromConfigCommand(): Promise<void> | void {
 }
 
 export async function reportCommand (command: ReportOptions): Promise<void> {
-  const { vueFiles, languageFiles, output, add, dynamic } = command;
+  const { vueFiles, languageFiles, output, add, dynamic, ci } = command;
   console.log(vueFiles);
   const report = createI18NReport(vueFiles, languageFiles, command);
 
@@ -51,6 +51,12 @@ export async function reportCommand (command: ReportOptions): Promise<void> {
     const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
     writeMissingToLanguage(resolvedLanguageFiles, report.missingKeys);
     console.log('The missing keys have been added to your languages files');
+  }
+
+  if (ci && Object.prototype.hasOwnProperty.call(report, 'missingKeys') && report.missingKeys !== undefined) {
+    const exitCode = report.missingKeys.length > 0 ? 1 : 0;
+    console.log(`[vue-i18n-extract] ${report.missingKeys.length} missing keys found.`);
+    process.exit(exitCode);
   }
 }
 

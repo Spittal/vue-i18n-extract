@@ -1,5 +1,5 @@
 import path from 'path';
-import { reportCommand } from '@/report-command';
+import { reportCommand, reportFromConfigCommand } from '@/report-command';
 import { ReportOptions } from '@/types';
 import { expectedI18NReport } from '../fixtures/expected-values';
 import { vueFiles, languageFiles } from '../fixtures/resolved-sources';
@@ -12,6 +12,7 @@ describe('file: report-command/index', () => {
     let consoleLogSpy: jest.SpyInstance<unknown>;
     let consoleInfoSpy: jest.SpyInstance<unknown>;
     let command: ReportOptions;
+
 
     beforeEach(() => {
       command = {
