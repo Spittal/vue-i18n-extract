@@ -88,7 +88,10 @@ Use if you want to create a json file out of your report. (ex. -o output.json)
 Use if you want to add missing keys into your json language files.,
 
 -d, --dynamic,
-Use if you want to ignore dynamic keys false-positive. Use it 2 times to get dynamic keys report',
+Use if you want to ignore dynamic keys false-positive. Use it 2 times to get dynamic keys report.',
+
+-ci,
+The process will exit with exitCode=1 if at least one translation-key is missing (useful expecially if it is part of a CI pipeline).',
 ```
 
 Examples
