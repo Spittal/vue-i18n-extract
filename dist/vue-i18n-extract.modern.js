@@ -1,7 +1,7 @@
 import path from 'path';
+import fs from 'fs';
 import isValidGlob from 'is-valid-glob';
 import glob from 'glob';
-import fs from 'fs';
 import dot from 'dot-object';
 import yaml from 'js-yaml';
 
@@ -159,7 +159,9 @@ function extractI18nItemsFromLanguageFiles(languageFiles) {
 
     const flattenedObject = dot.dot(JSON.parse(file.content));
     Object.keys(flattenedObject).forEach((key, index) => {
-      accumulator[language].push({
+      var _accumulator$language;
+
+      (_accumulator$language = accumulator[language]) == null ? void 0 : _accumulator$language.push({
         line: index,
         path: key,
         file: file.fileName
@@ -179,7 +181,7 @@ function writeMissingToLanguage(resolvedLanguageFiles, missingKeys) {
       }
     });
     const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
-    const filePath = path.resolve(process.cwd(), languageFile.fileName);
+    const filePath = languageFile.path;
     const stringifiedContent = JSON.stringify(languageFileContent, null, 2);
 
     if (fileExtension === 'json') {
@@ -287,6 +289,23 @@ function createI18NReport(vueFiles, languageFiles, command) {
   const reportType = command.dynamic ? VueI18NExtractReportTypes.All : VueI18NExtractReportTypes.Missing + VueI18NExtractReportTypes.Unused;
   return extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType);
 }
+function reportFromConfigCommand() {
+  try {
+    const configFile = eval(fs.readFileSync(path.resolve(process.cwd(), 'vue-i18n-extract.config.js'), 'utf8'));
+    return reportCommand(_extends({
+      vueFiles: configFile.vueFilesPath,
+      languageFiles: configFile.languageFilesPath
+    }, configFile.options.output && {
+      output: configFile.options.output
+    }, configFile.options.add && {
+      add: Boolean(configFile.options.add)
+    }, configFile.options.dynamic && {
+      dynamic: [false, 'ignore', 'report'].findIndex(e => e === configFile.options.dynamic)
+    }));
+  } catch (err) {
+    console.error(err);
+  }
+}
 async function reportCommand(command) {
   const {
     vueFiles,
@@ -295,6 +314,7 @@ async function reportCommand(command) {
     add,
     dynamic
   } = command;
+  console.log(vueFiles);
   const report = createI18NReport(vueFiles, languageFiles, command);
   if (report.missingKeys) console.info('missing keys: '), console.table(report.missingKeys);
   if (report.unusedKeys) console.info('unused keys: '), console.table(report.unusedKeys);
@@ -315,6 +335,7 @@ async function reportCommand(command) {
 var report = {
   __proto__: null,
   createI18NReport: createI18NReport,
+  reportFromConfigCommand: reportFromConfigCommand,
   reportCommand: reportCommand,
   readVueFiles: readVueFiles,
   parseVueFiles: parseVueFiles,
@@ -325,8 +346,23 @@ var report = {
   writeReportToFile: writeReportToFile
 };
 
+const configFile = `
+module.exports = {
+  vueFilesPath: './', // The Vue.js file(s) you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern)
+  languageFilesPath: './', The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern)
+  options: {
+    output: false, // false | string => Use if you want to create a json file out of your report. (ex. output.json)
+    add: false, // false | true => Use if you want to add missing keys into your json language files.
+    dynamic: false, // false | 'ignore' | 'report' => 'ignore' if you want to ignore dynamic keys false-positive. 'report' to get dynamic keys report.
+  }
+};
+`;
+function initCommand() {
+  fs.writeFileSync('vue-i18n-extract.config.js', configFile);
+}
+
 var index = _extends({}, report);
 
 export default index;
-export { VueI18NExtractReportTypes, createI18NReport, extractI18NReport, parseLanguageFiles, parseVueFiles, readVueFiles, reportCommand, writeMissingToLanguage, writeReportToFile };
+export { VueI18NExtractReportTypes, createI18NReport, extractI18NReport, initCommand, parseLanguageFiles, parseVueFiles, readVueFiles, reportCommand, reportFromConfigCommand, writeMissingToLanguage, writeReportToFile };
 //# sourceMappingURL=vue-i18n-extract.modern.js.map

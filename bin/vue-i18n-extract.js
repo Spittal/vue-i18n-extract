@@ -3,11 +3,19 @@
  /* eslint-disable */
 'use strict';
 const program = require('commander');
-const { reportCommand } = require('../dist/vue-i18n-extract.umd.js');
+const { reportCommand, initCommand, reportFromConfigCommand } = require('../dist/vue-i18n-extract.umd.js');
 
 function increaseDynamic(dummyValue, previous) {
   return previous + 1;
 }
+
+program
+  .command('init', { isDefault: false })
+  .action(initCommand);
+
+program
+  .command('use-config', { isDefault: false })
+  .action(reportFromConfigCommand);
 
 program
   .command('report', { isDefault: true })
@@ -35,5 +43,6 @@ program
     0
   )
   .action(reportCommand);
+
 
 program.parseAsync(process.argv);
