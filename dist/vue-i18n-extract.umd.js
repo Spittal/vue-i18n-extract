@@ -164,7 +164,9 @@
 
       const flattenedObject = dot.dot(JSON.parse(file.content));
       Object.keys(flattenedObject).forEach((key, index) => {
-        accumulator[language].push({
+        var _accumulator$language;
+
+        (_accumulator$language = accumulator[language]) == null ? void 0 : _accumulator$language.push({
           line: index,
           path: key,
           file: file.fileName
@@ -184,7 +186,7 @@
         }
       });
       const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
-      const filePath = path.resolve(process.cwd(), languageFile.fileName);
+      const filePath = languageFile.path;
       const stringifiedContent = JSON.stringify(languageFileContent, null, 2);
 
       if (fileExtension === 'json') {
@@ -292,7 +294,7 @@
   }
   function reportFromConfigCommand() {
     try {
-      const configFile = eval(fs.readFileSync(path.resolve(process.cwd(), '.vuei18nextract.js'), 'utf8'));
+      const configFile = eval(fs.readFileSync(path.resolve(process.cwd(), 'vue-i18n-extract.config.js'), 'utf8'));
       return reportCommand(_extends({
         vueFiles: configFile.vueFilesPath,
         languageFiles: configFile.languageFilesPath
@@ -359,7 +361,7 @@ module.exports = {
 };
 `;
   function initCommand() {
-    fs.writeFileSync('.vuei18nextract.js', configFile);
+    fs.writeFileSync('vue-i18n-extract.config.js', configFile);
   }
 
   var index = _extends({}, report);

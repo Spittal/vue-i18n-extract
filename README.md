@@ -111,7 +111,7 @@ yarn run vue-i18n-extract init
 Open the config file:
 
 ```bash
-.vuei18nextract.js
+vue-i18n-extract.config.js
 ```
 
 Edit the file and change the values:

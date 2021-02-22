@@ -13,6 +13,6 @@ module.exports = {
 `;
 
 export function initCommand(): void {
-  fs.writeFileSync('.vuei18nextract.js', configFile);
+  fs.writeFileSync('vue-i18n-extract.config.js', configFile);
 }
 

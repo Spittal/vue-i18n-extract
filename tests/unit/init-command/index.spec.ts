@@ -26,7 +26,7 @@ describe('file: init-command/index', () => {
   it('Log report to console', () => {
       initCommand();
       expect(fsWriteFileSync).toHaveBeenCalledTimes(1);
-      expect(fsWriteFileSync).toHaveBeenCalledWith('.vuei18nextract.js', configFile);
+      expect(fsWriteFileSync).toHaveBeenCalledWith('vue-i18n-extract.config.js', configFile);
     });
   });
 });
