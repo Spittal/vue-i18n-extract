@@ -43,7 +43,7 @@ npm install --save-dev vue-i18n-extract
 <h2>Introduction</h2>
 <a href="https://kazupon.github.io/vue-i18n/" target="_blank">Vue I18n</a>  is a plugin for Vue.js which makes the internationalization and localization very easy.
 
-However, managing and maintaning all the language files and the vue-i18n keys inside a project could be very demanding and **vue-i18n-extract solves this problem**.
+However, managing and maintaining all the language files and the vue-i18n keys inside a project could be very demanding and **vue-i18n-extract solves this problem**.
 
 Vue-i18n-extract performs a static analysis on a Vue.js project (which uses vue-i18n) and reports the following information:
 
@@ -57,6 +57,7 @@ The missing keys can also be automatically added to the given language files.
 <h2>How to use it?</h2>
 
 <h3> Without config </h3>
+
 ```bash
 yarn run vue-i18n-extract report -v <vueFiles> -l --languageFiles <languageFiles>
 ```
@@ -91,7 +92,7 @@ Use if you want to add missing keys into your json language files.,
 Use if you want to ignore dynamic keys false-positive. Use it 2 times to get dynamic keys report.',
 
 -ci,
-The process will exit with exitCode=1 if at least one translation-key is missing (useful expecially if it is part of a CI pipeline).',
+The process will exit with exitCode=1 if at least one translation-key is missing (useful especially if it is part of a CI pipeline).',
 ```
 
 Examples
@@ -122,11 +123,11 @@ Edit the file and change the values:
 ```js
 module.exports = {
   vueFilesPath: './', // The Vue.js file(s) you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern)
-  languageFilesPath: './', The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern)
+  languageFilesPath: './', // The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern)
   options: {
     output: false, // false | string => Use if you want to create a json file out of your report. (ex. output.json)
-    add: false, // false | true => Use if you want to add missing keys into your json language files.
-    dynamic: false, // false | 'ignore' | 'report' => 'ignore' if you want to ignore dynamic keys false-positive. 'report' to get dynamic keys report.
+    add: false, // false | true => Use if you want to add missing keys into your json language files.
+    dynamic: false, // false | 'ignore' | 'report' => 'ignore' if you want to ignore dynamic keys false-positive. 'report' to get dynamic keys report.
   }
 };
 ```
@@ -170,7 +171,7 @@ In short, when you submit the code changes, your submissions are understood to b
 
 ### :bug: Report bugs using Github's [issues](https://github.com/pixari/vue-i18n-extract/issues)
 
-We use GitHub issues to track public bugs. Report a bug by [opening a new issue]().
+We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/pixari/vue-i18n-extract/issues/new).
 
 Great Bug Reports tend to have:
 
