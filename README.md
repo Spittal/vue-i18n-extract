@@ -98,7 +98,7 @@ The process will exit with exitCode=1 if at least one translation-key is missing
 Examples
 
 ```
-npm run vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|yaml|yml)'
+npm run vue-i18n-extract report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|yaml|yml)'
 ```
 
 <h3>With Config</h3>
