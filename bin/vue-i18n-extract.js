@@ -34,7 +34,11 @@ program
   )
   .option(
     '-a, --add',
-    'Use if you want to add missing keys into your json language files.',
+    'Use if you want to add missing keys into your language files.',
+  )
+  .option(
+    '-r, --remove',
+    'Use if you want to remove unused keys from your language files.',
   )
   .option(
     '-d, --dynamic',

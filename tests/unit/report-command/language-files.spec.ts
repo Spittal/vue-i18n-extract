@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import dot from 'dot-object';
-import { parseLanguageFiles, writeMissingToLanguage } from '@/report-command/language-files';
+import { parseLanguageFiles, LanguageFileUpdater } from '@/report-command/language-files';
 import { expectedFromParsedLanguageFiles, expectedI18NReport } from '../fixtures/expected-values';
 import { languageFiles } from '../fixtures/resolved-sources';
 
@@ -33,8 +33,14 @@ describe('file: report-command/language-files', () => {
 
     it('Create fails if language files are not valid JSON', () => {
       const dotStrSpy = jest.spyOn(dot, 'str');
-      writeMissingToLanguage(languageFiles, expectedI18NReport.missingKeys);
+      const dotDeleteSpy = jest.spyOn(dot, 'delete');
+      const updater = new LanguageFileUpdater(languageFiles);
+      updater.addMissingKeys(expectedI18NReport.missingKeys);
+      updater.removeUnusedKeys(expectedI18NReport.unusedKeys);
+      expect(updater.hasChanges).toBe(true);
+      updater.writeChanges();
       expect(dotStrSpy).toHaveBeenCalledTimes(99);
+      expect(dotDeleteSpy).toHaveBeenCalledTimes(15);
       expect(writeFileSyncSpy).toHaveBeenCalledTimes(4);
       expect(writeFileSyncSpy.mock.calls[0][1]).toContain('missing');
     });

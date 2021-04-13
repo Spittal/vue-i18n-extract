@@ -4,9 +4,9 @@ import glob from 'glob';
 import dot from 'dot-object';
 import yaml from 'js-yaml';
 import isValidGlob from 'is-valid-glob';
-import { SimpleFile, I18NLanguage, I18NItem } from '../types';
+import { LanguageFile, I18NLanguage, I18NItem } from '../types';
 
-function readLangFiles (src: string): SimpleFile[] {
+function readLangFiles (src: string): LanguageFile[] {
   if (!isValidGlob(src)) {
     throw new Error(`languageFiles isn't a valid glob pattern.`);
   }
@@ -35,11 +35,11 @@ function readLangFiles (src: string): SimpleFile[] {
 
     const fileName = f.replace(process.cwd(), '');
 
-    return { fileName, path: f, content: JSON.stringify(langObj) };
+    return { fileName, path: f, content: langObj };
   });
 }
 
-function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLanguage {
+function extractI18nItemsFromLanguageFiles (languageFiles: LanguageFile[]): I18NLanguage {
   return languageFiles.reduce((accumulator, file) => {
     const language = file.fileName.substring(file.fileName.lastIndexOf('/') + 1, file.fileName.lastIndexOf('.'));
 
@@ -47,7 +47,7 @@ function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLa
       accumulator[language] = [];
     }
 
-    const flattenedObject = dot.dot(JSON.parse(file.content));
+    const flattenedObject = dot.dot(file.content);
     Object.keys(flattenedObject).forEach((key, index) => {
       accumulator[language]?.push({
         line: index,
@@ -60,31 +60,68 @@ function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLa
   }, {});
 }
 
-export function writeMissingToLanguage (resolvedLanguageFiles: string, missingKeys: I18NItem[]): void {
-  const languageFiles = readLangFiles(resolvedLanguageFiles);
-  languageFiles.forEach(languageFile => {
-    const languageFileContent = JSON.parse(languageFile.content);
+export class LanguageFileUpdater {
+  languageFiles: LanguageFile[];
+  hasChanges = false;
 
-    missingKeys.forEach(item => {
-      if (item.language && languageFile.fileName.includes(item.language) || !item.language) {
-        dot.str(item.path, '', languageFileContent);
-      }
+  constructor(languageFiles: string) {
+    this.languageFiles = readLangFiles(path.resolve(process.cwd(), languageFiles));
+  }
+
+  addMissingKeys(missingKeys: I18NItem[]): void {
+    this.hasChanges = true;
+    this.languageFiles.forEach(languageFile => {
+      missingKeys.forEach(item => {
+        if (item.language && languageFile.fileName.includes(item.language) || !item.language) {
+          dot.str(item.path, '', languageFile.content);
+        }
+      });
     });
+  }
 
-    const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
-    const filePath = languageFile.path;
-    const stringifiedContent = JSON.stringify(languageFileContent, null, 2);
+  removeUnusedKeys(unusedKeys: I18NItem[]): void {
+    this.hasChanges = true;
+    this.languageFiles.forEach(languageFile => {
+      unusedKeys.forEach(item => {
+        if (item.language && languageFile.fileName.includes(item.language)) {
+          dot.delete(item.path, languageFile.content);
+        }
+      });
+    });
+  }
 
-    if (fileExtension === 'json') {
-      fs.writeFileSync(filePath, stringifiedContent);
-    } else if (fileExtension === 'js') {
-      const jsFile = `export default ${stringifiedContent}; \n`;
-      fs.writeFileSync(filePath, jsFile);
-    } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
-      const yamlFile = yaml.safeDump(languageFileContent);
-      fs.writeFileSync(filePath, yamlFile);
+  writeChanges(): void {
+    this.languageFiles.forEach(languageFile => {
+      new FileAccessLayer(languageFile.path).write(languageFile.content);
+    });
+  }
+}
+
+
+class FileAccessLayer {
+  path: string;
+
+  constructor(path: string) {
+    this.path = path;
+  }
+
+  write(content: Record<string, unknown>) {
+    const rawJSON = JSON.stringify(content, null, 2);
+    const endsWith = ext => this.path.endsWith(`.${ext}`);
+    let stringifiedContent = "";
+
+    if (endsWith('json')) {
+      stringifiedContent = rawJSON;
+    } else if (endsWith('js')) {
+      stringifiedContent = `export default ${stringifiedContent}; \n`;
+    } else if (endsWith('yaml') || endsWith('yml')) {
+      stringifiedContent = yaml.safeDump(content);
+    } else {
+      throw new Error('Filetype not supported.')
     }
-  });
+    fs.writeFileSync(this.path, stringifiedContent);
+  }
+  // TODO: Move reading into this class
 }
 
 export function parseLanguageFiles (languageFilesPath: string): I18NLanguage {
