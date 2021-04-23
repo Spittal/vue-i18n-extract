@@ -43,7 +43,7 @@ program
     0
   )
   .option(
-    '-ci',
+    '-ci --ci',
     'The process will exit with exitCode=1 if at least one translation-key is missing (useful expecially if it is part of a CI pipeline).',
   )
   .action(reportCommand);
