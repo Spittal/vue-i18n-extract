@@ -1,12 +1,21 @@
-import fs from 'fs';
-import path from 'path';
-import isValidGlob from 'is-valid-glob';
-import glob from 'glob';
-import dot from 'dot-object';
-import yaml from 'js-yaml';
+var fs = require('fs');
+var path = require('path');
+var isValidGlob = require('is-valid-glob');
+var glob = require('glob');
+var dot = require('dot-object');
+var yaml = require('js-yaml');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
+var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
+var isValidGlob__default = /*#__PURE__*/_interopDefaultLegacy(isValidGlob);
+var glob__default = /*#__PURE__*/_interopDefaultLegacy(glob);
+var dot__default = /*#__PURE__*/_interopDefaultLegacy(dot);
+var yaml__default = /*#__PURE__*/_interopDefaultLegacy(yaml);
 
 function initCommand() {
-  fs.writeFileSync(path.resolve(process.cwd(), './vue-i18n-extract.config.js'), fs.readFileSync(path.resolve(__dirname, './vue-i18n-extract.config.js'), 'utf8'));
+  fs__default['default'].writeFileSync(path__default['default'].resolve(process.cwd(), './vue-i18n-extract.config.js'), fs__default['default'].readFileSync(path__default['default'].resolve(__dirname, './vue-i18n-extract.config.js'), 'utf8'));
 }
 
 function _extends() {
@@ -28,11 +37,11 @@ function _extends() {
 }
 
 function readVueFiles(src) {
-  if (!isValidGlob(src)) {
+  if (!isValidGlob__default['default'](src)) {
     throw new Error(`vueFiles isn't a valid glob pattern.`);
   }
 
-  const targetFiles = glob.sync(src);
+  const targetFiles = glob__default['default'].sync(src);
 
   if (targetFiles.length === 0) {
     throw new Error('vueFiles glob has no files.');
@@ -43,7 +52,7 @@ function readVueFiles(src) {
     return {
       fileName,
       path: f,
-      content: fs.readFileSync(f, 'utf8')
+      content: fs__default['default'].readFileSync(f, 'utf8')
     };
   });
 }
@@ -119,29 +128,29 @@ function parseVueFiles(vueFilesPath) {
 }
 
 function readLangFiles(src) {
-  if (!isValidGlob(src)) {
+  if (!isValidGlob__default['default'](src)) {
     throw new Error(`languageFiles isn't a valid glob pattern.`);
   }
 
-  const targetFiles = glob.sync(src);
+  const targetFiles = glob__default['default'].sync(src);
 
   if (targetFiles.length === 0) {
     throw new Error('languageFiles glob has no files.');
   }
 
   return targetFiles.map(f => {
-    const langPath = path.resolve(process.cwd(), f);
+    const langPath = path__default['default'].resolve(process.cwd(), f);
     const extension = langPath.substring(langPath.lastIndexOf('.')).toLowerCase();
     const isJSON = extension === '.json';
     const isYAML = extension === '.yaml' || extension === '.yml';
     let langObj;
 
     if (isJSON) {
-      langObj = JSON.parse(fs.readFileSync(langPath, 'utf8'));
+      langObj = JSON.parse(fs__default['default'].readFileSync(langPath, 'utf8'));
     } else if (isYAML) {
-      langObj = yaml.load(fs.readFileSync(langPath, 'utf8'));
+      langObj = yaml__default['default'].load(fs__default['default'].readFileSync(langPath, 'utf8'));
     } else {
-      langObj = eval(fs.readFileSync(langPath, 'utf8'));
+      langObj = eval(fs__default['default'].readFileSync(langPath, 'utf8'));
     }
 
     const fileName = f.replace(process.cwd(), '');
@@ -161,7 +170,7 @@ function extractI18nItemsFromLanguageFiles(languageFiles) {
       accumulator[language] = [];
     }
 
-    const flattenedObject = dot.dot(JSON.parse(file.content));
+    const flattenedObject = dot__default['default'].dot(JSON.parse(file.content));
     Object.keys(flattenedObject).forEach((key, index) => {
       accumulator[language].push({
         line: index,
@@ -179,7 +188,7 @@ function writeMissingToLanguage(resolvedLanguageFiles, missingKeys) {
     const languageFileContent = JSON.parse(languageFile.content);
     missingKeys.forEach(item => {
       if (item.language && languageFile.fileName.includes(item.language) || !item.language) {
-        dot.str(item.path, '', languageFileContent);
+        dot__default['default'].str(item.path, '', languageFileContent);
       }
     });
     const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
@@ -187,13 +196,13 @@ function writeMissingToLanguage(resolvedLanguageFiles, missingKeys) {
     const stringifiedContent = JSON.stringify(languageFileContent, null, 2);
 
     if (fileExtension === 'json') {
-      fs.writeFileSync(filePath, stringifiedContent);
+      fs__default['default'].writeFileSync(filePath, stringifiedContent);
     } else if (fileExtension === 'js') {
       const jsFile = `export default ${stringifiedContent}; \n`;
-      fs.writeFileSync(filePath, jsFile);
+      fs__default['default'].writeFileSync(filePath, jsFile);
     } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
-      const yamlFile = yaml.dump(languageFileContent);
-      fs.writeFileSync(filePath, yamlFile);
+      const yamlFile = yaml__default['default'].dump(languageFileContent);
+      fs__default['default'].writeFileSync(filePath, yamlFile);
     }
   });
 }
@@ -202,7 +211,7 @@ function parseLanguageFiles(languageFilesPath) {
   return extractI18nItemsFromLanguageFiles(filesList);
 }
 
-var VueI18NExtractReportTypes;
+exports.VueI18NExtractReportTypes = void 0;
 
 (function (VueI18NExtractReportTypes) {
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["None"] = 0] = "None";
@@ -210,21 +219,21 @@ var VueI18NExtractReportTypes;
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["Unused"] = 2] = "Unused";
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["Dynamic"] = 4] = "Dynamic";
   VueI18NExtractReportTypes[VueI18NExtractReportTypes["All"] = 7] = "All";
-})(VueI18NExtractReportTypes || (VueI18NExtractReportTypes = {}));
+})(exports.VueI18NExtractReportTypes || (exports.VueI18NExtractReportTypes = {}));
 
-const mightBeUsedDynamically = function mightBeUsedDynamically(languageItem, dynamicKeys) {
+const mightBeUsedDynamically = function (languageItem, dynamicKeys) {
   return dynamicKeys.some(dynamicKey => languageItem.path.includes(dynamicKey.path));
 };
 
-function extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType = VueI18NExtractReportTypes.Missing + VueI18NExtractReportTypes.Unused) {
+function extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType = exports.VueI18NExtractReportTypes.Missing + exports.VueI18NExtractReportTypes.Unused) {
   const missingKeys = [];
   const unusedKeys = [];
   const dynamicKeys = [];
-  const dynamicReportEnabled = reportType & VueI18NExtractReportTypes.Dynamic;
+  const dynamicReportEnabled = reportType & exports.VueI18NExtractReportTypes.Dynamic;
   Object.keys(parsedLanguageFiles).forEach(language => {
     let languageItems = parsedLanguageFiles[language];
     parsedVueFiles.forEach(vueItem => {
-      const usedByVueItem = function usedByVueItem(languageItem) {
+      const usedByVueItem = function (languageItem) {
         return languageItem.path === vueItem.path || languageItem.path.startsWith(vueItem.path + '.');
       };
 
@@ -249,13 +258,13 @@ function extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType = Vue
   });
   let extracts = {};
 
-  if (reportType & VueI18NExtractReportTypes.Missing) {
+  if (reportType & exports.VueI18NExtractReportTypes.Missing) {
     extracts = Object.assign(extracts, {
       missingKeys
     });
   }
 
-  if (reportType & VueI18NExtractReportTypes.Unused) {
+  if (reportType & exports.VueI18NExtractReportTypes.Unused) {
     extracts = Object.assign(extracts, {
       unusedKeys
     });
@@ -272,7 +281,7 @@ function extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType = Vue
 async function writeReportToFile(report, writePath) {
   const reportString = JSON.stringify(report);
   return new Promise((resolve, reject) => {
-    fs.writeFile(writePath, reportString, err => {
+    fs__default['default'].writeFile(writePath, reportString, err => {
       if (err) {
         reject(err);
         return;
@@ -284,16 +293,16 @@ async function writeReportToFile(report, writePath) {
 }
 
 function createI18NReport(vueFiles, languageFiles, command) {
-  const resolvedVueFiles = path.resolve(process.cwd(), vueFiles);
-  const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
+  const resolvedVueFiles = path__default['default'].resolve(process.cwd(), vueFiles);
+  const resolvedLanguageFiles = path__default['default'].resolve(process.cwd(), languageFiles);
   const parsedVueFiles = parseVueFiles(resolvedVueFiles);
   const parsedLanguageFiles = parseLanguageFiles(resolvedLanguageFiles);
-  const reportType = command.dynamic ? VueI18NExtractReportTypes.All : VueI18NExtractReportTypes.Missing + VueI18NExtractReportTypes.Unused;
+  const reportType = command.dynamic ? exports.VueI18NExtractReportTypes.All : exports.VueI18NExtractReportTypes.Missing + exports.VueI18NExtractReportTypes.Unused;
   return extractI18NReport(parsedVueFiles, parsedLanguageFiles, reportType);
 }
 function reportFromConfigCommand() {
   try {
-    const configFile = eval(fs.readFileSync(path.resolve(process.cwd(), 'vue-i18n-extract.config.js'), 'utf8'));
+    const configFile = eval(fs__default['default'].readFileSync(path__default['default'].resolve(process.cwd(), 'vue-i18n-extract.config.js'), 'utf8'));
     return reportCommand(_extends({
       vueFiles: configFile.vueFilesPath,
       languageFiles: configFile.languageFilesPath
@@ -323,12 +332,12 @@ async function reportCommand(command) {
   if (report.dynamicKeys && dynamic && dynamic > 1) console.info('dynamic detected keys: '), console.table(report.dynamicKeys);
 
   if (output) {
-    await writeReportToFile(report, path.resolve(process.cwd(), output));
+    await writeReportToFile(report, path__default['default'].resolve(process.cwd(), output));
     console.log(`The report has been has been saved to ${output}`);
   }
 
   if (add && report.missingKeys && report.missingKeys.length > 0) {
-    const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
+    const resolvedLanguageFiles = path__default['default'].resolve(process.cwd(), languageFiles);
     writeMissingToLanguage(resolvedLanguageFiles, report.missingKeys);
     console.log('The missing keys have been added to your languages files');
   }
@@ -340,5 +349,14 @@ async function reportCommand(command) {
   }
 }
 
-export { VueI18NExtractReportTypes, createI18NReport, extractI18NReport, initCommand, parseLanguageFiles, parseVueFiles, readVueFiles, reportCommand, reportFromConfigCommand, writeMissingToLanguage, writeReportToFile };
-//# sourceMappingURL=vue-i18n-extract.modern.js.map
+exports.createI18NReport = createI18NReport;
+exports.extractI18NReport = extractI18NReport;
+exports.initCommand = initCommand;
+exports.parseLanguageFiles = parseLanguageFiles;
+exports.parseVueFiles = parseVueFiles;
+exports.readVueFiles = readVueFiles;
+exports.reportCommand = reportCommand;
+exports.reportFromConfigCommand = reportFromConfigCommand;
+exports.writeMissingToLanguage = writeMissingToLanguage;
+exports.writeReportToFile = writeReportToFile;
+//# sourceMappingURL=vue-i18n-extract.js.map

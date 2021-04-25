@@ -1,16 +1,20 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('path'), require('fs'), require('is-valid-glob'), require('glob'), require('dot-object'), require('js-yaml')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'path', 'fs', 'is-valid-glob', 'glob', 'dot-object', 'js-yaml'], factory) :
-  (global = global || self, factory(global.vueI18NExtract = {}, global.path, global.fs, global.isValidGlob, global.glob, global.dotObject, global.jsYaml));
-}(this, (function (exports, path, fs, isValidGlob, glob, dot, yaml) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('fs'), require('path'), require('is-valid-glob'), require('glob'), require('dot-object'), require('js-yaml')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'fs', 'path', 'is-valid-glob', 'glob', 'dot-object', 'js-yaml'], factory) :
+  (global = global || self, factory(global.vueI18NExtract = {}, global.fs, global.path, global.isValidGlob, global.glob, global.dotObject, global.jsYaml));
+}(this, (function (exports, fs, path, isValidGlob, glob, dot, yaml) {
   function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
-  var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
   var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
+  var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
   var isValidGlob__default = /*#__PURE__*/_interopDefaultLegacy(isValidGlob);
   var glob__default = /*#__PURE__*/_interopDefaultLegacy(glob);
   var dot__default = /*#__PURE__*/_interopDefaultLegacy(dot);
   var yaml__default = /*#__PURE__*/_interopDefaultLegacy(yaml);
+
+  function initCommand() {
+    fs__default['default'].writeFileSync(path__default['default'].resolve(process.cwd(), './vue-i18n-extract.config.js'), fs__default['default'].readFileSync(path__default['default'].resolve(__dirname, './vue-i18n-extract.config.js'), 'utf8'));
+  }
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -320,7 +324,6 @@
       dynamic,
       ci
     } = command;
-    console.log(vueFiles);
     const report = createI18NReport(vueFiles, languageFiles, command);
     if (report.missingKeys) console.info('missing keys: '), console.table(report.missingKeys);
     if (report.unusedKeys) console.info('unused keys: '), console.table(report.unusedKeys);
@@ -344,39 +347,7 @@
     }
   }
 
-  var report = {
-    __proto__: null,
-    createI18NReport: createI18NReport,
-    reportFromConfigCommand: reportFromConfigCommand,
-    reportCommand: reportCommand,
-    readVueFiles: readVueFiles,
-    parseVueFiles: parseVueFiles,
-    writeMissingToLanguage: writeMissingToLanguage,
-    parseLanguageFiles: parseLanguageFiles,
-    get VueI18NExtractReportTypes () { return exports.VueI18NExtractReportTypes; },
-    extractI18NReport: extractI18NReport,
-    writeReportToFile: writeReportToFile
-  };
-
-  const configFile = `
-module.exports = {
-  vueFilesPath: './', // The Vue.js file(s) you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern)
-  languageFilesPath: './', // The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern)
-  options: {
-    output: false, // false | string => Use if you want to create a json file out of your report. (ex. output.json)
-    add: false, // false | true => Use if you want to add missing keys into your json language files.
-    dynamic: false, // false | 'ignore' | 'report' => 'ignore' if you want to ignore dynamic keys false-positive. 'report' to get dynamic keys report.
-  }
-};
-`;
-  function initCommand() {
-    fs__default['default'].writeFileSync('vue-i18n-extract.config.js', configFile);
-  }
-
-  var index = _extends({}, report);
-
   exports.createI18NReport = createI18NReport;
-  exports.default = index;
   exports.extractI18NReport = extractI18NReport;
   exports.initCommand = initCommand;
   exports.parseLanguageFiles = parseLanguageFiles;
