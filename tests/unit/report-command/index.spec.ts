@@ -49,14 +49,18 @@ describe('file: report-command/index', () => {
 
     it('Write missing keys to language files', async () => {
       command.add = true;
-      const writeMissingSpy: jest.SpyInstance<unknown> = jest.spyOn(languageFileActions, 'writeMissingToLanguage');
-      writeMissingSpy.mockImplementation(() => jest.fn());
-      await reportCommand(command);
-      expect(writeMissingSpy).toHaveBeenCalledWith(
-        command.languageFiles,
-        expectedI18NReport.missingKeys,
+      const addMissingSpy: jest.SpyInstance<unknown> = jest.spyOn(
+        languageFileActions.LanguageFileUpdater.prototype, 'addMissingKeys'
       );
-      expect(consoleLogSpy).toHaveBeenCalledWith(`The missing keys have been added to your languages files`)
+      const writeChangesSpy: jest.SpyInstance<unknown> = jest.spyOn(
+        languageFileActions.LanguageFileUpdater.prototype, 'writeChanges'
+      );
+      writeChangesSpy.mockImplementation(() => jest.fn());
+      await reportCommand(command);
+      expect(addMissingSpy).toHaveBeenCalledWith(expectedI18NReport.missingKeys);
+      expect(writeChangesSpy).toHaveBeenCalled();
+      expect(consoleLogSpy).toHaveBeenCalledWith(`The missing keys have been added`);
+      expect(consoleLogSpy).toHaveBeenCalledWith(`Language files have been updated`);
     });
   });
 });
