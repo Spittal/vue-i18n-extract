@@ -3,7 +3,7 @@ import fs from 'fs';
 
 import { ReportOptions, I18NReport } from '../types';
 import { parseVueFiles } from './vue-files';
-import { parseLanguageFiles, writeMissingToLanguage } from './language-files';
+import { parseLanguageFiles, LanguageFileUpdater } from './language-files';
 import { extractI18NReport, VueI18NExtractReportTypes, writeReportToFile } from './report';
 
 export function createI18NReport (vueFiles: string, languageFiles: string, command: ReportOptions): I18NReport {
@@ -34,9 +34,10 @@ export function reportFromConfigCommand(): Promise<void> | void {
 }
 
 export async function reportCommand (command: ReportOptions): Promise<void> {
-  const { vueFiles, languageFiles, output, add, dynamic, ci } = command;
+  const { vueFiles, languageFiles, output, add, remove, dynamic, ci } = command;
   console.log(vueFiles);
   const report = createI18NReport(vueFiles, languageFiles, command);
+  const updater = new LanguageFileUpdater(languageFiles);
 
   if (report.missingKeys) console.info('missing keys: '), console.table(report.missingKeys);
   if (report.unusedKeys) console.info('unused keys: '), console.table(report.unusedKeys);
@@ -48,9 +49,18 @@ export async function reportCommand (command: ReportOptions): Promise<void> {
   }
 
   if (add && report.missingKeys && report.missingKeys.length > 0) {
-    const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
-    writeMissingToLanguage(resolvedLanguageFiles, report.missingKeys);
-    console.log('The missing keys have been added to your languages files');
+    updater.addMissingKeys(report.missingKeys);
+    console.log('The missing keys have been added');
+  }
+
+  if (remove && report.unusedKeys && report.unusedKeys.length > 0) {
+    updater.removeUnusedKeys(report.unusedKeys);
+    console.log('The unused keys have been removed');
+  }
+
+  if (updater.hasChanges) {
+    updater.writeChanges();
+    console.log('Language files have been updated');
   }
 
   if (ci && Object.prototype.hasOwnProperty.call(report, 'missingKeys') && report.missingKeys !== undefined) {

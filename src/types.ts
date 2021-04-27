@@ -3,8 +3,15 @@ export type ReportOptions = {
   languageFiles: string;
   output?: string;
   add?: boolean;
+  remove?: boolean;
   dynamic?: number;
   ci?: boolean;
+}
+
+export type LanguageFile = {
+  fileName: string;
+  path: string;
+  content: Record<string, unknown>;
 }
 
 export type SimpleFile = {
