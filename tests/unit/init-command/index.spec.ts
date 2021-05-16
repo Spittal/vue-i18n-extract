@@ -14,7 +14,7 @@ module.exports = {
 };
 `;
 
-describe('file: init-command/index', () => {
+describe.only('file: init-command/index', () => {
   describe('function: initCommand', () => {
     let fsWriteFileSync: jest.SpyInstance<unknown>;
 

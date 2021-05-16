@@ -1,3 +1,4 @@
-header:
-  paragraphs:
-    p_1: Paragraph 1
+content:
+  paragraph:
+    p_1: Clicked {count} times
+unused_yaml: unused
