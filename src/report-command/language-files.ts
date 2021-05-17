@@ -35,7 +35,7 @@ function readLangFiles (src: string): SimpleFile[] {
 
     const fileName = f.replace(process.cwd(), '');
 
-    return { fileName, path: f, content: JSON.stringify(langObj) };
+    return { path: f, fileName, content: JSON.stringify(langObj) };
   });
 }
 
@@ -50,9 +50,9 @@ function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLa
     const flattenedObject = dot.dot(JSON.parse(file.content));
     Object.keys(flattenedObject).forEach((key, index) => {
       accumulator[language].push({
-        line: index,
         path: key,
         file: file.fileName,
+        line: index,
       });
     });
 

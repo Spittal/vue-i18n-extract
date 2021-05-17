@@ -14,11 +14,11 @@ program
   .action(initCommand);
 
 program
-  .command('use-config', { isDefault: false })
+  .command('use-config', { isDefault: true })
   .action(reportFromConfigCommand);
 
 program
-  .command('report', { isDefault: true })
+  .command('report', { isDefault: false })
   .description('Create a report from a glob of your Vue.js source files and your language files.')
   .requiredOption(
     '-v, --vueFiles <vueFiles>',

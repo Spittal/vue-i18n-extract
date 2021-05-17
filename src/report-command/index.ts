@@ -20,7 +20,9 @@ export function createI18NReport (vueFiles: string, languageFiles: string, comma
 
 export function reportFromConfigCommand(): Promise<void> | void {
   try {
-    const configFile = eval(fs.readFileSync(path.resolve(process.cwd(), 'vue-i18n-extract.config.js'), 'utf8'));
+    const configFile = eval(fs.readFileSync(path.resolve(process.cwd(), './vue-i18n-extract.config.js'), 'utf8'));
+    console.log(configFile);
+
     return reportCommand({
       vueFiles: configFile.vueFilesPath,
       languageFiles: configFile.languageFilesPath,

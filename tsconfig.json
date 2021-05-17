@@ -8,6 +8,7 @@
     "sourceMap": true,
     "strict": true,
     "noImplicitAny": false,
+    "allowJs": true,
     "baseUrl": "./",
     "paths": {
       "@/*": [

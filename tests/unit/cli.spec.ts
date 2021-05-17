@@ -98,13 +98,12 @@ describe('vue-i18n-extract CLI', () => {
   });
 
   describe('Init Command', () => {
-
     beforeEach(() => {
       jest.resetModules();
       jest.resetAllMocks();
     });
 
-  it('creates a config file', async () => {
+    it('creates a config file', async () => {
       expect((await runCLI([
         'init',
       ])).code).toBe(0);
