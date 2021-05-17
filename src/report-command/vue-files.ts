@@ -29,8 +29,8 @@ function* getMatches (file: SimpleFile, regExp: RegExp, captureGroup = 1): Itera
     const line = (file.content.substring(0, match.index).match(/\n/g) || []).length + 1;
     yield {
       path: match[captureGroup],
-      line,
       file: file.fileName,
+      line,
     };
   }
 }
@@ -64,12 +64,12 @@ function* getMatches (file: SimpleFile, regExp: RegExp, captureGroup = 1): Itera
 }
 
 function extractComponentMatches (file: SimpleFile): I18NItem[] {
-  const componentRegExp = /(?:<i18n)(?:.|\n)*?(?:[^:]path=("|'))(.*?)\1/gi;
+  const componentRegExp = /(?:<i18n)(?:.|\n)*?(?:[^:]path=("|'))((?:[^\\]|\\.)*?)\1/gi;
   return [ ...getMatches(file, componentRegExp, 2) ];
 }
 
 function extractDirectiveMatches (file: SimpleFile): I18NItem[] {
-  const directiveRegExp = /v-t="'(.*?)'"/g;
+  const directiveRegExp = /v-t="'((?:[^\\]|\\.)*?)'"/g;
   return [ ...getMatches(file, directiveRegExp) ];
 }
 

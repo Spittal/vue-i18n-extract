@@ -1,11 +1,11 @@
 import { parseVueFiles } from '@/report-command/vue-files';
-import { expectedFromParsedVueFiles } from '../ZZ_fixtures/expected-values';
-import { vueFiles } from '../ZZ_fixtures/resolved-sources';
+import { expectedFromParsedVueFiles } from '../../fixtures/expected-values';
+import { vueFiles } from '../../fixtures/resolved-sources';
 import path from 'path';
 
 describe('file: report-command/vue-files', () => {
   describe('function: parseVueFiles', () => {
-    it('Parse the file glob into and I18Nvue object', () => {
+    it('Parse the file glob into and I18N object', () => {
       const results = parseVueFiles(vueFiles);
       expect(results).toEqual(expectedFromParsedVueFiles);
     });
