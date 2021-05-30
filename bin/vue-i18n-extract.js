@@ -5,10 +5,6 @@
 const program = require('commander');
 const { reportCommand, initCommand, reportFromConfigCommand } = require('../dist/vue-i18n-extract.umd.js');
 
-function increaseDynamic(dummyValue, previous) {
-  return previous + 1;
-}
-
 program
   .command('init', { isDefault: false })
   .action(initCommand);
@@ -35,12 +31,6 @@ program
   .option(
     '-a, --add',
     'Use if you want to add missing keys into your json language files.',
-  )
-  .option(
-    '-d, --dynamic',
-    'Use if you want to ignore dynamic keys false-positive. Use it 2 times to get dynamic keys report',
-    increaseDynamic,
-    0
   )
   .option(
     '-ci',

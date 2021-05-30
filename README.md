@@ -55,21 +55,26 @@ This will print out a table of missing keys in your language files, as well as u
 
 ```js
 -v, --vueFiles (required)
-// The Vue.js file(s) you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. Example: ./path/to/your/vue-files/**/*.?(js|vue)
+// String as Glob pattern
+// Example: ./path/to/your/vue-files/**/*.?(js|vue)
+// The Vue.js file(s) you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns.
 
 -l, --languageFiles (required)
-// The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns. Example: ./path/to/your/language-files/*.?(json|yml|yaml)
+// String as Glob pattern
+// Example: ./path/to/your/language-files/*.?(json|yml|yaml)
+// The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns.
 
 -o, --output
-// Use if you want to create a json file out of your report. Example: `-o output.json`
+// String
+// Example: output.json
+// File path to output the result of the report
 
 -a, --add
-// Use if you want to add missing keys into your language files.
-
--d, --dynamic
+// Boolean
 // Use if you want to add missing keys into your language files.
 
 --ci
+// Boolean
 // The process will exit with exitCode=1 if at least one translation key is missing (useful if it is part of a CI pipeline).
 ```
 
