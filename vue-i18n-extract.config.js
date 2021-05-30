@@ -1,9 +1,7 @@
 module.exports = {
-  "vueFilesPath": "./",
-  "languageFilesPath": "./",
-  "options": {
-    "output": false,
-    "add": false,
-    "dynamic": false
-  }
+  "vueFiles": "**/*.?(js|vue)",
+  "languageFiles": "**/*.?(json|yaml|yml|js)",
+  "output": false,
+  "add": false,
+  "ci": false
 }

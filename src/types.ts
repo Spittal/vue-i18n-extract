@@ -3,7 +3,6 @@ export type ReportOptions = {
   languageFiles: string;
   output?: string;
   add?: boolean;
-  dynamic?: number;
   ci?: boolean;
 }
 
@@ -20,12 +19,17 @@ export type I18NItem = {
   language?: string;
 }
 
+export type I18NItemWithBounding = I18NItem & {
+  previousCharacter: string;
+  nextCharacter: string;
+}
+
 export type I18NLanguage = {
   [language: string]: I18NItem[];
 }
 
 export type I18NReport = {
-  missingKeys?: I18NItem[];
-  unusedKeys?: I18NItem[];
-  dynamicKeys?: I18NItem[];
+  missingKeys: I18NItem[];
+  unusedKeys: I18NItem[];
+  maybeDynamicKeys: I18NItem[];
 }

@@ -1,4 +1,4 @@
-import { SimpleFile, I18NItem } from '../types';
+import { SimpleFile, I18NItemWithBounding } from '../types';
 import isValidGlob from 'is-valid-glob';
 import glob from 'glob';
 import fs from 'fs';
@@ -20,15 +20,23 @@ export function readVueFiles (src: string): SimpleFile[] {
   });
 }
 
-function* getMatches (file: SimpleFile, regExp: RegExp, captureGroup = 1): IterableIterator<I18NItem> {
+function* getMatches (file: SimpleFile, regExp: RegExp, captureGroup = 1): IterableIterator<I18NItemWithBounding> {
   while (true) {
     const match = regExp.exec(file.content);
     if (match === null) {
       break;
     }
+    const path = match[captureGroup];
+
+    const pathAtIndex = file.content.indexOf(path);
+    const previousCharacter = file.content.charAt(pathAtIndex - 1);
+    const nextCharacter = file.content.charAt(pathAtIndex + path.length);
+
     const line = (file.content.substring(0, match.index).match(/\n/g) || []).length + 1;
     yield {
-      path: match[captureGroup],
+      path,
+      previousCharacter,
+      nextCharacter,
       file: file.fileName,
       line,
     };
@@ -58,22 +66,22 @@ function* getMatches (file: SimpleFile, regExp: RegExp, captureGroup = 1): Itera
  * @param file a file object
  * @returns a list of translation keys found in `file`.
  */
- function extractMethodMatches (file: SimpleFile): I18NItem[] {
+ function extractMethodMatches (file: SimpleFile): I18NItemWithBounding[] {
   const methodRegExp = /(?:[$ .]tc?)\(\s*?(["'`])((?:[^\\]|\\.)*?)\1/g;
   return [ ...getMatches(file, methodRegExp, 2) ];
 }
 
-function extractComponentMatches (file: SimpleFile): I18NItem[] {
+function extractComponentMatches (file: SimpleFile): I18NItemWithBounding[] {
   const componentRegExp = /(?:<i18n)(?:.|\n)*?(?:[^:]path=("|'))((?:[^\\]|\\.)*?)\1/gi;
   return [ ...getMatches(file, componentRegExp, 2) ];
 }
 
-function extractDirectiveMatches (file: SimpleFile): I18NItem[] {
+function extractDirectiveMatches (file: SimpleFile): I18NItemWithBounding[] {
   const directiveRegExp = /v-t="'((?:[^\\]|\\.)*?)'"/g;
   return [ ...getMatches(file, directiveRegExp) ];
 }
 
-function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NItem[] {
+function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NItemWithBounding[] {
   return sourceFiles.reduce((accumulator, file) => {
     const methodMatches = extractMethodMatches(file);
     const componentMatches = extractComponentMatches(file);
@@ -84,10 +92,10 @@ function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NItem[] {
       ...componentMatches,
       ...directiveMatches,
     ];
-  }, [] as I18NItem[]);
+  }, [] as I18NItemWithBounding[]);
 }
 
-export function parseVueFiles (vueFilesPath: string): I18NItem[] {
+export function parseVueFiles (vueFilesPath: string): I18NItemWithBounding[] {
   const filesList = readVueFiles(vueFilesPath);
   return extractI18nItemsFromVueFiles(filesList);
 }

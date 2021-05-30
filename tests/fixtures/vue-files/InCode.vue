@@ -13,10 +13,13 @@ export default {
 
     const title = t('header.title');
 
+    const dynamicKey = Math.round(Math.random()) ? 'key1' : 'key2';
+
     return {
       t,
       tc,
       title,
+      dynamicKey,
     }
   }
 }
