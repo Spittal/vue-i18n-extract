@@ -1,12 +1,12 @@
 {
   "name": "vue-i18n-extract",
   "description": "Manage vue-i18n localization with static analysis",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "scripts": {
     "build": "rm -fr dist && microbundle --target node -f umd,modern",
     "dev": "microbundle watch --target node",
-    "demo": "node ./bin/vue-i18n-extract.js report -v './tests/fixtures/vue-files/**/*.?(vue)' -l './tests/fixtures/lang/**/*.?(json|yaml|yml|js)'",
-    "demo:debug": "node ./bin/vue-i18n-extract.js report -v './tests/fixtures/vue-files/**/*.?(vue|js)' -l './tests/fixtures/lang/**/*.?(json|yaml|yml|js)'",
+    "demo": "node ./bin/vue-i18n-extract.js report -vueFiles './tests/fixtures/vue-files/**/*.?(vue)' -languageFiles './tests/fixtures/lang/**/*.?(json|yaml|yml|js)'",
+    "demo:debug": "node ./bin/vue-i18n-extract.js report -vueFiles './tests/fixtures/vue-files/**/*.?(vue|js)' -languageFiles './tests/fixtures/lang/**/*.?(json|yaml|yml|js)'",
     "test": "jest",
     "test:dev": "jest --watch",
     "lint": "eslint **/*.ts"
@@ -34,7 +34,7 @@
   ],
   "author": "Raffaele Pizzari <raffaele.pizzari@gmail.com> (https://raffaelepizzari.com)",
   "dependencies": {
-    "commander": "^7.2.0",
+    "cac": "^6.7.3",
     "dot-object": "^2.1.4",
     "glob": "^7.1.6",
     "is-valid-glob": "^1.0.0",

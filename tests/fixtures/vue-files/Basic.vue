@@ -7,6 +7,12 @@
     <i18n path="content.link.a">
       <a place="link" href="#">{{ $t('content.link.b') }}</a>
     </i18n>
+    <i18n-t keypath="content.link.a">
+      <a place="link" href="#">{{ $t('content.link.b') }}</a>
+    </i18n-t>
+    <Translation keypath="content.link.a">
+      <a place="link" href="#">{{ $t('content.link.b') }}</a>
+    </Translation>
     <p v-t="'header.title'"></p>
     <p>{{ .t('header.title') }}</p>
   </div>

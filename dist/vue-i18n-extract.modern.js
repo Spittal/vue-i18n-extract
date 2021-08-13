@@ -7,8 +7,8 @@ import yaml from 'js-yaml';
 
 var defaultConfig = {
   // Options documented in vue-i18n-extract readme.
-  vueFiles: '**/*.?(js|vue)',
-  languageFiles: '**/*.?(json|yaml|yml|js)',
+  vueFiles: './src/**/*.?(js|vue)',
+  languageFiles: './lang/**/*.?(json|yaml|yml|js)',
   output: false,
   add: false,
   ci: false
@@ -16,6 +16,28 @@ var defaultConfig = {
 
 function initCommand() {
   fs.writeFileSync(path.resolve(process.cwd(), './vue-i18n-extract.config.js'), `module.exports = ${JSON.stringify(defaultConfig, null, 2)}`);
+}
+function resolveConfig() {
+  try {
+    const pathToConfigFile = path.resolve(process.cwd(), './vue-i18n-extract.config.js'); // eslint-disable-next-line @typescript-eslint/no-var-requires
+
+    const configFile = require(pathToConfigFile);
+
+    console.info(`\n[vue-i18n-extract] Using config file found at ${pathToConfigFile}\n`);
+    const argsFromConfigFile = Object.keys(configFile).map(key => `--${key}`).reduce((accumulator, key, index) => {
+      const value = Object.values(configFile)[index];
+
+      if (value) {
+        return [...accumulator, key, ...(value === true ? [] : [value])];
+      }
+
+      return accumulator;
+    }, []);
+    const argv = [...process.argv, ...argsFromConfigFile];
+    return argv;
+  } catch (e) {
+    return process.argv;
+  }
 }
 
 function readVueFiles(src) {
@@ -272,13 +294,6 @@ function createI18NReport(vueFiles, languageFiles) {
   const parsedLanguageFiles = parseLanguageFiles(resolvedLanguageFiles);
   return extractI18NReport(parsedVueFiles, parsedLanguageFiles);
 }
-async function reportFromConfigCommand() {
-  const config = await require(path.resolve(process.cwd(), './vue-i18n-extract.config.js'));
-  if (!config) throw new Error('[vue-i18n-extract] Config file is missing, run `vue-i18n-extract init` to create one.');
-  if (!config.vueFiles) throw new Error('[vue-i18n-extract] Required option vueFiles missing from config file.');
-  if (!config.languageFiles) throw new Error('[vue-i18n-extract] Required option languageFiles missing from config file.');
-  return reportCommand(config);
-}
 async function reportCommand(command) {
   const {
     vueFiles,
@@ -290,7 +305,7 @@ async function reportCommand(command) {
   const report = createI18NReport(vueFiles, languageFiles);
   if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
   if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
-  if (report.maybeDynamicKeys.length) console.warn('\nSuspected Dynamic Keys Found\nvue-i18n-extract does not compile Vue templates and can not guarantee an accurate match with the following keys.'), console.table(report.maybeDynamicKeys);
+  if (report.maybeDynamicKeys.length) console.warn('\nSuspected Dynamic Keys Found\nvue-i18n-extract does not compile Vue templates and therefore can not infer the correct key for the following keys.'), console.table(report.maybeDynamicKeys);
 
   if (output) {
     await writeReportToFile(report, path.resolve(process.cwd(), output));
@@ -308,8 +323,9 @@ async function reportCommand(command) {
     process.exit(1);
   }
 
+  console.log('hi');
   process.exit(0);
 }
 
-export { createI18NReport, extractI18NReport, initCommand, parseLanguageFiles, parseVueFiles, readVueFiles, reportCommand, reportFromConfigCommand, writeMissingToLanguage, writeReportToFile };
+export { createI18NReport, extractI18NReport, initCommand, parseLanguageFiles, parseVueFiles, readVueFiles, reportCommand, resolveConfig, writeMissingToLanguage, writeReportToFile };
 //# sourceMappingURL=vue-i18n-extract.modern.js.map
