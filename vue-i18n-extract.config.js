@@ -1,6 +1,6 @@
 module.exports = {
-  "vueFiles": "**/*.?(js|vue)",
-  "languageFiles": "**/*.?(json|yaml|yml|js)",
+  "vueFiles": "./src/**/*.?(js|vue)",
+  "languageFiles": "./lang/**/*.?(json|yaml|yml|js)",
   "output": false,
   "add": false,
   "ci": false

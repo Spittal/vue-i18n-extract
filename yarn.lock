@@ -3014,6 +3014,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cac@npm:^6.7.3":
+  version: 6.7.3
+  resolution: "cac@npm:6.7.3"
+  checksum: fc77c9d7309bfaded1a630fe61c5b3319ffeb6e02aeb561e55bd48d8e86724cb8414adf53bd4792db7ebcd112576b15ee695a3c3de19896a72cb34eb04508d34
+  languageName: node
+  linkType: hard
+
 "cache-base@npm:^1.0.1":
   version: 1.0.1
   resolution: "cache-base@npm:1.0.1"
@@ -3342,13 +3349,6 @@ __metadata:
   version: 4.1.1
   resolution: "commander@npm:4.1.1"
   checksum: 448585071bf8fb4c0bf9dd52abaee43dea086f801334caec2c8e8c9f456f8abc224c1614ccbbdbf7da5ac2524d230f13cf1fc86c233cf8a041ebecea7df106e9
-  languageName: node
-  linkType: hard
-
-"commander@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "commander@npm:7.2.0"
-  checksum: bdc0eca5e25cd24af8440163d3c9a996785bbac4b49a590365699cdc1ed08cefbac8f268153208ab2bc5dc3cb1d3fb573fd1590c681e36e371342186bd331a4c
   languageName: node
   linkType: hard
 
@@ -9520,7 +9520,7 @@ resolve@^1.3.2:
     "@types/yargs": ^16.0.1
     "@typescript-eslint/eslint-plugin": ^4.22.0
     "@typescript-eslint/parser": ^4.22.0
-    commander: ^7.2.0
+    cac: ^6.7.3
     dot-object: ^2.1.4
     eslint: ^7.25.0
     glob: ^7.1.6

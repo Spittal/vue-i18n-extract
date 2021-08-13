@@ -29,11 +29,11 @@ describe('vue-i18n-extract CLI', () => {
   it('Not run without arguments, but show tip', async () => {
     const result = await runCLI();
     expect(result.code).not.toBe(0);
-    expect(result.stderr).toContain(`required option '-v, --vueFiles <vueFiles>' not specified`);
+    expect(result.stderr).toContain(`required option '--vueFiles <vueFiles>' not specified`);
 
     const result2 = await runCLI(['report']);
     expect(result2.code).not.toBe(0);
-    expect(result2.stderr).toContain(`required option '-v, --vueFiles <vueFiles>' not specified`);
+    expect(result2.stderr).toContain(`required option '--vueFiles <vueFiles>' not specified`);
   });
 
   it('Show help', async () => {

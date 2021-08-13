@@ -9,7 +9,7 @@ export default {
     }
   },
   setup () {
-    const { t, tc } = useI18n();
+    const { t } = useI18n();
 
     const title = t('header.title');
 
@@ -17,7 +17,6 @@ export default {
 
     return {
       t,
-      tc,
       title,
       dynamicKey,
     }

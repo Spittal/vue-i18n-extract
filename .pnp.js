@@ -47,7 +47,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/yargs", "npm:16.0.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:74af230845667393f4d5bea656d932ad582b6e1e60bb8660eba0b3a40c10eeede4fb76a16a716ca7a1fa19cb2cdcf43bd73f75a2ef3fb742ea0f6f85f97517f1#npm:4.22.0"],
             ["@typescript-eslint/parser", "virtual:74af230845667393f4d5bea656d932ad582b6e1e60bb8660eba0b3a40c10eeede4fb76a16a716ca7a1fa19cb2cdcf43bd73f75a2ef3fb742ea0f6f85f97517f1#npm:4.22.0"],
-            ["commander", "npm:7.2.0"],
+            ["cac", "npm:6.7.3"],
             ["dot-object", "npm:2.1.4"],
             ["eslint", "npm:7.25.0"],
             ["glob", "npm:7.1.6"],
@@ -4549,6 +4549,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["cac", [
+        ["npm:6.7.3", {
+          "packageLocation": "./.yarn/cache/cac-npm-6.7.3-7450abcdac-fc77c9d730.zip/node_modules/cac/",
+          "packageDependencies": [
+            ["cac", "npm:6.7.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["cache-base", [
         ["npm:1.0.1", {
           "packageLocation": "./.yarn/cache/cache-base-npm-1.0.1-1538417cb9-3f362ba824.zip/node_modules/cache-base/",
@@ -4914,13 +4923,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/commander-npm-4.1.1-22a0fe921b-448585071b.zip/node_modules/commander/",
           "packageDependencies": [
             ["commander", "npm:4.1.1"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:7.2.0", {
-          "packageLocation": "./.yarn/cache/commander-npm-7.2.0-19178180f8-bdc0eca5e2.zip/node_modules/commander/",
-          "packageDependencies": [
-            ["commander", "npm:7.2.0"]
           ],
           "linkType": "HARD",
         }]
@@ -11871,7 +11873,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/yargs", "npm:16.0.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:74af230845667393f4d5bea656d932ad582b6e1e60bb8660eba0b3a40c10eeede4fb76a16a716ca7a1fa19cb2cdcf43bd73f75a2ef3fb742ea0f6f85f97517f1#npm:4.22.0"],
             ["@typescript-eslint/parser", "virtual:74af230845667393f4d5bea656d932ad582b6e1e60bb8660eba0b3a40c10eeede4fb76a16a716ca7a1fa19cb2cdcf43bd73f75a2ef3fb742ea0f6f85f97517f1#npm:4.22.0"],
-            ["commander", "npm:7.2.0"],
+            ["cac", "npm:6.7.3"],
             ["dot-object", "npm:2.1.4"],
             ["eslint", "npm:7.25.0"],
             ["glob", "npm:7.1.6"],
