@@ -42,9 +42,7 @@
       }, []);
       const argv = [...process.argv, ...argsFromConfigFile];
       return argv;
-    } catch (e) {
-      return process.argv;
-    }
+    } catch (_unused) {}
   }
 
   function readVueFiles(src) {
@@ -121,7 +119,7 @@
   }
 
   function extractComponentMatches(file) {
-    const componentRegExp = /(?:<i18n)(?:.|\n)*?(?:[^:]path=("|'))((?:[^\\]|\\.)*?)\1/gi;
+    const componentRegExp = /(?:<(?:i18n|Translation))(?:.|\n)*?(?:[^:]path=("|'))((?:[^\\]|\\.)*?)\1/gi;
     return [...getMatches(file, componentRegExp, 2)];
   }
 

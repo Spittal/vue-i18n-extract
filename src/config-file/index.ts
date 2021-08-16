@@ -9,7 +9,7 @@ export function initCommand(): void {
   );
 }
 
-export function resolveConfig (): string[] {
+export function resolveConfig (): string[] | void {
   try {
     const pathToConfigFile = path.resolve(process.cwd(), './vue-i18n-extract.config.js');
     // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -35,5 +35,5 @@ export function resolveConfig (): string[] {
     ];
 
     return argv;
-  }
+  } catch {}
 }
