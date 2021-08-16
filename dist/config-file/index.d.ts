@@ -1,2 +1,2 @@
 export declare function initCommand(): void;
-export declare function resolveConfig(): string[];
+export declare function resolveConfig(): string[] | void;
