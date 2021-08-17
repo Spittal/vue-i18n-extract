@@ -26,73 +26,66 @@ function runCLI (args: string[] = []): Promise<{
 describe('vue-i18n-extract CLI', () => {
   it('Fail with no arugments, and give a hint.', async () => {
     const result = await runCLI();
-    console.log(result);
 
     expect(result.code).not.toBe(0);
-    expect(result.stderr).toContain(`[vue-i18n-extract] Required configuration vueFiles is missing.`);
-
-    const result2 = await runCLI(['report']);
-    expect(result2.code).not.toBe(0);
     expect(result.stderr).toContain(`[vue-i18n-extract] Required configuration vueFiles is missing.`);
   });
 
   it('Show help', async () => {
     const result = await runCLI(['--help']);
     expect(result.code).toBe(0);
-    expect(result.stdout).toContain(`Usage: vue-i18n-extract`);
-
-    const result2 = await runCLI(['report', '--help']);
-    expect(result2.code).toBe(0);
-    expect(result2.stdout).toContain(`Usage: vue-i18n-extract report`);
+    expect(result.stdout).toContain('Usage:');
+    expect(result.stdout).toContain('$ vue-i18n-extract.js');
+    expect(result.stdout).toContain(`Create a report from a glob of your Vue.js source files and your language files.`);
+    expect(result.stdout).toContain(`init`);
   });
 
   describe('Report Command', () => {
     it('Run the command with defined options', async () => {
       expect((await runCLI([
-        'report',
-        '-v',
+        '--vueFiles',
         `'./fixtures/vue-files/**/*.?(vue|js)'`,
       ])).code).not.toBe(0);
 
       expect((await runCLI([
         'report',
-        '-v',
+        '--vueFiles',
         `'./fixtures/vue-files/**/*.?(vue|js)'`,
-        '-l',
+        '--languageFiles',
         `'./fixtures/language-files/**/*.?(json|yml|yaml)'`,
       ])).code).toBe(0);
 
       expect((await runCLI([
         'report',
-        '-v',
+        '--vueFiles',
         `'./fixtures/vue-files/**/*.?(vue|js)'`,
-        '-l',
+        '--languageFiles',
         `'./fixtures/language-files/**/*.?(json|yml|yaml)'`,
-        '-o',
+        '--output',
         `'/dev/null'`
       ])).code).toBe(0);
 
       expect((await runCLI([
         'report',
-        '-v',
+        '--vueFiles',
         `'./fixtures/vue-files/**/*.?(vue|js)'`,
-        '-l',
+        '--languageFiles',
         `'./fixtures/language-files/**/*.?(json|yml|yaml)'`,
-        '-o',
+        '--output',
         `'/dev/null'`,
-        '-a',
+        '--add',
       ])).code).toBe(0);
 
       expect((await runCLI([
         'report',
-        '-v',
+        '--vueFiles',
         `'./fixtures/vue-files/**/*.?(vue|js)'`,
-        '-l',
+        '--languageFiles',
         `'./fixtures/language-files/**/*.?(json|yml|yaml)'`,
-        '-o',
+        '--output',
         `'/dev/null'`,
-        '-a',
-        '-ci',
+        '--add',
+        '--ci',
       ])).code).toBe(0);
     });
   });
