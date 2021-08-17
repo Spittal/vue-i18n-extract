@@ -23,6 +23,8 @@ export async function reportCommand (command: ReportOptions): Promise<void> {
   if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
   if (report.maybeDynamicKeys.length) console.warn('\nSuspected Dynamic Keys Found\nvue-i18n-extract does not compile Vue templates and therefore can not infer the correct key for the following keys.'), console.table(report.maybeDynamicKeys);
 
+  console.log(report);
+
   if (output) {
     await writeReportToFile(report, path.resolve(process.cwd(), output));
     console.info(`\nThe report has been has been saved to ${output}`);
@@ -39,7 +41,7 @@ export async function reportCommand (command: ReportOptions): Promise<void> {
     process.exit(1);
   }
 
-  process.exit(0);
+  if (ci) process.exit(0);
 }
 
 
