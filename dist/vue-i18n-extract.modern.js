@@ -1,9 +1,28 @@
+import cac from 'cac';
 import fs from 'fs';
 import path from 'path';
 import isValidGlob from 'is-valid-glob';
 import glob from 'glob';
 import dot from 'dot-object';
 import yaml from 'js-yaml';
+
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
 
 var defaultConfig = {
   // Options documented in vue-i18n-extract readme.
@@ -18,24 +37,20 @@ function initCommand() {
   fs.writeFileSync(path.resolve(process.cwd(), './vue-i18n-extract.config.js'), `module.exports = ${JSON.stringify(defaultConfig, null, 2)}`);
 }
 function resolveConfig() {
+  const argvOptions = cac().parse(process.argv, {
+    run: false
+  }).options;
+
   try {
     const pathToConfigFile = path.resolve(process.cwd(), './vue-i18n-extract.config.js'); // eslint-disable-next-line @typescript-eslint/no-var-requires
 
     const configFile = require(pathToConfigFile);
 
-    console.info(`\n[vue-i18n-extract] Using config file found at ${pathToConfigFile}\n`);
-    const argsFromConfigFile = Object.keys(configFile).map(key => `--${key}`).reduce((accumulator, key, index) => {
-      const value = Object.values(configFile)[index];
-
-      if (value) {
-        return [...accumulator, key, ...(value === true ? [] : [value])];
-      }
-
-      return accumulator;
-    }, []);
-    const argv = [...process.argv, ...argsFromConfigFile];
-    return argv;
-  } catch (_unused) {}
+    console.info(`\n[vue-i18n-extract] Using config file found at ${pathToConfigFile}`);
+    return _extends({}, configFile, argvOptions);
+  } catch (_unused) {
+    return argvOptions;
+  }
 }
 
 function readVueFiles(src) {
@@ -219,24 +234,6 @@ function parseLanguageFiles(languageFilesPath) {
   return extractI18nItemsFromLanguageFiles(filesList);
 }
 
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
 function stripBounding(item) {
   return {
     path: item.path,
@@ -321,7 +318,6 @@ async function reportCommand(command) {
     process.exit(1);
   }
 
-  console.log('hi');
   process.exit(0);
 }
 

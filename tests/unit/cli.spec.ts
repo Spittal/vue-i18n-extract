@@ -2,7 +2,6 @@
 import path from 'path';
 import { exec, ExecException } from 'child_process';
 
-
 function runCLI (args: string[] = []): Promise<{
   code: number;
   error: ExecException | null;
@@ -24,16 +23,17 @@ function runCLI (args: string[] = []): Promise<{
     );
 })}
 
-
 describe('vue-i18n-extract CLI', () => {
-  it('Not run without arguments, but show tip', async () => {
+  it('Fail with no arugments, and give a hint.', async () => {
     const result = await runCLI();
+    console.log(result);
+
     expect(result.code).not.toBe(0);
-    expect(result.stderr).toContain(`required option '--vueFiles <vueFiles>' not specified`);
+    expect(result.stderr).toContain(`[vue-i18n-extract] Required configuration vueFiles is missing.`);
 
     const result2 = await runCLI(['report']);
     expect(result2.code).not.toBe(0);
-    expect(result2.stderr).toContain(`required option '--vueFiles <vueFiles>' not specified`);
+    expect(result.stderr).toContain(`[vue-i18n-extract] Required configuration vueFiles is missing.`);
   });
 
   it('Show help', async () => {

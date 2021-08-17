@@ -1,8 +1,8 @@
-declare namespace _default {
-    const vueFiles: string;
-    const languageFiles: string;
-    const output: boolean;
-    const add: boolean;
-    const ci: boolean;
-}
+declare const _default: {
+    vueFiles: string;
+    languageFiles: string;
+    output: boolean;
+    add: boolean;
+    ci: boolean;
+};
 export default _default;
