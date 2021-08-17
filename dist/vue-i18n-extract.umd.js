@@ -1,16 +1,35 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('fs'), require('path'), require('is-valid-glob'), require('glob'), require('dot-object'), require('js-yaml')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'fs', 'path', 'is-valid-glob', 'glob', 'dot-object', 'js-yaml'], factory) :
-  (global = global || self, factory(global.vueI18NExtract = {}, global.fs, global.path, global.isValidGlob, global.glob, global.dotObject, global.jsYaml));
-}(this, (function (exports, fs, path, isValidGlob, glob, dot, yaml) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('cac'), require('fs'), require('path'), require('is-valid-glob'), require('glob'), require('dot-object'), require('js-yaml')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'cac', 'fs', 'path', 'is-valid-glob', 'glob', 'dot-object', 'js-yaml'], factory) :
+  (global = global || self, factory(global.vueI18NExtract = {}, global.cac, global.fs, global.path, global.isValidGlob, global.glob, global.dotObject, global.jsYaml));
+}(this, (function (exports, cac, fs, path, isValidGlob, glob, dot, yaml) {
   function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
+  var cac__default = /*#__PURE__*/_interopDefaultLegacy(cac);
   var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
   var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
   var isValidGlob__default = /*#__PURE__*/_interopDefaultLegacy(isValidGlob);
   var glob__default = /*#__PURE__*/_interopDefaultLegacy(glob);
   var dot__default = /*#__PURE__*/_interopDefaultLegacy(dot);
   var yaml__default = /*#__PURE__*/_interopDefaultLegacy(yaml);
+
+  function _extends() {
+    _extends = Object.assign || function (target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+
+      return target;
+    };
+
+    return _extends.apply(this, arguments);
+  }
 
   var defaultConfig = {
     // Options documented in vue-i18n-extract readme.
@@ -25,24 +44,20 @@
     fs__default['default'].writeFileSync(path__default['default'].resolve(process.cwd(), './vue-i18n-extract.config.js'), `module.exports = ${JSON.stringify(defaultConfig, null, 2)}`);
   }
   function resolveConfig() {
+    const argvOptions = cac__default['default']().parse(process.argv, {
+      run: false
+    }).options;
+
     try {
       const pathToConfigFile = path__default['default'].resolve(process.cwd(), './vue-i18n-extract.config.js'); // eslint-disable-next-line @typescript-eslint/no-var-requires
 
       const configFile = require(pathToConfigFile);
 
-      console.info(`\n[vue-i18n-extract] Using config file found at ${pathToConfigFile}\n`);
-      const argsFromConfigFile = Object.keys(configFile).map(key => `--${key}`).reduce((accumulator, key, index) => {
-        const value = Object.values(configFile)[index];
-
-        if (value) {
-          return [...accumulator, key, ...(value === true ? [] : [value])];
-        }
-
-        return accumulator;
-      }, []);
-      const argv = [...process.argv, ...argsFromConfigFile];
-      return argv;
-    } catch (_unused) {}
+      console.info(`\n[vue-i18n-extract] Using config file found at ${pathToConfigFile}`);
+      return _extends({}, configFile, argvOptions);
+    } catch (_unused) {
+      return argvOptions;
+    }
   }
 
   function readVueFiles(src) {
@@ -226,24 +241,6 @@
     return extractI18nItemsFromLanguageFiles(filesList);
   }
 
-  function _extends() {
-    _extends = Object.assign || function (target) {
-      for (var i = 1; i < arguments.length; i++) {
-        var source = arguments[i];
-
-        for (var key in source) {
-          if (Object.prototype.hasOwnProperty.call(source, key)) {
-            target[key] = source[key];
-          }
-        }
-      }
-
-      return target;
-    };
-
-    return _extends.apply(this, arguments);
-  }
-
   function stripBounding(item) {
     return {
       path: item.path,
@@ -328,7 +325,6 @@
       process.exit(1);
     }
 
-    console.log('hi');
     process.exit(0);
   }
 

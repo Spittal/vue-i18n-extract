@@ -39,8 +39,6 @@ export async function reportCommand (command: ReportOptions): Promise<void> {
     process.exit(1);
   }
 
-  console.log('hi');
-
   process.exit(0);
 }
 

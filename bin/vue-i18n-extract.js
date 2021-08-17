@@ -2,9 +2,8 @@
 // vim: set filetype=javascript:
  /* eslint-disable */
 'use strict';
-const path = require('path');
 const cli = require('cac')();
-const { reportCommand, initCommand, resolveConfigFile } = require('../dist/vue-i18n-extract.umd.js');
+const { reportCommand, initCommand, resolveConfig } = require('../dist/vue-i18n-extract.umd.js');
 
 cli
   .command('', 'Create a report from a glob of your Vue.js source files and your language files.')
@@ -30,9 +29,11 @@ cli
   )
   .action((options) => {
     const config = resolveConfig(options);
+
     if (!config.vueFiles) throw new Error('[vue-i18n-extract] Required configuration vueFiles is missing.');
     if (!config.languageFiles) throw new Error('[vue-i18n-extract] Required configuration languageFiles is missing.');
 
+    reportCommand(config);
   });
 
 cli
