@@ -318,7 +318,8 @@ async function reportCommand(command) {
     process.exit(1);
   }
 
-  process.exit(0);
+  if (ci) process.exit(0);
+  return report;
 }
 
 export { createI18NReport, extractI18NReport, initCommand, parseLanguageFiles, parseVueFiles, readVueFiles, reportCommand, resolveConfig, writeMissingToLanguage, writeReportToFile };
