@@ -15,15 +15,14 @@ export function createI18NReport (vueFiles: string, languageFiles: string): I18N
   return extractI18NReport(parsedVueFiles, parsedLanguageFiles);
 }
 
-export async function reportCommand (command: ReportOptions): Promise<void> {
+export async function reportCommand (command: ReportOptions): Promise<I18NReport> {
   const { vueFiles, languageFiles, output, add, ci } = command;
+
   const report = createI18NReport(vueFiles, languageFiles);
 
   if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
   if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
   if (report.maybeDynamicKeys.length) console.warn('\nSuspected Dynamic Keys Found\nvue-i18n-extract does not compile Vue templates and therefore can not infer the correct key for the following keys.'), console.table(report.maybeDynamicKeys);
-
-  console.log(report);
 
   if (output) {
     await writeReportToFile(report, path.resolve(process.cwd(), output));
@@ -42,6 +41,8 @@ export async function reportCommand (command: ReportOptions): Promise<void> {
   }
 
   if (ci) process.exit(0);
+
+  return report;
 }
 
 

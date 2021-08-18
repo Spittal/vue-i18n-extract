@@ -328,7 +328,8 @@ async function reportCommand(command) {
     process.exit(1);
   }
 
-  process.exit(0);
+  if (ci) process.exit(0);
+  return report;
 }
 
 exports.createI18NReport = createI18NReport;

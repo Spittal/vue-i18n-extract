@@ -204,98 +204,105 @@ export const expectedFromParsedLanguageFiles = {
 };
 
 export const expectedI18NReport = {
-  missingKeys: [
+  "missingKeys": [
     {
-      path: "single \\' quote",
-      file: '/tests/fixtures/vue-files/edge-cases.js',
-      line: 2,
-      language: 'de_DE'
+      "path": "single \\' quote",
+      "file": "/tests/fixtures/vue-files/edge-cases.js",
+      "line": 2,
+      "language": "de_DE"
     },
     {
-      path: 'single \\" quote',
-      file: '/tests/fixtures/vue-files/edge-cases.js',
-      line: 3,
-      language: 'de_DE'
+      "path": "single \\\" quote",
+      "file": "/tests/fixtures/vue-files/edge-cases.js",
+      "line": 3,
+      "language": "de_DE"
     },
     {
-      path: 'back \\` tick',
-      file: '/tests/fixtures/vue-files/edge-cases.js',
-      line: 4,
-      language: 'de_DE'
+      "path": "back \\` tick",
+      "file": "/tests/fixtures/vue-files/edge-cases.js",
+      "line": 4,
+      "language": "de_DE"
     },
     {
-      path: 'Early ',
-      file: '/tests/fixtures/vue-files/edge-cases.js',
-      line: 5,
-      language: 'de_DE'
+      "path": "Early ",
+      "file": "/tests/fixtures/vue-files/edge-cases.js",
+      "line": 5,
+      "language": "de_DE"
     },
     {
-      path: 'header.paragraphs.p_1',
-      file: '/tests/fixtures/vue-files/js-component.js',
-      line: 2,
-      language: 'de_DE'
+      "path": "header.paragraphs.p_1",
+      "file": "/tests/fixtures/vue-files/js-component.js",
+      "line": 2,
+      "language": "de_DE"
     },
     {
-      path: 'missing.german',
-      file: '/tests/fixtures/vue-files/Missing.vue',
-      line: 4,
-      language: 'de_DE'
+      "path": "missing.german",
+      "file": "/tests/fixtures/vue-files/Missing.vue",
+      "line": 4,
+      "language": "de_DE"
     },
     {
-      path: "single \\' quote",
-      file: '/tests/fixtures/vue-files/edge-cases.js',
-      line: 2,
-      language: 'en_EN'
+      "path": "single \\' quote",
+      "file": "/tests/fixtures/vue-files/edge-cases.js",
+      "line": 2,
+      "language": "en_EN"
     },
     {
-      path: 'single \\" quote',
-      file: '/tests/fixtures/vue-files/edge-cases.js',
-      line: 3,
-      language: 'en_EN'
+      "path": "single \\\" quote",
+      "file": "/tests/fixtures/vue-files/edge-cases.js",
+      "line": 3,
+      "language": "en_EN"
     },
     {
-      path: 'back \\` tick',
-      file: '/tests/fixtures/vue-files/edge-cases.js',
-      line: 4,
-      language: 'en_EN'
+      "path": "back \\` tick",
+      "file": "/tests/fixtures/vue-files/edge-cases.js",
+      "line": 4,
+      "language": "en_EN"
     },
     {
-      path: 'Early ',
-      file: '/tests/fixtures/vue-files/edge-cases.js',
-      line: 5,
-      language: 'en_EN'
+      "path": "Early ",
+      "file": "/tests/fixtures/vue-files/edge-cases.js",
+      "line": 5,
+      "language": "en_EN"
     },
     {
-      path: 'header.paragraphs.p_1',
-      file: '/tests/fixtures/vue-files/js-component.js',
-      line: 2,
-      language: 'en_EN'
+      "path": "header.paragraphs.p_1",
+      "file": "/tests/fixtures/vue-files/js-component.js",
+      "line": 2,
+      "language": "en_EN"
     },
     {
-      path: 'missing.english',
-      file: '/tests/fixtures/vue-files/Missing.vue',
-      line: 3,
-      language: 'en_EN'
+      "path": "missing.english",
+      "file": "/tests/fixtures/vue-files/Missing.vue",
+      "line": 3,
+      "language": "en_EN"
     }
   ],
-  unusedKeys: [
+  "unusedKeys": [
     {
-      path: 'unused_js',
-      file: '/tests/fixtures/lang/de_DE.js',
-      line: 6,
-      language: 'de_DE'
+      "path": "unused_js",
+      "file": "/tests/fixtures/lang/de_DE.js",
+      "line": 6,
+      "language": "de_DE"
     },
     {
-      path: 'unused_yaml',
-      file: '/tests/fixtures/lang/de_DE.yaml',
-      line: 1,
-      language: 'de_DE'
+      "path": "unused_yaml",
+      "file": "/tests/fixtures/lang/de_DE.yaml",
+      "line": 1,
+      "language": "de_DE"
     },
     {
-      path: 'unused_json',
-      file: '/tests/fixtures/lang/en_EN.json',
-      line: 7,
-      language: 'en_EN'
+      "path": "unused_json",
+      "file": "/tests/fixtures/lang/en_EN.json",
+      "line": 7,
+      "language": "en_EN"
+    }
+  ],
+  "maybeDynamicKeys": [
+    {
+      "path": "${dynamicKey}",
+      "file": "/tests/fixtures/vue-files/edge-cases.js",
+      "line": 8
     }
   ]
 }

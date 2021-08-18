@@ -1,6 +1,7 @@
 
 import path from 'path';
 import { exec, ExecException } from 'child_process';
+import rimraf from 'rimraf';
 
 function runCLI (args: string[] = []): Promise<{
   code: number;
@@ -42,51 +43,50 @@ describe('vue-i18n-extract CLI', () => {
 
   describe('Report Command', () => {
     it('Run the command with defined options', async () => {
-      expect((await runCLI([
-        '--vueFiles',
-        `'./fixtures/vue-files/**/*.?(vue|js)'`,
-      ])).code).not.toBe(0);
+      rimraf.sync('./vue-i18n-extract.config.js');
 
       expect((await runCLI([
-        'report',
         '--vueFiles',
-        `'./fixtures/vue-files/**/*.?(vue|js)'`,
+        `'./tests/fixtures/vue-files/**/*.?(vue|js)'`,
+      ])).code).not.toBe(0); // we expect a fail if there's no languageFiles option
+
+      expect((await runCLI([
+        '--vueFiles',
+        `'./tests/fixtures/vue-files/**/*.?(vue|js)'`,
         '--languageFiles',
-        `'./fixtures/language-files/**/*.?(json|yml|yaml)'`,
+        `'./tests/fixtures/lang/**/*.?(json|yml|yaml)'`,
       ])).code).toBe(0);
 
       expect((await runCLI([
-        'report',
         '--vueFiles',
-        `'./fixtures/vue-files/**/*.?(vue|js)'`,
+        `'./tests/fixtures/vue-files/**/*.?(vue|js)'`,
         '--languageFiles',
-        `'./fixtures/language-files/**/*.?(json|yml|yaml)'`,
+        `'./tests/fixtures/lang/**/*.?(json|yml|yaml)'`,
         '--output',
         `'/dev/null'`
       ])).code).toBe(0);
 
-      expect((await runCLI([
-        'report',
-        '--vueFiles',
-        `'./fixtures/vue-files/**/*.?(vue|js)'`,
-        '--languageFiles',
-        `'./fixtures/language-files/**/*.?(json|yml|yaml)'`,
-        '--output',
-        `'/dev/null'`,
-        '--add',
-      ])).code).toBe(0);
+      // The --add option literally adds keys to our fixtures, which breaks further tests.
+      // expect((await runCLI([
+      //   '--vueFiles',
+      //   `'./tests/fixtures/vue-files/**/*.?(vue|js)'`,
+      //   '--languageFiles',
+      //   `'./tests/fixtures/lang/**/*.?(json|yml|yaml)'`,
+      //   '--output',
+      //   `'/dev/null'`,
+      //   '--add',
+      // ])).code).toBe(0);
 
       expect((await runCLI([
-        'report',
         '--vueFiles',
-        `'./fixtures/vue-files/**/*.?(vue|js)'`,
+        `'./tests/fixtures/vue-files/**/*.?(vue|js)'`,
         '--languageFiles',
-        `'./fixtures/language-files/**/*.?(json|yml|yaml)'`,
+        `'./tests/fixtures/lang/**/*.?(json|yml|yaml)'`,
         '--output',
         `'/dev/null'`,
         '--add',
         '--ci',
-      ])).code).toBe(0);
+      ])).code).not.toBe(0); // We expect this to fail if CI is true, because there's missing and unused keys
     });
   });
 
@@ -100,6 +100,8 @@ describe('vue-i18n-extract CLI', () => {
       expect((await runCLI([
         'init',
       ])).code).toBe(0);
+
+      rimraf.sync('./vue-i18n-extract.config.js');
     });
   });
 });
