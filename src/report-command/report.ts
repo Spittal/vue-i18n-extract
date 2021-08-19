@@ -13,7 +13,7 @@ function mightBeDynamic (item: I18NItemWithBounding): boolean {
   return item.path.includes('${') && !!item.previousCharacter.match(/`/g) && !!item.nextCharacter.match(/`/g);
 }
 
-// Looping through the arays multiple times might not be the most effecient, but it's the easiest to read and debug. Which at this scales is an accepted trade-off.
+// Looping through the arays multiple times might not be the most effecient, but it's the easiest to read and debug. Which at this scale is an accepted trade-off.
 export function extractI18NReport (vueItems: I18NItemWithBounding[], languageFiles: I18NLanguage): I18NReport {
   const missingKeys: I18NItem[] = [];
   const unusedKeys: I18NItem[] = [];
