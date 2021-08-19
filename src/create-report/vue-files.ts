@@ -81,7 +81,7 @@ function extractDirectiveMatches (file: SimpleFile): I18NItemWithBounding[] {
   return [ ...getMatches(file, directiveRegExp) ];
 }
 
-function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NItemWithBounding[] {
+export function extractI18NItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NItemWithBounding[] {
   return sourceFiles.reduce((accumulator, file) => {
     const methodMatches = extractMethodMatches(file);
     const componentMatches = extractComponentMatches(file);
@@ -93,9 +93,4 @@ function extractI18nItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NItemWithB
       ...directiveMatches,
     ];
   }, [] as I18NItemWithBounding[]);
-}
-
-export function parseVueFiles (vueFilesPath: string): I18NItemWithBounding[] {
-  const filesList = readVueFiles(vueFilesPath);
-  return extractI18nItemsFromVueFiles(filesList);
 }

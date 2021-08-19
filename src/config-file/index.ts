@@ -18,7 +18,7 @@ export function resolveConfig (): Record<string, string>  {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const configFile = require(pathToConfigFile);
 
-    console.info(`\n[vue-i18n-extract] Using config file found at ${pathToConfigFile}`);
+    console.info(`\nUsing config file found at ${pathToConfigFile}`);
 
     return {
       ...configFile,

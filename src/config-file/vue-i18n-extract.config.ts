@@ -4,5 +4,6 @@ export default {
   languageFiles: './lang/**/*.?(json|yaml|yml|js)',
   output: false,
   add: false,
+  remove: false,
   ci: false,
 };

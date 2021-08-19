@@ -29,7 +29,7 @@ describe('vue-i18n-extract CLI', () => {
     const result = await runCLI();
 
     expect(result.code).not.toBe(0);
-    expect(result.stderr).toContain(`[vue-i18n-extract] Required configuration vueFiles is missing.`);
+    expect(result.stderr).toContain(`Required configuration vueFiles is missing.`);
   });
 
   it('Show help', async () => {
@@ -75,6 +75,17 @@ describe('vue-i18n-extract CLI', () => {
       //   '--output',
       //   `'/dev/null'`,
       //   '--add',
+      // ])).code).toBe(0);
+
+      // The --remove option literally remove keys from our fixtures, which breaks further tests.
+      // expect((await runCLI([
+      //   '--vueFiles',
+      //   `'./tests/fixtures/vue-files/**/*.?(vue|js)'`,
+      //   '--languageFiles',
+      //   `'./tests/fixtures/lang/**/*.?(json|yml|yaml)'`,
+      //   '--output',
+      //   `'/dev/null'`,
+      //   '--remove',
       // ])).code).toBe(0);
 
       expect((await runCLI([

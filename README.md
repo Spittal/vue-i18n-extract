@@ -73,6 +73,10 @@ This will print out a table of missing keys in your language files, as well as u
 // Boolean
 // Use if you want to add missing keys into your language files.
 
+--remove
+// Boolean
+// Use if you want to remove unused keys from your language files.
+
 --ci
 // Boolean
 // The process will exit with exitCode=1 if at least one translation key is missing (useful if it is part of a CI pipeline).
@@ -102,6 +106,8 @@ tc('key.static', 0) tc("key.static", 1) tc(`key.static`, 2)
 - i18n component:
 ```html
 <i18n path="key.component"></i18n>
+<i18n-t keypath="key.component"></i18n-t>
+<Translate keypath="key.component"></Translate>
 ```
 > Note: As of right now there is no support for binding in path like `:path="condition ? 'string1' : 'string2'"` there is just support strings as shown above.
 
@@ -117,7 +123,10 @@ Make sure you have `vue-i18n-extract` installed locally and import the library.
 ```js
 const VueI18NExtract = require('vue-i18n-extract');
 
-const report = VueI18NExtract.createI18NReport('./path/to/vue-files/**/*.?(js|vue)', './path/to/language-files/*.?(json|yml|yaml|js)');
+const report = VueI18NExtract.createI18NReport({
+  vueFiles: './path/to/vue-files/**/*.?(js|vue)',
+  languageFiles: './path/to/language-files/*.?(json|yml|yaml|js)'
+});
 ```
 
 # Why?

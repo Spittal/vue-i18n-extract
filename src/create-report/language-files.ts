@@ -6,7 +6,7 @@ import yaml from 'js-yaml';
 import isValidGlob from 'is-valid-glob';
 import { SimpleFile, I18NLanguage, I18NItem } from '../types';
 
-function readLangFiles (src: string): SimpleFile[] {
+export function readLanguageFiles (src: string): SimpleFile[] {
   if (!isValidGlob(src)) {
     throw new Error(`languageFiles isn't a valid glob pattern.`);
   }
@@ -39,7 +39,7 @@ function readLangFiles (src: string): SimpleFile[] {
   });
 }
 
-function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLanguage {
+export function extractI18NLanguageFromLanguageFiles (languageFiles: SimpleFile[]): I18NLanguage {
   return languageFiles.reduce((accumulator, file) => {
     const language = file.fileName.substring(file.fileName.lastIndexOf('/') + 1, file.fileName.lastIndexOf('.'));
 
@@ -60,9 +60,8 @@ function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLa
   }, {});
 }
 
-export function writeMissingToLanguage (resolvedLanguageFiles: string, missingKeys: I18NItem[]): void {
-  const languageFiles = readLangFiles(resolvedLanguageFiles);
-  languageFiles.forEach(languageFile => {
+export function writeMissingToLanguageFiles (parsedLanguageFiles: SimpleFile[], missingKeys: I18NItem[]): void {
+  parsedLanguageFiles.forEach(languageFile => {
     const languageFileContent = JSON.parse(languageFile.content);
 
     missingKeys.forEach(item => {
@@ -71,9 +70,28 @@ export function writeMissingToLanguage (resolvedLanguageFiles: string, missingKe
       }
     });
 
-    const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
+    writeLanguageFile(languageFile, languageFileContent);
+  });
+}
+
+export function removeUnusedFromLanguageFiles (parsedLanguageFiles: SimpleFile[], unusedKeys: I18NItem[]): void {
+  parsedLanguageFiles.forEach(languageFile => {
+    const languageFileContent = JSON.parse(languageFile.content);
+
+    unusedKeys.forEach(item => {
+      if (item.language && languageFile.fileName.includes(item.language)) {
+        dot.delete(item.path, languageFileContent);
+      }
+    });
+
+    writeLanguageFile(languageFile, languageFileContent);
+  });
+}
+
+function writeLanguageFile (languageFile: SimpleFile, newLanguageFileContent: unknown) {
+  const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
     const filePath = languageFile.path;
-    const stringifiedContent = JSON.stringify(languageFileContent, null, 2);
+    const stringifiedContent = JSON.stringify(newLanguageFileContent, null, 2);
 
     if (fileExtension === 'json') {
       fs.writeFileSync(filePath, stringifiedContent);
@@ -81,13 +99,9 @@ export function writeMissingToLanguage (resolvedLanguageFiles: string, missingKe
       const jsFile = `export default ${stringifiedContent}; \n`;
       fs.writeFileSync(filePath, jsFile);
     } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
-      const yamlFile = yaml.dump(languageFileContent);
+      const yamlFile = yaml.dump(newLanguageFileContent);
       fs.writeFileSync(filePath, yamlFile);
+    } else {
+      throw new Error(`Language filetype of ${fileExtension} not supported.`)
     }
-  });
-}
-
-export function parseLanguageFiles (languageFilesPath: string): I18NLanguage {
-  const filesList = readLangFiles(languageFilesPath);
-  return extractI18nItemsFromLanguageFiles(filesList);
 }
