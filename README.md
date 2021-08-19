@@ -23,13 +23,11 @@
 # Usage
 
 You can run `vue-i18n-extract` with npx
-
 ```sh
 npx vue-i18n-extract report -vueFiles './path/to/your/vue-files/**/*.?(js|vue)' -languageFiles './path/to/your/language-files/*.?(json|yml|yaml)'
 ```
 
 **Or** you can download into your project and run as an `package.json` script.
-
 ```sh
 npm install --save-dev vue-i18n-extract
 ```
