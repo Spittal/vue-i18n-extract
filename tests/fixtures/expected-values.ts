@@ -1,111 +1,190 @@
 export const expectedFromParsedVueFiles = [
   {
     path: 'header.title',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/Basic.vue',
     line: 3
   },
   {
     path: 'content.paragraph.p_1',
+    previousCharacter: '"',
+    nextCharacter: '"',
     file: '/tests/fixtures/vue-files/Basic.vue',
     line: 4
   },
   {
     path: 'Key used as default translation.',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/Basic.vue',
     line: 5
   },
   {
     path: 'content.paragraph.p.2',
+    previousCharacter: '`',
+    nextCharacter: '`',
     file: '/tests/fixtures/vue-files/Basic.vue',
     line: 6
   },
   {
     path: 'content.link.b',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/Basic.vue',
     line: 8
   },
   {
-    path: 'header.title',
+    path: 'content.link.b',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/Basic.vue',
     line: 11
   },
   {
+    path: 'content.link.b',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: '/tests/fixtures/vue-files/Basic.vue',
+    line: 14
+  },
+  {
+    path: 'header.title',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: '/tests/fixtures/vue-files/Basic.vue',
+    line: 17
+  },
+  {
     path: 'content.link.a',
+    previousCharacter: '"',
+    nextCharacter: '"',
     file: '/tests/fixtures/vue-files/Basic.vue',
     line: 7
   },
   {
-    path: 'header.title',
+    path: 'content.link.a',
+    previousCharacter: '"',
+    nextCharacter: '"',
     file: '/tests/fixtures/vue-files/Basic.vue',
     line: 10
   },
   {
+    path: 'content.link.a',
+    previousCharacter: '"',
+    nextCharacter: '"',
+    file: '/tests/fixtures/vue-files/Basic.vue',
+    line: 13
+  },
+  {
+    path: 'header.title',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: '/tests/fixtures/vue-files/Basic.vue',
+    line: 16
+  },
+  {
     path: "single \\' quote",
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/edge-cases.js',
     line: 2
   },
   {
     path: 'single \\" quote',
+    previousCharacter: '"',
+    nextCharacter: '"',
     file: '/tests/fixtures/vue-files/edge-cases.js',
     line: 3
   },
   {
     path: 'back \\` tick',
+    previousCharacter: '`',
+    nextCharacter: '`',
     file: '/tests/fixtures/vue-files/edge-cases.js',
     line: 4
   },
   {
     path: 'Early ',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/edge-cases.js',
     line: 5
   },
   {
+    path: '${dynamicKey}',
+    previousCharacter: '`',
+    nextCharacter: '`',
+    file: '/tests/fixtures/vue-files/edge-cases.js',
+    line: 8
+  },
+  {
     path: 'header.title',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/folder1/folder2/Deep.vue',
     line: 2
   },
   {
     path: 'header.title',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/folder1/Nested.vue',
     line: 2
   },
   {
     path: 'header.title',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/InCode.vue',
     line: 8
   },
   {
     path: 'header.title',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/InCode.vue',
     line: 14
   },
   {
     path: 'header.title',
-    file: '/tests/fixtures/vue-files/InCode.vue',
-    line: 31
-  },
-  {
-    path: 'content.paragraph.p_1',
-    file: '/tests/fixtures/vue-files/InCode.vue',
-    line: 32
-  },
-  {
-    path: 'content.paragraph.p.2',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/InCode.vue',
     line: 33
   },
   {
+    path: 'content.paragraph.p_1',
+    previousCharacter: '"',
+    nextCharacter: '"',
+    file: '/tests/fixtures/vue-files/InCode.vue',
+    line: 34
+  },
+  {
+    path: 'content.paragraph.p.2',
+    previousCharacter: '`',
+    nextCharacter: '`',
+    file: '/tests/fixtures/vue-files/InCode.vue',
+    line: 35
+  },
+  {
     path: 'header.paragraphs.p_1',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/js-component.js',
     line: 2
   },
   {
     path: 'missing.english',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/Missing.vue',
     line: 3
   },
   {
     path: 'missing.german',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: '/tests/fixtures/vue-files/Missing.vue',
     line: 4
   }

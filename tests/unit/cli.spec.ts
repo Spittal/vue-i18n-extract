@@ -84,7 +84,6 @@ describe('vue-i18n-extract CLI', () => {
         `'./tests/fixtures/lang/**/*.?(json|yml|yaml)'`,
         '--output',
         `'/dev/null'`,
-        '--add',
         '--ci',
       ])).code).not.toBe(0); // We expect this to fail if CI is true, because there's missing and unused keys
     });

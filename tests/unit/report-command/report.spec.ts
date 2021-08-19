@@ -4,10 +4,10 @@ import { parseVueFiles } from '@/report-command/vue-files';
 import { parseLanguageFiles } from '@/report-command/language-files';
 import { expectedI18NReport } from '../../fixtures/expected-values';
 import { vueFiles, languageFiles } from '../../fixtures/resolved-sources';
-import { I18NReport, I18NLanguage, I18NItem } from '@/types';
+import { I18NReport, I18NLanguage, I18NItemWithBounding } from '@/types';
 
 describe('file: report-command/report', () => {
-  let parsedVueFiles: I18NItem[];
+  let parsedVueFiles: I18NItemWithBounding[];
   let parsedLanguageFiles: I18NLanguage;
   let report: I18NReport;
 
