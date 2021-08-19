@@ -3,6 +3,7 @@ declare const _default: {
     languageFiles: string;
     output: boolean;
     add: boolean;
+    remove: boolean;
     ci: boolean;
 };
 export default _default;

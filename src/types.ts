@@ -3,6 +3,7 @@ export type ReportOptions = {
   languageFiles: string;
   output?: string;
   add?: boolean;
+  remove?: boolean;
   ci?: boolean;
 }
 

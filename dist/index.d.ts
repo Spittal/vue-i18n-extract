@@ -1,3 +1,3 @@
 export * from './config-file';
-export * from './report-command';
+export * from './create-report';
 export * from './types';

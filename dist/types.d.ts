@@ -3,6 +3,7 @@ export declare type ReportOptions = {
     languageFiles: string;
     output?: string;
     add?: boolean;
+    remove?: boolean;
     ci?: boolean;
 };
 export declare type SimpleFile = {

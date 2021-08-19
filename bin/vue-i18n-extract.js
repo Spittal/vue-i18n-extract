@@ -3,7 +3,7 @@
  /* eslint-disable */
 'use strict';
 const cli = require('cac')();
-const { reportCommand, initCommand, resolveConfig } = require('../dist/vue-i18n-extract.umd.js');
+const { createI18NReport, initCommand, resolveConfig } = require('../dist/vue-i18n-extract.umd.js');
 
 cli
   .command('', 'Create a report from a glob of your Vue.js source files and your language files.')
@@ -24,16 +24,15 @@ cli
     '[boolean] Use if you want to add missing keys into your json language files.',
   )
   .option(
+    '--remove',
+    '[boolean] Use if you want to remove unused keys from your json language files.',
+  )
+  .option(
     '--ci',
     '[boolean] The process will exit with exitCode=1 if at least one translation-key is missing (useful expecially if it is part of a CI pipeline).',
   )
   .action((options) => {
-    const config = resolveConfig(options);
-
-    if (!config.vueFiles) throw new Error('[vue-i18n-extract] Required configuration vueFiles is missing.');
-    if (!config.languageFiles) throw new Error('[vue-i18n-extract] Required configuration languageFiles is missing.');
-
-    reportCommand(config);
+    createI18NReport(resolveConfig(options));
   });
 
 cli

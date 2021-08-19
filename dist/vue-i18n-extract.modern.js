@@ -30,6 +30,7 @@ var defaultConfig = {
   languageFiles: './lang/**/*.?(json|yaml|yml|js)',
   output: false,
   add: false,
+  remove: false,
   ci: false
 };
 
@@ -46,7 +47,7 @@ function resolveConfig() {
 
     const configFile = require(pathToConfigFile);
 
-    console.info(`\n[vue-i18n-extract] Using config file found at ${pathToConfigFile}`);
+    console.info(`\nUsing config file found at ${pathToConfigFile}`);
     return _extends({}, configFile, argvOptions);
   } catch (_unused) {
     return argvOptions;
@@ -136,7 +137,7 @@ function extractDirectiveMatches(file) {
   return [...getMatches(file, directiveRegExp)];
 }
 
-function extractI18nItemsFromVueFiles(sourceFiles) {
+function extractI18NItemsFromVueFiles(sourceFiles) {
   return sourceFiles.reduce((accumulator, file) => {
     const methodMatches = extractMethodMatches(file);
     const componentMatches = extractComponentMatches(file);
@@ -145,12 +146,7 @@ function extractI18nItemsFromVueFiles(sourceFiles) {
   }, []);
 }
 
-function parseVueFiles(vueFilesPath) {
-  const filesList = readVueFiles(vueFilesPath);
-  return extractI18nItemsFromVueFiles(filesList);
-}
-
-function readLangFiles(src) {
+function readLanguageFiles(src) {
   if (!isValidGlob(src)) {
     throw new Error(`languageFiles isn't a valid glob pattern.`);
   }
@@ -184,8 +180,7 @@ function readLangFiles(src) {
     };
   });
 }
-
-function extractI18nItemsFromLanguageFiles(languageFiles) {
+function extractI18NLanguageFromLanguageFiles(languageFiles) {
   return languageFiles.reduce((accumulator, file) => {
     const language = file.fileName.substring(file.fileName.lastIndexOf('/') + 1, file.fileName.lastIndexOf('.'));
 
@@ -204,34 +199,45 @@ function extractI18nItemsFromLanguageFiles(languageFiles) {
     return accumulator;
   }, {});
 }
-
-function writeMissingToLanguage(resolvedLanguageFiles, missingKeys) {
-  const languageFiles = readLangFiles(resolvedLanguageFiles);
-  languageFiles.forEach(languageFile => {
+function writeMissingToLanguageFiles(parsedLanguageFiles, missingKeys) {
+  parsedLanguageFiles.forEach(languageFile => {
     const languageFileContent = JSON.parse(languageFile.content);
     missingKeys.forEach(item => {
       if (item.language && languageFile.fileName.includes(item.language) || !item.language) {
         dot.str(item.path, '', languageFileContent);
       }
     });
-    const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
-    const filePath = languageFile.path;
-    const stringifiedContent = JSON.stringify(languageFileContent, null, 2);
-
-    if (fileExtension === 'json') {
-      fs.writeFileSync(filePath, stringifiedContent);
-    } else if (fileExtension === 'js') {
-      const jsFile = `export default ${stringifiedContent}; \n`;
-      fs.writeFileSync(filePath, jsFile);
-    } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
-      const yamlFile = yaml.dump(languageFileContent);
-      fs.writeFileSync(filePath, yamlFile);
-    }
+    writeLanguageFile(languageFile, languageFileContent);
   });
 }
-function parseLanguageFiles(languageFilesPath) {
-  const filesList = readLangFiles(languageFilesPath);
-  return extractI18nItemsFromLanguageFiles(filesList);
+function removeUnusedFromLanguageFiles(parsedLanguageFiles, unusedKeys) {
+  parsedLanguageFiles.forEach(languageFile => {
+    const languageFileContent = JSON.parse(languageFile.content);
+    unusedKeys.forEach(item => {
+      if (item.language && languageFile.fileName.includes(item.language)) {
+        dot.delete(item.path, languageFileContent);
+      }
+    });
+    writeLanguageFile(languageFile, languageFileContent);
+  });
+}
+
+function writeLanguageFile(languageFile, newLanguageFileContent) {
+  const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
+  const filePath = languageFile.path;
+  const stringifiedContent = JSON.stringify(newLanguageFileContent, null, 2);
+
+  if (fileExtension === 'json') {
+    fs.writeFileSync(filePath, stringifiedContent);
+  } else if (fileExtension === 'js') {
+    const jsFile = `export default ${stringifiedContent}; \n`;
+    fs.writeFileSync(filePath, jsFile);
+  } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
+    const yamlFile = yaml.dump(newLanguageFileContent);
+    fs.writeFileSync(filePath, yamlFile);
+  } else {
+    throw new Error(`Language filetype of ${fileExtension} not supported.`);
+  }
 }
 
 function stripBounding(item) {
@@ -244,7 +250,7 @@ function stripBounding(item) {
 
 function mightBeDynamic(item) {
   return item.path.includes('${') && !!item.previousCharacter.match(/`/g) && !!item.nextCharacter.match(/`/g);
-} // Looping through the arays multiple times might not be the most effecient, but it's the easiest to read and debug. Which at this scales is an accepted trade-off.
+} // Looping through the arays multiple times might not be the most effecient, but it's the easiest to read and debug. Which at this scale is an accepted trade-off.
 
 
 function extractI18NReport(vueItems, languageFiles) {
@@ -282,22 +288,22 @@ async function writeReportToFile(report, writePath) {
   });
 }
 
-function createI18NReport(vueFiles, languageFiles) {
-  const resolvedVueFiles = path.resolve(process.cwd(), vueFiles);
-  const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
-  const parsedVueFiles = parseVueFiles(resolvedVueFiles);
-  const parsedLanguageFiles = parseLanguageFiles(resolvedLanguageFiles);
-  return extractI18NReport(parsedVueFiles, parsedLanguageFiles);
-}
-async function reportCommand(command) {
+async function createI18NReport(options) {
   const {
-    vueFiles,
-    languageFiles,
+    vueFiles: vueFilesGlob,
+    languageFiles: languageFilesGlob,
     output,
     add,
+    remove,
     ci
-  } = command;
-  const report = createI18NReport(vueFiles, languageFiles);
+  } = options;
+  if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
+  if (!languageFilesGlob) throw new Error('Required configuration languageFiles is missing.');
+  const vueFiles = readVueFiles(path.resolve(process.cwd(), vueFilesGlob));
+  const languageFiles = readLanguageFiles(path.resolve(process.cwd(), languageFilesGlob));
+  const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
+  const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles);
+  const report = extractI18NReport(I18NItems, I18NLanguage);
   if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
   if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
   if (report.maybeDynamicKeys.length) console.warn('\nSuspected Dynamic Keys Found\nvue-i18n-extract does not compile Vue templates and therefore can not infer the correct key for the following keys.'), console.table(report.maybeDynamicKeys);
@@ -308,19 +314,30 @@ async function reportCommand(command) {
   }
 
   if (add && report.missingKeys.length) {
-    const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
-    writeMissingToLanguage(resolvedLanguageFiles, report.missingKeys);
-    console.info('\nThe missing keys have been added to your languages files');
+    writeMissingToLanguageFiles(languageFiles, report.missingKeys);
+    console.info('\nThe missing keys have been added to your language files.');
+  }
+
+  if (remove && report.unusedKeys.length) {
+    removeUnusedFromLanguageFiles(languageFiles, report.unusedKeys);
+    console.info('\nThe unused keys have been removed from your language files.');
   }
 
   if (ci && report.missingKeys.length) {
-    console.info(`[vue-i18n-extract] ${report.missingKeys.length} missing keys found.`);
-    process.exit(1);
+    throw new Error(`${report.missingKeys.length} missing keys found.`);
   }
 
-  if (ci) process.exit(0);
   return report;
 }
 
-export { createI18NReport, extractI18NReport, initCommand, parseLanguageFiles, parseVueFiles, readVueFiles, reportCommand, resolveConfig, writeMissingToLanguage, writeReportToFile };
+process.on('uncaughtException', err => {
+  console.error('[vue-i18n-extract]', err);
+  process.exit(1);
+});
+process.on('unhandledRejection', err => {
+  console.error('[vue-i18n-extract]', err);
+  process.exit(1);
+});
+
+export { createI18NReport, extractI18NItemsFromVueFiles, extractI18NLanguageFromLanguageFiles, extractI18NReport, initCommand, readLanguageFiles, readVueFiles, removeUnusedFromLanguageFiles, resolveConfig, writeMissingToLanguageFiles, writeReportToFile };
 //# sourceMappingURL=vue-i18n-extract.modern.js.map
