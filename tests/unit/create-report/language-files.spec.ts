@@ -1,14 +1,14 @@
 import path from 'path';
 import fs from 'fs';
 import dot from 'dot-object';
-import { readLanguageFiles, extractI18NLanguageFromLanguageFiles, writeMissingToLanguageFiles, removeUnusedFromLanguageFiles } from '@/create-report/language-files';
+import { readLanguageFiles, extractI18NLanguageFromLanguageFiles, writeMissingToLanguageFiles, removeUnusedFromLanguageFiles, parselanguageFiles } from '@/create-report/language-files';
 import { expectedFromParsedLanguageFiles, expectedI18NReport } from '../../fixtures/expected-values';
 import { languageFiles } from '../../fixtures/resolved-sources';
 
 describe('file: create-report/language-files', () => {
   describe('function: readLanguageFiles, function: extractI18NLanguageFromLanguageFiles', () => {
     it('Parse the file glob into an I18NLanguage object', () => {
-      const I18NLanguage = extractI18NLanguageFromLanguageFiles(readLanguageFiles(languageFiles));
+      const I18NLanguage = parselanguageFiles(languageFiles);
       expect(I18NLanguage).toEqual(expectedFromParsedLanguageFiles);
     });
 

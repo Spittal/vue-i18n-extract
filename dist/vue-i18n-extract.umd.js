@@ -151,6 +151,10 @@
       const directiveMatches = extractDirectiveMatches(file);
       return [...accumulator, ...methodMatches, ...componentMatches, ...directiveMatches];
     }, []);
+  } // This is a convenience function for users implementing in their own projects, and isn't used internally
+
+  function parseVueFiles(vueFiles) {
+    return extractI18NItemsFromVueFiles(readVueFiles(vueFiles));
   }
 
   function readLanguageFiles(src) {
@@ -245,6 +249,11 @@
     } else {
       throw new Error(`Language filetype of ${fileExtension} not supported.`);
     }
+  } // This is a convenience function for users implementing in their own projects, and isn't used internally
+
+
+  function parselanguageFiles(languageFiles) {
+    return extractI18NLanguageFromLanguageFiles(readLanguageFiles(languageFiles));
   }
 
   function stripBounding(item) {
@@ -351,6 +360,8 @@
   exports.extractI18NLanguageFromLanguageFiles = extractI18NLanguageFromLanguageFiles;
   exports.extractI18NReport = extractI18NReport;
   exports.initCommand = initCommand;
+  exports.parseVueFiles = parseVueFiles;
+  exports.parselanguageFiles = parselanguageFiles;
   exports.readLanguageFiles = readLanguageFiles;
   exports.readVueFiles = readVueFiles;
   exports.removeUnusedFromLanguageFiles = removeUnusedFromLanguageFiles;

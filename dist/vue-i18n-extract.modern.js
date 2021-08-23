@@ -144,6 +144,10 @@ function extractI18NItemsFromVueFiles(sourceFiles) {
     const directiveMatches = extractDirectiveMatches(file);
     return [...accumulator, ...methodMatches, ...componentMatches, ...directiveMatches];
   }, []);
+} // This is a convenience function for users implementing in their own projects, and isn't used internally
+
+function parseVueFiles(vueFiles) {
+  return extractI18NItemsFromVueFiles(readVueFiles(vueFiles));
 }
 
 function readLanguageFiles(src) {
@@ -238,6 +242,11 @@ function writeLanguageFile(languageFile, newLanguageFileContent) {
   } else {
     throw new Error(`Language filetype of ${fileExtension} not supported.`);
   }
+} // This is a convenience function for users implementing in their own projects, and isn't used internally
+
+
+function parselanguageFiles(languageFiles) {
+  return extractI18NLanguageFromLanguageFiles(readLanguageFiles(languageFiles));
 }
 
 function stripBounding(item) {
@@ -339,5 +348,5 @@ process.on('unhandledRejection', err => {
   process.exit(1);
 });
 
-export { createI18NReport, extractI18NItemsFromVueFiles, extractI18NLanguageFromLanguageFiles, extractI18NReport, initCommand, readLanguageFiles, readVueFiles, removeUnusedFromLanguageFiles, resolveConfig, writeMissingToLanguageFiles, writeReportToFile };
+export { createI18NReport, extractI18NItemsFromVueFiles, extractI18NLanguageFromLanguageFiles, extractI18NReport, initCommand, parseVueFiles, parselanguageFiles, readLanguageFiles, readVueFiles, removeUnusedFromLanguageFiles, resolveConfig, writeMissingToLanguageFiles, writeReportToFile };
 //# sourceMappingURL=vue-i18n-extract.modern.js.map
