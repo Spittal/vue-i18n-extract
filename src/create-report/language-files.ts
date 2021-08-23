@@ -105,3 +105,8 @@ function writeLanguageFile (languageFile: SimpleFile, newLanguageFileContent: un
       throw new Error(`Language filetype of ${fileExtension} not supported.`)
     }
 }
+
+// This is a convenience function for users implementing in their own projects, and isn't used internally
+export function parselanguageFiles (languageFiles: string): I18NLanguage {
+  return extractI18NLanguageFromLanguageFiles(readLanguageFiles(languageFiles));
+}

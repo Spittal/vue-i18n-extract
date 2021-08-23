@@ -1,4 +1,4 @@
-import { readVueFiles, extractI18NItemsFromVueFiles } from '@/create-report/vue-files';
+import { readVueFiles, parseVueFiles } from '@/create-report/vue-files';
 import { expectedFromParsedVueFiles } from '../../fixtures/expected-values';
 import { vueFiles } from '../../fixtures/resolved-sources';
 import path from 'path';
@@ -6,7 +6,7 @@ import path from 'path';
 describe('file: create-report/vue-files', () => {
   describe('function: readVueFiles, function: extractI18NItemsFromVueFiles', () => {
     it('Parse the file glob into I18n items', () => {
-      const I18NItems = extractI18NItemsFromVueFiles(readVueFiles(vueFiles));
+      const I18NItems = parseVueFiles(vueFiles);
       expect(I18NItems).toEqual(expectedFromParsedVueFiles);
     });
 

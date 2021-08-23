@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { extractI18NReport, writeReportToFile } from '@/create-report/report';
-import { readVueFiles, extractI18NItemsFromVueFiles } from '@/create-report/vue-files';
-import { readLanguageFiles, extractI18NLanguageFromLanguageFiles } from '@/create-report/language-files';
+import { parseVueFiles } from '@/create-report/vue-files';
+import { parselanguageFiles } from '@/create-report/language-files';
 import { expectedI18NReport } from '../../fixtures/expected-values';
 import { vueFiles, languageFiles } from '../../fixtures/resolved-sources';
 import { I18NReport, I18NLanguage, I18NItemWithBounding } from '@/types';
@@ -12,8 +12,8 @@ describe('file: create-report/report', () => {
   let report: I18NReport;
 
   beforeAll(() => {
-    parsedVueFiles = extractI18NItemsFromVueFiles(readVueFiles(vueFiles));
-    parsedLanguageFiles = extractI18NLanguageFromLanguageFiles(readLanguageFiles(languageFiles));
+    parsedVueFiles = parseVueFiles(vueFiles);
+    parsedLanguageFiles = parselanguageFiles(languageFiles);
     report = extractI18NReport(parsedVueFiles, parsedLanguageFiles);
   });
 

@@ -94,3 +94,8 @@ export function extractI18NItemsFromVueFiles (sourceFiles: SimpleFile[]): I18NIt
     ];
   }, [] as I18NItemWithBounding[]);
 }
+
+// This is a convenience function for users implementing in their own projects, and isn't used internally
+export function parseVueFiles (vueFiles: string): I18NItemWithBounding[] {
+  return extractI18NItemsFromVueFiles(readVueFiles(vueFiles));
+}
