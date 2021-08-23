@@ -10,11 +10,11 @@
   <img src="https://github.com/pixari/vue-i18n-extract/workflows/Test/badge.svg?branch=master" alt="Tests">
 </p>
 
-`vue-i18n-extract` is built to work with your Vue.js projects using the library [vue-i18n](https://kazupon.github.io/vue-i18n/). It run static analysis on your Vue.js source code looking for any `vue-i18n` usage, in order to:
+`vue-i18n-extract` is built to work with your Vue.js projects using the library [vue-i18n](https://kazupon.github.io/vue-i18n/). It runs static analysis on your Vue.js source code looking for any `vue-i18n` usage, in order to:
 
 - Report all **missing keys** in your language files.
 - Report all **unused keys** in your language files.
-- Optionally write every **missing keys** into your language files.
+- Optionally write every missing key into your language files.
 
 <p align="center">
   <img align="center" width="80%" src=".github/img/vue-i18n-extract-screenshot.png">
@@ -24,7 +24,7 @@
 
 You can run `vue-i18n-extract` with npx
 ```sh
-npx vue-i18n-extract report -vueFiles './path/to/your/vue-files/**/*.?(js|vue)' -languageFiles './path/to/your/language-files/*.?(json|yml|yaml)'
+npx vue-i18n-extract report --vueFiles './path/to/your/vue-files/**/*.?(js|vue)' --languageFiles './path/to/your/language-files/*.?(json|yml|yaml)'
 ```
 
 **Or** you can download into your project and run as an `package.json` script.
@@ -107,7 +107,7 @@ tc('key.static', 0) tc("key.static", 1) tc(`key.static`, 2)
 <i18n-t keypath="key.component"></i18n-t>
 <Translate keypath="key.component"></Translate>
 ```
-> Note: As of right now there is no support for binding in path like `:path="condition ? 'string1' : 'string2'"` there is just support strings as shown above.
+> Note: As of right now there is no support for binding in a path like `:path="condition ? 'string1' : 'string2'"` there is just support strings as shown above.
 
 - v-t directive with string literal:
 ```html
@@ -123,7 +123,7 @@ const VueI18NExtract = require('vue-i18n-extract');
 
 const report = VueI18NExtract.createI18NReport({
   vueFiles: './path/to/vue-files/**/*.?(js|vue)',
-  languageFiles: './path/to/language-files/*.?(json|yml|yaml|js)'
+  languageFiles: './path/to/language-files/*.?(json|yml|yaml|js)',
 });
 ```
 
