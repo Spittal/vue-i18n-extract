@@ -6,6 +6,7 @@ export type ReportOptions = {
   remove?: boolean;
   dynamic?: number;
   ci?: boolean;
+  separator?: string;
 }
 
 export type LanguageFile = {

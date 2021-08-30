@@ -1,4 +1,5 @@
 import path from 'path';
+import Dot from 'dot-object';
 import fs from 'fs';
 
 import { ReportOptions, I18NReport } from '../types';
@@ -6,12 +7,12 @@ import { parseVueFiles } from './vue-files';
 import { parseLanguageFiles, LanguageFileUpdater } from './language-files';
 import { extractI18NReport, VueI18NExtractReportTypes, writeReportToFile } from './report';
 
-export function createI18NReport (vueFiles: string, languageFiles: string, command: ReportOptions): I18NReport {
+export function createI18NReport (vueFiles: string, languageFiles: string, command: ReportOptions, dot: DotObject.Dot = Dot): I18NReport {
   const resolvedVueFiles = path.resolve(process.cwd(), vueFiles);
   const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
 
   const parsedVueFiles = parseVueFiles(resolvedVueFiles);
-  const parsedLanguageFiles = parseLanguageFiles(resolvedLanguageFiles);
+  const parsedLanguageFiles = parseLanguageFiles(resolvedLanguageFiles, dot);
 
   const reportType = command.dynamic ? VueI18NExtractReportTypes.All : (VueI18NExtractReportTypes.Missing + VueI18NExtractReportTypes.Unused);
 
@@ -27,6 +28,7 @@ export function reportFromConfigCommand(): Promise<void> | void {
       ...(configFile.options.output && {output: configFile.options.output }),
       ...(configFile.options.add && { add: Boolean(configFile.options.add) }),
       ...(configFile.options.dynamic && {dynamic: [false, 'ignore', 'report'].findIndex(e => e === configFile.options.dynamic) }),
+      ...(configFile.options.separator && {separator: configFile.options.separator }),
     });
   } catch (err) {
     console.error(err);
@@ -34,9 +36,10 @@ export function reportFromConfigCommand(): Promise<void> | void {
 }
 
 export async function reportCommand (command: ReportOptions): Promise<void> {
-  const { vueFiles, languageFiles, output, add, remove, dynamic, ci } = command;
+  const { vueFiles, languageFiles, output, add, remove, dynamic, ci, separator } = command;
   console.log(vueFiles);
-  const report = createI18NReport(vueFiles, languageFiles, command);
+  const dot = typeof separator === 'string' ? new Dot(separator) : Dot;
+  const report = createI18NReport(vueFiles, languageFiles, command, dot);
   const updater = new LanguageFileUpdater(languageFiles);
 
   if (report.missingKeys) console.info('missing keys: '), console.table(report.missingKeys);
@@ -49,7 +52,7 @@ export async function reportCommand (command: ReportOptions): Promise<void> {
   }
 
   if (add && report.missingKeys && report.missingKeys.length > 0) {
-    updater.addMissingKeys(report.missingKeys);
+    updater.addMissingKeys(report.missingKeys, dot);
     console.log('The missing keys have been added');
   }
 

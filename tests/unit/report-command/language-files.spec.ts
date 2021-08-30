@@ -8,7 +8,7 @@ import { languageFiles } from '../fixtures/resolved-sources';
 describe('file: report-command/language-files', () => {
   describe('function: parseLanguageFiles', () => {
     it('Parse the file glob into and I18NLanguage object', () => {
-      const results = parseLanguageFiles(languageFiles);
+      const results = parseLanguageFiles(languageFiles, dot);
       expect(results).toEqual(expectedFromParsedLanguageFiles);
     });
 
@@ -35,7 +35,7 @@ describe('file: report-command/language-files', () => {
       const dotStrSpy = jest.spyOn(dot, 'str');
       const dotDeleteSpy = jest.spyOn(dot, 'delete');
       const updater = new LanguageFileUpdater(languageFiles);
-      updater.addMissingKeys(expectedI18NReport.missingKeys);
+      updater.addMissingKeys(expectedI18NReport.missingKeys, dot);
       updater.removeUnusedKeys(expectedI18NReport.unusedKeys);
       expect(updater.hasChanges).toBe(true);
       updater.writeChanges();
