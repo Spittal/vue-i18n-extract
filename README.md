@@ -93,6 +93,9 @@ Use if you want to ignore dynamic keys false-positive. Use it 2 times to get dyn
 
 -ci,
 The process will exit with exitCode=1 if at least one translation-key is missing (useful especially if it is part of a CI pipeline).',
+
+-s, --separator,
+Use if you want to override the separator used when parsing locale identifiers. Default is `.`,
 ```
 
 Examples

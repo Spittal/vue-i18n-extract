@@ -35,7 +35,7 @@ describe('file: report-command/language-files', () => {
       const dotStrSpy = jest.spyOn(dot, 'str');
       const dotDeleteSpy = jest.spyOn(dot, 'delete');
       const updater = new LanguageFileUpdater(languageFiles);
-      updater.addMissingKeys(expectedI18NReport.missingKeys);
+      updater.addMissingKeys(expectedI18NReport.missingKeys, dot);
       updater.removeUnusedKeys(expectedI18NReport.unusedKeys);
       expect(updater.hasChanges).toBe(true);
       updater.writeChanges();
