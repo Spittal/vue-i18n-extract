@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import glob from 'glob';
-import dot from 'dot-object';
+import Dot from 'dot-object';
 import yaml from 'js-yaml';
 import isValidGlob from 'is-valid-glob';
 import { SimpleFile, I18NLanguage, I18NItem } from '../types';
@@ -39,7 +39,7 @@ export function readLanguageFiles (src: string): SimpleFile[] {
   });
 }
 
-export function extractI18NLanguageFromLanguageFiles (languageFiles: SimpleFile[]): I18NLanguage {
+export function extractI18NLanguageFromLanguageFiles (languageFiles: SimpleFile[], dot: DotObject.Dot = Dot): I18NLanguage {
   return languageFiles.reduce((accumulator, file) => {
     const language = file.fileName.substring(file.fileName.lastIndexOf('/') + 1, file.fileName.lastIndexOf('.'));
 
@@ -60,7 +60,7 @@ export function extractI18NLanguageFromLanguageFiles (languageFiles: SimpleFile[
   }, {});
 }
 
-export function writeMissingToLanguageFiles (parsedLanguageFiles: SimpleFile[], missingKeys: I18NItem[]): void {
+export function writeMissingToLanguageFiles (parsedLanguageFiles: SimpleFile[], missingKeys: I18NItem[], dot: DotObject.Dot = Dot): void {
   parsedLanguageFiles.forEach(languageFile => {
     const languageFileContent = JSON.parse(languageFile.content);
 
@@ -74,7 +74,7 @@ export function writeMissingToLanguageFiles (parsedLanguageFiles: SimpleFile[], 
   });
 }
 
-export function removeUnusedFromLanguageFiles (parsedLanguageFiles: SimpleFile[], unusedKeys: I18NItem[]): void {
+export function removeUnusedFromLanguageFiles (parsedLanguageFiles: SimpleFile[], unusedKeys: I18NItem[], dot: DotObject.Dot = Dot): void {
   parsedLanguageFiles.forEach(languageFile => {
     const languageFileContent = JSON.parse(languageFile.content);
 
@@ -107,6 +107,6 @@ function writeLanguageFile (languageFile: SimpleFile, newLanguageFileContent: un
 }
 
 // This is a convenience function for users implementing in their own projects, and isn't used internally
-export function parselanguageFiles (languageFiles: string): I18NLanguage {
-  return extractI18NLanguageFromLanguageFiles(readLanguageFiles(languageFiles));
+export function parselanguageFiles (languageFiles: string, dot: DotObject.Dot = Dot): I18NLanguage {
+  return extractI18NLanguageFromLanguageFiles(readLanguageFiles(languageFiles), dot);
 }

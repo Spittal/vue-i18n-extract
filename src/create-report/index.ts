@@ -3,6 +3,7 @@ import { ReportOptions, I18NReport } from '../types';
 import { readVueFiles, extractI18NItemsFromVueFiles } from './vue-files';
 import { readLanguageFiles, extractI18NLanguageFromLanguageFiles, removeUnusedFromLanguageFiles, writeMissingToLanguageFiles } from './language-files';
 import { extractI18NReport,  writeReportToFile } from './report';
+import Dot from 'dot-object';
 
 export async function createI18NReport (options: ReportOptions): Promise<I18NReport> {
   const {
@@ -11,17 +12,19 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
     output,
     add,
     remove,
-    ci
+    ci,
+    separator
   } = options;
 
   if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
   if (!languageFilesGlob) throw new Error('Required configuration languageFiles is missing.');
 
+  const dot = typeof separator === 'string' ? new Dot(separator) : Dot;
   const vueFiles = readVueFiles(path.resolve(process.cwd(), vueFilesGlob));
   const languageFiles = readLanguageFiles(path.resolve(process.cwd(), languageFilesGlob));
 
   const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
-  const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles);
+  const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
 
   const report = extractI18NReport(I18NItems, I18NLanguage);
 
@@ -35,11 +38,11 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
   }
 
   if (add && report.missingKeys.length) {
-    writeMissingToLanguageFiles(languageFiles, report.missingKeys);
+    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot);
     console.info('\nThe missing keys have been added to your language files.');
   }
   if (remove && report.unusedKeys.length) {
-    removeUnusedFromLanguageFiles(languageFiles, report.unusedKeys);
+    removeUnusedFromLanguageFiles(languageFiles, report.unusedKeys, dot);
     console.info('\nThe unused keys have been removed from your language files.');
   }
 
