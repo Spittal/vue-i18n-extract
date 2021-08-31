@@ -1,11 +1,13 @@
 {
   "name": "vue-i18n-extract",
   "description": "Manage vue-i18n localization with static analysis",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "scripts": {
     "build": "rm -fr dist && microbundle --target node -f umd,modern",
     "dev": "microbundle watch --target node",
-    "demo": "node ./bin/vue-i18n-extract.js report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|yaml|yml)'",
+    "demo": "node ./bin/vue-i18n-extract.js report --vueFiles './tests/fixtures/vue-files/**/*.?(vue)' --languageFiles './tests/fixtures/lang/**/*.?(json|yaml|yml|js)'",
+    "vue-i18n-extract": "node ./bin/vue-i18n-extract.js",
+    "demo:debug": "node ./bin/vue-i18n-extract.js report --vueFiles './tests/fixtures/vue-files/**/*.?(vue|js)' --languageFiles './tests/fixtures/lang/**/*.?(json|yaml|yml|js)'",
     "test": "jest",
     "test:dev": "jest --watch",
     "lint": "eslint **/*.ts"
@@ -33,28 +35,29 @@
   ],
   "author": "Raffaele Pizzari <raffaele.pizzari@gmail.com> (https://raffaelepizzari.com)",
   "dependencies": {
-    "commander": "^6.1.0",
+    "cac": "^6.7.3",
     "dot-object": "^2.1.4",
     "glob": "^7.1.6",
     "is-valid-glob": "^1.0.0",
-    "js-yaml": "^3.14.0"
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "@types/dot-object": "^2.1.2",
     "@types/esm": "^3.2.0",
     "@types/glob": "^7.1.3",
     "@types/is-valid-glob": "^1.0.0",
-    "@types/jest": "^26.0.14",
-    "@types/js-yaml": "^3.12.5",
-    "@types/node": "^14.11.2",
-    "@types/yargs": "^15.0.7",
-    "@typescript-eslint/eslint-plugin": "^4.3.0",
-    "@typescript-eslint/parser": "^4.3.0",
-    "eslint": "^7.10.0",
-    "jest": "^26.4.2",
-    "jest-config": "^26.4.2",
-    "microbundle": "^0.12.4",
-    "ts-jest": "^26.4.1",
-    "typescript": "^4.0.3"
+    "@types/jest": "^27.0.1",
+    "@types/js-yaml": "^4.0.1",
+    "@types/node": "^14.14.41",
+    "@types/yargs": "^16.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.25.0",
+    "jest": "^27.0.6",
+    "jest-config": "^27.0.6",
+    "microbundle": "^0.13.0",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.2.4"
   }
 }

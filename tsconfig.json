@@ -8,6 +8,7 @@
     "sourceMap": true,
     "strict": true,
     "noImplicitAny": false,
+    "allowJs": true,
     "baseUrl": "./",
     "paths": {
       "@/*": [
@@ -16,7 +17,7 @@
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*.ts"
   ],
   "exclude": [
     "**/*.spec.ts"
