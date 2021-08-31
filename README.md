@@ -82,7 +82,7 @@ This will print out a table of missing keys in your language files, as well as u
 
 --separator
 // String
-//Use if you want to override the separator used when parsing locale identifiers. Default is `.`.
+// Use if you want to override the separator used when parsing locale identifiers. Default is `.`.
 ```
 
 ## Config File
