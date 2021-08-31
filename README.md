@@ -87,7 +87,7 @@ This will print out a table of missing keys in your language files, as well as u
 
 ## Config File
 
-Optionally you can add a `vue-i18n-extract.config.js` file to the root of your project. Run `npx vue-i18n-extract init` to quickly bootstrap a config file. Available configuration is found [here](src/config-file/vue-i18n-extract.config.js). Once you have a config file you can then just run `npx vue-i18n-extract`
+Optionally you can add a `vue-i18n-extract.config.js` file to the root of your project. Run `npx vue-i18n-extract init` to quickly bootstrap a config file. Available configuration is found [here](src/config-file/vue-i18n-extract.config.ts). Once you have a config file you can then just run `npx vue-i18n-extract`
 
 # Supported `vue-i18n` Formats
 
