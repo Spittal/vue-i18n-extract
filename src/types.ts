@@ -4,14 +4,7 @@ export type ReportOptions = {
   output?: string;
   add?: boolean;
   remove?: boolean;
-  dynamic?: number;
   ci?: boolean;
-}
-
-export type LanguageFile = {
-  fileName: string;
-  path: string;
-  content: Record<string, unknown>;
 }
 
 export type SimpleFile = {
@@ -27,12 +20,17 @@ export type I18NItem = {
   language?: string;
 }
 
+export type I18NItemWithBounding = I18NItem & {
+  previousCharacter: string;
+  nextCharacter: string;
+}
+
 export type I18NLanguage = {
   [language: string]: I18NItem[];
 }
 
 export type I18NReport = {
-  missingKeys?: I18NItem[];
-  unusedKeys?: I18NItem[];
-  dynamicKeys?: I18NItem[];
+  missingKeys: I18NItem[];
+  unusedKeys: I18NItem[];
+  maybeDynamicKeys: I18NItem[];
 }

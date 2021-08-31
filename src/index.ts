@@ -1,11 +1,13 @@
-import * as report from './report-command';
-
-export * from './init-command';
-
+export * from './config-file';
+export * from './create-report';
 export * from './types';
-export * from './report-command';
 
-// Needed for compatibility with versions < 1.1.0 of vue-i18n-extract.
-export default {
-  ...report
-};
+process.on('uncaughtException', (err) => {
+  console.error('[vue-i18n-extract]', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.error('[vue-i18n-extract]', err);
+  process.exit(1);
+});

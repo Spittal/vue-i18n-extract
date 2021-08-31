@@ -1,0 +1,20 @@
+{
+  "header": {
+    "title": "Title"
+  },
+  "content": {
+    "paragraph": {
+      "p_1": "Clicked {count} times",
+      "p.2": "One Thing | Two Things"
+    },
+    "link": {
+      "a": "Click {link}",
+      "b": "Here"
+    }
+  },
+  "Key used as default translation.": "Key used as default translation.",
+  "missing": {
+    "german": "Missing!"
+  },
+  "unused_json": "This key is unused."
+}

@@ -3,7 +3,8 @@ export declare type ReportOptions = {
     languageFiles: string;
     output?: string;
     add?: boolean;
-    dynamic?: number;
+    remove?: boolean;
+    ci?: boolean;
 };
 export declare type SimpleFile = {
     fileName: string;
@@ -16,11 +17,15 @@ export declare type I18NItem = {
     file?: string;
     language?: string;
 };
+export declare type I18NItemWithBounding = I18NItem & {
+    previousCharacter: string;
+    nextCharacter: string;
+};
 export declare type I18NLanguage = {
     [language: string]: I18NItem[];
 };
 export declare type I18NReport = {
-    missingKeys?: I18NItem[];
-    unusedKeys?: I18NItem[];
-    dynamicKeys?: I18NItem[];
+    missingKeys: I18NItem[];
+    unusedKeys: I18NItem[];
+    maybeDynamicKeys: I18NItem[];
 };
