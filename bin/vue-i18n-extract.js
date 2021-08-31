@@ -31,6 +31,10 @@ cli
     '--ci',
     '[boolean] The process will exit with exitCode=1 if at least one translation-key is missing (useful expecially if it is part of a CI pipeline).',
   )
+  .option(
+    '--separator <separator>',
+    'Use if you want to override the separator used when parsing locale identifiers. Default is `.`'
+   )
   .action((options) => {
     createI18NReport(resolveConfig(options));
   });
