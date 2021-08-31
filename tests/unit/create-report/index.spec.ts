@@ -5,6 +5,7 @@ import { expectedI18NReport } from '../../fixtures/expected-values';
 import { vueFiles, languageFiles } from '../../fixtures/resolved-sources';
 import * as report from '@/create-report/report';
 import * as languageFileActions from '@/create-report/language-files';
+import Dot from 'dot-object';
 
 describe('file: create-report/index', () => {
   let consoleTableSpy: jest.SpyInstance<unknown>;
@@ -55,6 +56,7 @@ describe('file: create-report/index', () => {
     expect(writeMissingSpy).toHaveBeenCalledWith(
       languageFileActions.readLanguageFiles(options.languageFiles),
       expectedI18NReport.missingKeys,
+      Dot,
     );
     expect(consoleInfoSpy).toHaveBeenLastCalledWith('\nThe missing keys have been added to your language files.');
   });
@@ -67,6 +69,7 @@ describe('file: create-report/index', () => {
     expect(removeUnusedSpy).toHaveBeenCalledWith(
       languageFileActions.readLanguageFiles(options.languageFiles),
       expectedI18NReport.unusedKeys,
+      Dot,
     );
     expect(consoleInfoSpy).toHaveBeenLastCalledWith('\nThe unused keys have been removed from your language files.');
   });
