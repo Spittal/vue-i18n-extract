@@ -77,7 +77,7 @@ This will print out a table of missing keys in your language files, as well as u
 
 --ci
 // Boolean
-// The process will exit with exitCode=1 if at least one translation key is missing (useful if it is part of a CI pipeline).
+// The process will exit with exitCode=1 if at least one translation key is missing or unused (useful if it is part of a CI pipeline).
 
 
 --separator
