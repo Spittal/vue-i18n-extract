@@ -79,7 +79,6 @@ This will print out a table of missing keys in your language files, as well as u
 // Boolean
 // The process will exit with exitCode=1 if at least one translation key is missing or unused (useful if it is part of a CI pipeline).
 
-
 --separator
 // String
 // Use if you want to override the separator used when parsing locale identifiers. Default is `.`.
@@ -112,13 +111,13 @@ tc('key.static', 0) tc("key.static", 1) tc(`key.static`, 2)
 <i18n-t keypath="key.component"></i18n-t>
 <Translate keypath="key.component"></Translate>
 ```
-> Note: As of right now there is no support for binding in a path like `:path="condition ? 'string1' : 'string2'"` there is just support strings as shown above.
+> Note: As of right now there is no support for binding in a path like `:path="condition ? 'string1' : 'string2'"` there is just support for strings as shown above.
 
 - v-t directive with string literal:
 ```html
 <p v-t="'key.directive'"></p>
 ```
-> Note: As of right now there is no object support to reference that path from component data.
+> Note: As of right now there is no object support to reference a path from component data.
 
 # Usage in NodeJS
 Make sure you have `vue-i18n-extract` installed locally and import the library.
