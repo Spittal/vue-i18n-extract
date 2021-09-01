@@ -50,6 +50,10 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
     throw new Error(`${report.missingKeys.length} missing keys found.`);
   }
 
+  if (ci && report.unusedKeys.length) {
+    throw new Error(`${report.unusedKeys.length} unused keys found.`);
+  }
+
   return report;
 }
 
