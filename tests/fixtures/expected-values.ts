@@ -14,7 +14,7 @@ export const expectedFromParsedVueFiles = [
     line: 4
   },
   {
-    path: 'Key used as default translation.',
+    path: 'Key used as default translation. Second sentence.',
     previousCharacter: "'",
     nextCharacter: "'",
     file: '/tests/fixtures/vue-files/Basic.vue',
@@ -213,7 +213,7 @@ export const expectedFromParsedLanguageFiles = {
       line: 3
     },
     {
-      path: 'Key used as default translation.',
+      path: 'Key used as default translation. Second sentence.',
       file: '/tests/fixtures/lang/de_DE.js',
       line: 4
     },
@@ -265,7 +265,7 @@ export const expectedFromParsedLanguageFiles = {
       line: 4
     },
     {
-      path: 'Key used as default translation.',
+      path: 'Key used as default translation. Second sentence.',
       file: '/tests/fixtures/lang/en_EN.json',
       line: 5
     },
