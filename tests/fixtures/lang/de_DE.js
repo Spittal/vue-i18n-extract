@@ -11,7 +11,7 @@ module.exports = {
       b: 'Here'
     }
   },
-  'Key used as default translation.': 'Key used as default translation.',
+  'Key used as default translation. Second sentence.': 'Key used as default translation. Second sentence.',
   missing: {
     english: 'Missing!'
   },
