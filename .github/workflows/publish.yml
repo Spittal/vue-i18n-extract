@@ -23,6 +23,6 @@ jobs:
         run: |
           yarn build
           yarn config set npmAuthToken $NODE_AUTH_TOKEN
-          yarn npm publish --tolerate-republish
+          yarn npm publish
 
 
