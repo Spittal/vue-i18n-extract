@@ -3,6 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import defaultConfig from './vue-i18n-extract.config';
 
+console.log('test')
+
 export function initCommand(): void {
   fs.writeFileSync(
     path.resolve(process.cwd(), './vue-i18n-extract.config.js'),
