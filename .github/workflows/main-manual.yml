@@ -18,13 +18,13 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-          registry-url: 'https://registry.npmjs.org'  
+          registry-url: 'https://registry.npmjs.org'
       - name: Build, authenticate, and publish package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           yarn build
-          yarn config set npmAuthToken ${{secrets.NPM_TOKEN}}
+          yarn config set npmAuthToken $NODE_AUTH_TOKEN
           yarn npm publish
-          env:
-            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 
