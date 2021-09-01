@@ -5,6 +5,7 @@ export declare type ReportOptions = {
     add?: boolean;
     remove?: boolean;
     ci?: boolean;
+    separator?: string;
 };
 export declare type SimpleFile = {
     fileName: string;

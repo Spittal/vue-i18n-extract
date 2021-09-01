@@ -15,5 +15,9 @@ module.exports = {
   missing: {
     english: 'Missing!'
   },
+  list: [
+    'List Item 1',
+    'List item 2',
+  ],
   unused_js: 'This key is unused.'
 };

@@ -2,7 +2,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('cac'), require('fs'), require('path'), require('is-valid-glob'), require('glob'), require('dot-object'), require('js-yaml')) :
   typeof define === 'function' && define.amd ? define(['exports', 'cac', 'fs', 'path', 'is-valid-glob', 'glob', 'dot-object', 'js-yaml'], factory) :
   (global = global || self, factory(global.vueI18NExtract = {}, global.cac, global.fs, global.path, global.isValidGlob, global.glob, global.dotObject, global.jsYaml));
-}(this, (function (exports, cac, fs, path, isValidGlob, glob, dot, yaml) {
+}(this, (function (exports, cac, fs, path, isValidGlob, glob, Dot, yaml) {
   function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
   var cac__default = /*#__PURE__*/_interopDefaultLegacy(cac);
@@ -10,7 +10,7 @@
   var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
   var isValidGlob__default = /*#__PURE__*/_interopDefaultLegacy(isValidGlob);
   var glob__default = /*#__PURE__*/_interopDefaultLegacy(glob);
-  var dot__default = /*#__PURE__*/_interopDefaultLegacy(dot);
+  var Dot__default = /*#__PURE__*/_interopDefaultLegacy(Dot);
   var yaml__default = /*#__PURE__*/_interopDefaultLegacy(yaml);
 
   function _extends() {
@@ -38,7 +38,8 @@
     output: false,
     add: false,
     remove: false,
-    ci: false
+    ci: false,
+    separator: '.'
   };
 
   function initCommand() {
@@ -191,7 +192,7 @@
       };
     });
   }
-  function extractI18NLanguageFromLanguageFiles(languageFiles) {
+  function extractI18NLanguageFromLanguageFiles(languageFiles, dot = Dot__default['default']) {
     return languageFiles.reduce((accumulator, file) => {
       const language = file.fileName.substring(file.fileName.lastIndexOf('/') + 1, file.fileName.lastIndexOf('.'));
 
@@ -199,7 +200,7 @@
         accumulator[language] = [];
       }
 
-      const flattenedObject = dot__default['default'].dot(JSON.parse(file.content));
+      const flattenedObject = dot.dot(JSON.parse(file.content));
       Object.keys(flattenedObject).forEach((key, index) => {
         accumulator[language].push({
           path: key,
@@ -210,23 +211,23 @@
       return accumulator;
     }, {});
   }
-  function writeMissingToLanguageFiles(parsedLanguageFiles, missingKeys) {
+  function writeMissingToLanguageFiles(parsedLanguageFiles, missingKeys, dot = Dot__default['default']) {
     parsedLanguageFiles.forEach(languageFile => {
       const languageFileContent = JSON.parse(languageFile.content);
       missingKeys.forEach(item => {
         if (item.language && languageFile.fileName.includes(item.language) || !item.language) {
-          dot__default['default'].str(item.path, '', languageFileContent);
+          dot.str(item.path, '', languageFileContent);
         }
       });
       writeLanguageFile(languageFile, languageFileContent);
     });
   }
-  function removeUnusedFromLanguageFiles(parsedLanguageFiles, unusedKeys) {
+  function removeUnusedFromLanguageFiles(parsedLanguageFiles, unusedKeys, dot = Dot__default['default']) {
     parsedLanguageFiles.forEach(languageFile => {
       const languageFileContent = JSON.parse(languageFile.content);
       unusedKeys.forEach(item => {
         if (item.language && languageFile.fileName.includes(item.language)) {
-          dot__default['default'].delete(item.path, languageFileContent);
+          dot.delete(item.path, languageFileContent);
         }
       });
       writeLanguageFile(languageFile, languageFileContent);
@@ -241,7 +242,7 @@
     if (fileExtension === 'json') {
       fs__default['default'].writeFileSync(filePath, stringifiedContent);
     } else if (fileExtension === 'js') {
-      const jsFile = `export default ${stringifiedContent}; \n`;
+      const jsFile = `module.exports = ${stringifiedContent}; \n`;
       fs__default['default'].writeFileSync(filePath, jsFile);
     } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
       const yamlFile = yaml__default['default'].dump(newLanguageFileContent);
@@ -252,8 +253,8 @@
   } // This is a convenience function for users implementing in their own projects, and isn't used internally
 
 
-  function parselanguageFiles(languageFiles) {
-    return extractI18NLanguageFromLanguageFiles(readLanguageFiles(languageFiles));
+  function parselanguageFiles(languageFiles, dot = Dot__default['default']) {
+    return extractI18NLanguageFromLanguageFiles(readLanguageFiles(languageFiles), dot);
   }
 
   function stripBounding(item) {
@@ -311,14 +312,16 @@
       output,
       add,
       remove,
-      ci
+      ci,
+      separator
     } = options;
     if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
     if (!languageFilesGlob) throw new Error('Required configuration languageFiles is missing.');
+    const dot = typeof separator === 'string' ? new Dot__default['default'](separator) : Dot__default['default'];
     const vueFiles = readVueFiles(path__default['default'].resolve(process.cwd(), vueFilesGlob));
     const languageFiles = readLanguageFiles(path__default['default'].resolve(process.cwd(), languageFilesGlob));
     const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
-    const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles);
+    const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
     const report = extractI18NReport(I18NItems, I18NLanguage);
     if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
     if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
@@ -330,17 +333,21 @@
     }
 
     if (add && report.missingKeys.length) {
-      writeMissingToLanguageFiles(languageFiles, report.missingKeys);
+      writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot);
       console.info('\nThe missing keys have been added to your language files.');
     }
 
     if (remove && report.unusedKeys.length) {
-      removeUnusedFromLanguageFiles(languageFiles, report.unusedKeys);
+      removeUnusedFromLanguageFiles(languageFiles, report.unusedKeys, dot);
       console.info('\nThe unused keys have been removed from your language files.');
     }
 
     if (ci && report.missingKeys.length) {
       throw new Error(`${report.missingKeys.length} missing keys found.`);
+    }
+
+    if (ci && report.unusedKeys.length) {
+      throw new Error(`${report.unusedKeys.length} unused keys found.`);
     }
 
     return report;
