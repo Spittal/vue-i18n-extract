@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import isValidGlob from 'is-valid-glob';
 import glob from 'glob';
-import dot from 'dot-object';
+import Dot from 'dot-object';
 import yaml from 'js-yaml';
 
 function _extends() {
@@ -31,7 +31,8 @@ var defaultConfig = {
   output: false,
   add: false,
   remove: false,
-  ci: false
+  ci: false,
+  separator: '.'
 };
 
 function initCommand() {
@@ -184,7 +185,7 @@ function readLanguageFiles(src) {
     };
   });
 }
-function extractI18NLanguageFromLanguageFiles(languageFiles) {
+function extractI18NLanguageFromLanguageFiles(languageFiles, dot = Dot) {
   return languageFiles.reduce((accumulator, file) => {
     const language = file.fileName.substring(file.fileName.lastIndexOf('/') + 1, file.fileName.lastIndexOf('.'));
 
@@ -203,7 +204,7 @@ function extractI18NLanguageFromLanguageFiles(languageFiles) {
     return accumulator;
   }, {});
 }
-function writeMissingToLanguageFiles(parsedLanguageFiles, missingKeys) {
+function writeMissingToLanguageFiles(parsedLanguageFiles, missingKeys, dot = Dot) {
   parsedLanguageFiles.forEach(languageFile => {
     const languageFileContent = JSON.parse(languageFile.content);
     missingKeys.forEach(item => {
@@ -214,7 +215,7 @@ function writeMissingToLanguageFiles(parsedLanguageFiles, missingKeys) {
     writeLanguageFile(languageFile, languageFileContent);
   });
 }
-function removeUnusedFromLanguageFiles(parsedLanguageFiles, unusedKeys) {
+function removeUnusedFromLanguageFiles(parsedLanguageFiles, unusedKeys, dot = Dot) {
   parsedLanguageFiles.forEach(languageFile => {
     const languageFileContent = JSON.parse(languageFile.content);
     unusedKeys.forEach(item => {
@@ -234,7 +235,7 @@ function writeLanguageFile(languageFile, newLanguageFileContent) {
   if (fileExtension === 'json') {
     fs.writeFileSync(filePath, stringifiedContent);
   } else if (fileExtension === 'js') {
-    const jsFile = `export default ${stringifiedContent}; \n`;
+    const jsFile = `module.exports = ${stringifiedContent}; \n`;
     fs.writeFileSync(filePath, jsFile);
   } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
     const yamlFile = yaml.dump(newLanguageFileContent);
@@ -245,8 +246,8 @@ function writeLanguageFile(languageFile, newLanguageFileContent) {
 } // This is a convenience function for users implementing in their own projects, and isn't used internally
 
 
-function parselanguageFiles(languageFiles) {
-  return extractI18NLanguageFromLanguageFiles(readLanguageFiles(languageFiles));
+function parselanguageFiles(languageFiles, dot = Dot) {
+  return extractI18NLanguageFromLanguageFiles(readLanguageFiles(languageFiles), dot);
 }
 
 function stripBounding(item) {
@@ -304,14 +305,16 @@ async function createI18NReport(options) {
     output,
     add,
     remove,
-    ci
+    ci,
+    separator
   } = options;
   if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
   if (!languageFilesGlob) throw new Error('Required configuration languageFiles is missing.');
+  const dot = typeof separator === 'string' ? new Dot(separator) : Dot;
   const vueFiles = readVueFiles(path.resolve(process.cwd(), vueFilesGlob));
   const languageFiles = readLanguageFiles(path.resolve(process.cwd(), languageFilesGlob));
   const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
-  const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles);
+  const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
   const report = extractI18NReport(I18NItems, I18NLanguage);
   if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
   if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
@@ -323,17 +326,21 @@ async function createI18NReport(options) {
   }
 
   if (add && report.missingKeys.length) {
-    writeMissingToLanguageFiles(languageFiles, report.missingKeys);
+    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot);
     console.info('\nThe missing keys have been added to your language files.');
   }
 
   if (remove && report.unusedKeys.length) {
-    removeUnusedFromLanguageFiles(languageFiles, report.unusedKeys);
+    removeUnusedFromLanguageFiles(languageFiles, report.unusedKeys, dot);
     console.info('\nThe unused keys have been removed from your language files.');
   }
 
   if (ci && report.missingKeys.length) {
     throw new Error(`${report.missingKeys.length} missing keys found.`);
+  }
+
+  if (ci && report.unusedKeys.length) {
+    throw new Error(`${report.unusedKeys.length} unused keys found.`);
   }
 
   return report;

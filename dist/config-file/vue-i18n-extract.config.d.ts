@@ -5,5 +5,6 @@ declare const _default: {
     add: boolean;
     remove: boolean;
     ci: boolean;
+    separator: string;
 };
 export default _default;
