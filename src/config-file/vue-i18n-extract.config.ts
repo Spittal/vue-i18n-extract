@@ -6,5 +6,6 @@ export default {
   add: false,
   remove: false,
   ci: false,
-  separator: '.'
+  separator: '.',
+  noEmptyTranslation: false
 };

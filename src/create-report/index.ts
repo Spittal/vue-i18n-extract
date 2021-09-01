@@ -13,7 +13,8 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
     add,
     remove,
     ci,
-    separator
+    separator,
+    noEmptyTranslation
   } = options;
 
   if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
@@ -38,7 +39,7 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
   }
 
   if (add && report.missingKeys.length) {
-    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot);
+    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation);
     console.info('\nThe missing keys have been added to your language files.');
   }
   if (remove && report.unusedKeys.length) {
