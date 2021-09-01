@@ -96,7 +96,7 @@ function writeLanguageFile (languageFile: SimpleFile, newLanguageFileContent: un
     if (fileExtension === 'json') {
       fs.writeFileSync(filePath, stringifiedContent);
     } else if (fileExtension === 'js') {
-      const jsFile = `export default ${stringifiedContent}; \n`;
+      const jsFile = `module.exports = ${stringifiedContent}; \n`;
       fs.writeFileSync(filePath, jsFile);
     } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
       const yamlFile = yaml.dump(newLanguageFileContent);
