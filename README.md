@@ -78,10 +78,13 @@ This will print out a table of missing keys in your language files, as well as u
 --ci
 // Boolean
 // The process will exit with exitCode=1 if at least one translation key is missing or unused (useful if it is part of a CI pipeline).
-
 --separator
 // String
 // Use if you want to override the separator used when parsing locale identifiers. Default is `.`.
+
+--noEmptyTranslation
+// Boolean
+// Use if you want to generate a default translated string by using the key itself
 ```
 
 ## Config File
