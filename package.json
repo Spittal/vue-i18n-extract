@@ -1,7 +1,7 @@
 {
   "name": "vue-i18n-extract",
   "description": "Manage vue-i18n localization with static analysis",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "scripts": {
     "build": "rm -fr dist && microbundle --target node -f umd,modern",
     "dev": "microbundle watch --target node",
