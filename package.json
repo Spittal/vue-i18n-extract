@@ -12,9 +12,6 @@
     "test:dev": "jest --watch",
     "lint": "eslint **/*.ts"
   },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
-  },
   "license": "MIT",
   "source": "src/index.ts",
   "bin": "bin/vue-i18n-extract.js",
