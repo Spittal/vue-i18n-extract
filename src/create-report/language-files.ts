@@ -33,7 +33,7 @@ export function readLanguageFiles (src: string): SimpleFile[] {
       langObj = eval(fs.readFileSync(langPath, 'utf8'));
     }
 
-    const fileName = f.replace(process.cwd(), '');
+    const fileName = f.replace(process.cwd(), '.');
 
     return { path: f, fileName, content: JSON.stringify(langObj) };
   });

@@ -74,7 +74,7 @@
     }
 
     return targetFiles.map(f => {
-      const fileName = f.replace(process.cwd(), '');
+      const fileName = f.replace(process.cwd(), '.');
       return {
         fileName,
         path: f,
@@ -131,7 +131,7 @@
 
 
   function extractMethodMatches(file) {
-    const methodRegExp = /(?:[$ .]tc?)\(\s*?(["'`])((?:[^\\]|\\.)*?)\1/g;
+    const methodRegExp = /(?:[$ ."'`]t[cm]?)\(\s*?(["'`])((?:[^\\]|\\.)*?)\1/g;
     return [...getMatches(file, methodRegExp, 2)];
   }
 
@@ -184,7 +184,7 @@
         langObj = eval(fs__default['default'].readFileSync(langPath, 'utf8'));
       }
 
-      const fileName = f.replace(process.cwd(), '');
+      const fileName = f.replace(process.cwd(), '.');
       return {
         path: f,
         fileName,

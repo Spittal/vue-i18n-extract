@@ -15,7 +15,7 @@ export function readVueFiles (src: string): SimpleFile[] {
   }
 
   return targetFiles.map((f) => {
-    const fileName = f.replace(process.cwd(), '');
+    const fileName = f.replace(process.cwd(), '.');
     return { fileName, path: f, content: fs.readFileSync(f, 'utf8') };
   });
 }
