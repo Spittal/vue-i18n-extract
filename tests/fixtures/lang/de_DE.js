@@ -1,6 +1,7 @@
 module.exports = {
   header: {
     title: 'Title',
+    title2: 'Title 2',
   },
   content: {
     paragraph: {
