@@ -1,6 +1,7 @@
 {
   "header": {
-    "title": "Title"
+    "title": "Title",
+    "title2": "Title 2"
   },
   "content": {
     "paragraph": {

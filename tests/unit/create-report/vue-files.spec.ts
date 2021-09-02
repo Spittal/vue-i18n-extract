@@ -4,7 +4,7 @@ import { vueFiles } from '../../fixtures/resolved-sources';
 import path from 'path';
 
 describe('file: create-report/vue-files', () => {
-  describe('function: readVueFiles, function: extractI18NItemsFromVueFiles', () => {
+  describe('function: parseVueFiles', () => {
     it('Parse the file glob into I18n items', () => {
       const I18NItems = parseVueFiles(vueFiles);
       expect(I18NItems).toEqual(expectedFromParsedVueFiles);
