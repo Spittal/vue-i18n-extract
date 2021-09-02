@@ -67,7 +67,7 @@ function readVueFiles(src) {
   }
 
   return targetFiles.map(f => {
-    const fileName = f.replace(process.cwd(), '');
+    const fileName = f.replace(process.cwd(), '.');
     return {
       fileName,
       path: f,
@@ -124,7 +124,7 @@ function* getMatches(file, regExp, captureGroup = 1) {
 
 
 function extractMethodMatches(file) {
-  const methodRegExp = /(?:[$ .]tc?)\(\s*?(["'`])((?:[^\\]|\\.)*?)\1/g;
+  const methodRegExp = /(?:[$ ."'`]t[cm]?)\(\s*?(["'`])((?:[^\\]|\\.)*?)\1/g;
   return [...getMatches(file, methodRegExp, 2)];
 }
 
@@ -177,7 +177,7 @@ function readLanguageFiles(src) {
       langObj = eval(fs.readFileSync(langPath, 'utf8'));
     }
 
-    const fileName = f.replace(process.cwd(), '');
+    const fileName = f.replace(process.cwd(), '.');
     return {
       path: f,
       fileName,
