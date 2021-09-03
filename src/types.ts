@@ -6,6 +6,7 @@ export type ReportOptions = {
   remove?: boolean;
   ci?: boolean;
   separator?: string;
+  noEmptyTranslation?: string;
 }
 
 export type SimpleFile = {

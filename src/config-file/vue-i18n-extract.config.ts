@@ -7,5 +7,5 @@ export default {
   remove: false,
   ci: false,
   separator: '.',
-  noEmptyTranslation: false
+  noEmptyTranslation: ''
 };
