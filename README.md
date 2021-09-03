@@ -83,8 +83,11 @@ This will print out a table of missing keys in your language files, as well as u
 // Use if you want to override the separator used when parsing locale identifiers. Default is `.`.
 
 --noEmptyTranslation
-// Boolean
+// String
 // Use if you want to generate a default translated string by using the key itself
+// Example 1: '' => DO NOT generate default strings
+// Example 2: '*' => generate default string for ALL locales
+// Example 3: 'en' => generate default strings ONLY for en locale
 ```
 
 ## Config File
