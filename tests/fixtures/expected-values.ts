@@ -119,11 +119,53 @@ export const expectedFromParsedVueFiles = [
     line: 5
   },
   {
+    path: 'parentheses',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: './tests/fixtures/vue-files/edge-cases.js',
+    line: 7
+  },
+  {
+    path: 'square brackets',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: './tests/fixtures/vue-files/edge-cases.js',
+    line: 8
+  },
+  {
+    path: 'curly brackets',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: './tests/fixtures/vue-files/edge-cases.js',
+    line: 9
+  },
+  {
+    path: 'colon',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: './tests/fixtures/vue-files/edge-cases.js',
+    line: 10
+  },
+  {
+    path: 'concatenation',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: './tests/fixtures/vue-files/edge-cases.js',
+    line: 12
+  },
+  {
+    path: 'leading tab',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: './tests/fixtures/vue-files/edge-cases.js',
+    line: 13
+  },
+  {
     path: '${dynamicKey}',
     previousCharacter: '`',
     nextCharacter: '`',
     file: './tests/fixtures/vue-files/edge-cases.js',
-    line: 8
+    line: 16
   },
   {
     path: 'header.title',
@@ -326,6 +368,42 @@ export const expectedI18NReport = {
       language: 'de_DE'
     },
     {
+      path: 'parentheses',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 7,
+      language: 'de_DE'
+    },
+    {
+      path: 'square brackets',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 8,
+      language: 'de_DE'
+    },
+    {
+      path: 'curly brackets',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 9,
+      language: 'de_DE'
+    },
+    {
+      path: 'colon',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 10,
+      language: 'de_DE'
+    },
+    {
+      path: 'concatenation',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 12,
+      language: 'de_DE'
+    },
+    {
+      path: 'leading tab',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 13,
+      language: 'de_DE'
+    },
+    {
       path: 'header.paragraphs.p_1',
       file: './tests/fixtures/vue-files/js-component.js',
       line: 2,
@@ -359,6 +437,42 @@ export const expectedI18NReport = {
       path: 'Early ',
       file: './tests/fixtures/vue-files/edge-cases.js',
       line: 5,
+      language: 'en_EN'
+    },
+    {
+      path: 'parentheses',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 7,
+      language: 'en_EN'
+    },
+    {
+      path: 'square brackets',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 8,
+      language: 'en_EN'
+    },
+    {
+      path: 'curly brackets',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 9,
+      language: 'en_EN'
+    },
+    {
+      path: 'colon',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 10,
+      language: 'en_EN'
+    },
+    {
+      path: 'concatenation',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 12,
+      language: 'en_EN'
+    },
+    {
+      path: 'leading tab',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 13,
       language: 'en_EN'
     },
     {
@@ -398,7 +512,7 @@ export const expectedI18NReport = {
     {
       path: '${dynamicKey}',
       file: './tests/fixtures/vue-files/edge-cases.js',
-      line: 8
+      line: 16
     }
   ]
 }

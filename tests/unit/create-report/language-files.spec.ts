@@ -29,7 +29,7 @@ describe('file: create-report/language-files', () => {
       writeFileSyncSpy.mockImplementation(() => jest.fn());
       const dotStrSpy = jest.spyOn(dot, 'str');
       writeMissingToLanguageFiles(readLanguageFiles(languageFiles), expectedI18NReport.missingKeys);
-      expect(dotStrSpy).toHaveBeenCalledTimes(18);
+      expect(dotStrSpy).toHaveBeenCalledTimes(36);
       expect(writeFileSyncSpy).toHaveBeenCalledTimes(3);
       expect(writeFileSyncSpy.mock.calls[0][1]).toContain('missing');
     });

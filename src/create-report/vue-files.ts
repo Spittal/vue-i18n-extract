@@ -46,9 +46,10 @@ function* getMatches (file: SimpleFile, regExp: RegExp, captureGroup = 1): Itera
 /**
  * Extracts translation keys from methods such as `$t` and `$tc`.
  *
- * - **regexp pattern**: (?:[$ .]tc?)\(
+ * - **regexp pattern**: (?:[$ \t.:"'`+\(\[\{]t[cm]?)\(
  *
- *   **description**: Matches the sequence t( or tc(, optionally with either “$”, “.” or “ ” in front of it.
+ *   **description**: Matches the sequence t(, tc( or tm(, optionally with either “$”, “ ”, TAB, “.”, “:”, “"”, “'”,
+ *   “`”, "+", "(", "[" or "{" in front of it.
  *
  * - **regexp pattern**: (["'`])
  *
@@ -67,7 +68,7 @@ function* getMatches (file: SimpleFile, regExp: RegExp, captureGroup = 1): Itera
  * @returns a list of translation keys found in `file`.
  */
  function extractMethodMatches (file: SimpleFile): I18NItemWithBounding[] {
-  const methodRegExp = /(?:[$ ."'`]t[cm]?)\(\s*?(["'`])((?:[^\\]|\\.)*?)\1/g;
+  const methodRegExp = /(?:[$ \t.:"'`+\(\[\{]t[cm]?)\(\s*?(["'`])((?:[^\\]|\\.)*?)\1/g;
   return [ ...getMatches(file, methodRegExp, 2) ];
 }
 
