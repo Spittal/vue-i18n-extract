@@ -4,6 +4,7 @@ declare const _default: {
     output: boolean;
     add: boolean;
     remove: boolean;
+    silent: boolean;
     ci: boolean;
     separator: string;
 };

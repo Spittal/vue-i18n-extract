@@ -34,6 +34,10 @@ describe('file: create-report/index', () => {
     expect(consoleTableSpy).toHaveBeenCalledTimes(3);
     expect(consoleTableSpy.mock.calls[0][0]).toEqual(expectedI18NReport.missingKeys);
     expect(consoleTableSpy.mock.calls[1][0]).toEqual(expectedI18NReport.unusedKeys);
+
+    await createI18NReport({ ...options, silent: true });
+
+    expect(consoleTableSpy).toHaveBeenCalledTimes(3);
   });
 
   it('Write report to file at output path', async () => {

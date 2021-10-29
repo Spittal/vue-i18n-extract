@@ -75,6 +75,10 @@ This will print out a table of missing keys in your language files, as well as u
 // Boolean
 // Use if you want to remove unused keys from your language files.
 
+--silent
+// Boolean
+// Use if you want to remove `console.table` logs
+
 --ci
 // Boolean
 // The process will exit with exitCode=1 if at least one translation key is missing or unused (useful if it is part of a CI pipeline).

@@ -28,6 +28,10 @@ cli
     '[boolean] Use if you want to remove unused keys from your json language files.',
   )
   .option(
+    '--silent',
+    '[boolean] Use if you want to remove `console.table` logs.',
+  )
+  .option(
     '--ci',
     '[boolean] The process will exit with exitCode=1 if at least one translation-key is missing (useful expecially if it is part of a CI pipeline).',
   )

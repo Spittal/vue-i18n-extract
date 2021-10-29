@@ -4,6 +4,7 @@ export declare type ReportOptions = {
     output?: string;
     add?: boolean;
     remove?: boolean;
+    silent?: boolean;
     ci?: boolean;
     separator?: string;
 };

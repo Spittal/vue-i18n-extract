@@ -12,6 +12,7 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
     output,
     add,
     remove,
+    silent,
     ci,
     separator
   } = options;
@@ -28,9 +29,11 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
 
   const report = extractI18NReport(I18NItems, I18NLanguage);
 
-  if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
-  if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
-  if (report.maybeDynamicKeys.length) console.warn('\nSuspected Dynamic Keys Found\nvue-i18n-extract does not compile Vue templates and therefore can not infer the correct key for the following keys.'), console.table(report.maybeDynamicKeys);
+  if (!silent) {
+    if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
+    if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
+    if (report.maybeDynamicKeys.length) console.warn('\nSuspected Dynamic Keys Found\nvue-i18n-extract does not compile Vue templates and therefore can not infer the correct key for the following keys.'), console.table(report.maybeDynamicKeys);
+  }
 
   if (output) {
     await writeReportToFile(report, path.resolve(process.cwd(), output));
