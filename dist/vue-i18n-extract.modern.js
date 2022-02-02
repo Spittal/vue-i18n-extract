@@ -28,6 +28,7 @@ var defaultConfig = {
   // Options documented in vue-i18n-extract readme.
   vueFiles: './src/**/*.?(js|vue)',
   languageFiles: './lang/**/*.?(json|yaml|yml|js)',
+  excludedKeys: [],
   output: false,
   add: false,
   remove: false,
@@ -101,9 +102,10 @@ function* getMatches(file, regExp, captureGroup = 1) {
 /**
  * Extracts translation keys from methods such as `$t` and `$tc`.
  *
- * - **regexp pattern**: (?:[$ .]tc?)\(
+ * - **regexp pattern**: (?:[$\s.:"'`+\(\[\{]t[cm]?)\(
  *
- *   **description**: Matches the sequence t( or tc(, optionally with either “$”, “.” or “ ” in front of it.
+ *   **description**: Matches the sequence t(, tc( or tm(, optionally with either “$”, SPACE, “.”, “:”, “"”, “'”,
+ *   “`”, "+", "(", "[" or "{" in front of it.
  *
  * - **regexp pattern**: (["'`])
  *
@@ -124,7 +126,7 @@ function* getMatches(file, regExp, captureGroup = 1) {
 
 
 function extractMethodMatches(file) {
-  const methodRegExp = /(?:[$ ."'`]t[cm]?)\(\s*?(["'`])((?:[^\\]|\\.)*?)\1/g;
+  const methodRegExp = /(?:[$\s.:"'`+\(\[\{]t[cm]?)\(\s*?(["'`])((?:[^\\]|\\.)*?)\1/g;
   return [...getMatches(file, methodRegExp, 2)];
 }
 
@@ -305,6 +307,7 @@ async function createI18NReport(options) {
     output,
     add,
     remove,
+    exclude = [],
     ci,
     separator
   } = options;
@@ -316,6 +319,7 @@ async function createI18NReport(options) {
   const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
   const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
   const report = extractI18NReport(I18NItems, I18NLanguage);
+  report.unusedKeys = report.unusedKeys.filter(key => !exclude.includes(key.path));
   if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
   if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
   if (report.maybeDynamicKeys.length) console.warn('\nSuspected Dynamic Keys Found\nvue-i18n-extract does not compile Vue templates and therefore can not infer the correct key for the following keys.'), console.table(report.maybeDynamicKeys);
