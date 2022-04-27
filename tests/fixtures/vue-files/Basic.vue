@@ -15,6 +15,7 @@
       <a place="link" href="#">{{ $t('content.link.b') }}</a>
     </Translation>
     <p v-t="'header.title'"></p>
+    <p v-t.preserve="'header.title'"></p>
     <p>{{ .t('header.title') }}</p>
   </div>
 </template>
