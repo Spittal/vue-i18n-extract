@@ -357,4 +357,4 @@ process.on('unhandledRejection', err => {
 });
 
 export { createI18NReport, extractI18NItemsFromVueFiles, extractI18NLanguageFromLanguageFiles, extractI18NReport, initCommand, parseVueFiles, parselanguageFiles, readLanguageFiles, readVueFiles, removeUnusedFromLanguageFiles, resolveConfig, writeMissingToLanguageFiles, writeReportToFile };
-//# sourceMappingURL=vue-i18n-extract.modern.js.map
+//# sourceMappingURL=vue-i18n-extract.modern.mjs.map
