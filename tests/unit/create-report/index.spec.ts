@@ -48,6 +48,14 @@ describe('file: create-report/index', () => {
     expect(consoleInfoSpy).toHaveBeenLastCalledWith(`\nThe report has been has been saved to ${options.output}`);
   });
 
+  it('Should exclude keys if the exclude option was used', async () => {
+    const report = await createI18NReport({...options, exclude: ['unused_js', 'unused_yaml', 'unused_json']});
+    const expectedI18NReportWithoutExcludedKeys = {...expectedI18NReport, unusedKeys: []};
+    expect(report).toEqual(
+      expectedI18NReportWithoutExcludedKeys
+    );
+  });
+
   it('Write missing keys to language files', async () => {
     options.add = true;
     const writeMissingSpy: jest.SpyInstance<unknown> = jest.spyOn(languageFileActions, 'writeMissingToLanguageFiles');

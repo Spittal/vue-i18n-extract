@@ -35,6 +35,7 @@
     // Options documented in vue-i18n-extract readme.
     vueFiles: './src/**/*.?(js|vue)',
     languageFiles: './lang/**/*.?(json|yaml|yml|js)',
+    excludedKeys: [],
     output: false,
     add: false,
     remove: false,
@@ -313,6 +314,7 @@
       output,
       add,
       remove,
+      exclude = [],
       ci,
       separator
     } = options;
@@ -324,6 +326,7 @@
     const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
     const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
     const report = extractI18NReport(I18NItems, I18NLanguage);
+    report.unusedKeys = report.unusedKeys.filter(key => !exclude.includes(key.path));
     if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
     if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
     if (report.maybeDynamicKeys.length) console.warn('\nSuspected Dynamic Keys Found\nvue-i18n-extract does not compile Vue templates and therefore can not infer the correct key for the following keys.'), console.table(report.maybeDynamicKeys);

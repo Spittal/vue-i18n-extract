@@ -12,6 +12,7 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
     output,
     add,
     remove,
+    exclude = [],
     ci,
     separator
   } = options;
@@ -27,6 +28,8 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
   const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
 
   const report = extractI18NReport(I18NItems, I18NLanguage);
+
+  report.unusedKeys = report.unusedKeys.filter(key => !exclude.includes(key.path));
 
   if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
   if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
