@@ -60,7 +60,7 @@ export const expectedFromParsedVueFiles = [
     previousCharacter: "'",
     nextCharacter: "'",
     file: './tests/fixtures/vue-files/Basic.vue',
-    line: 18
+    line: 19
   },
   {
     path: 'content.link.a',
@@ -89,6 +89,13 @@ export const expectedFromParsedVueFiles = [
     nextCharacter: "'",
     file: './tests/fixtures/vue-files/Basic.vue',
     line: 17
+  },
+  {
+    path: 'header.title',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: './tests/fixtures/vue-files/Basic.vue',
+    line: 18
   },
   {
     path: "single \\' quote",
