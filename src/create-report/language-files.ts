@@ -48,11 +48,10 @@ export function extractI18NLanguageFromLanguageFiles (languageFiles: SimpleFile[
     }
 
     const flattenedObject = dot.dot(JSON.parse(file.content));
-    Object.keys(flattenedObject).forEach((key, index) => {
+    Object.keys(flattenedObject).forEach((key) => {
       accumulator[language].push({
         path: key,
         file: file.fileName,
-        line: index,
       });
     });
 

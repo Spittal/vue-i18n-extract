@@ -1,5 +1,6 @@
 <script>
-import { useI18n } from 'vue-i18n';
+import { h } from 'vue';
+import { useI18n, Translation } from 'vue-i18n';
 
 export default {
   name: 'ex3',
@@ -15,10 +16,16 @@ export default {
 
     const dynamicKey = Math.round(Math.random()) ? 'key1' : 'key2';
 
+    const TranslationComponentInCode = h(Translation, {
+      keypath: 'Translation component in code.',
+      tag: 'p',
+    });
+
     return {
       t,
       title,
       dynamicKey,
+      TranslationComponentInCode,
     }
   }
 }
