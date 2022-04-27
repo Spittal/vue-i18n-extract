@@ -115,7 +115,16 @@ tc('key.static', 0) tc("key.static", 1) tc(`key.static`, 2)
 <i18n-t keypath="key.component"></i18n-t>
 <Translate keypath="key.component"></Translate>
 ```
+
 > Note: As of right now there is no support for binding in a path like `:path="condition ? 'string1' : 'string2'"` there is just support for strings as shown above.
+
+- i18n component in code:
+```js
+const TranslationComponentInCode = h(Translation, {
+  keypath: 'Translation component in code.',
+  tag: 'p',
+});
+```
 
 - v-t directive with string literal:
 ```html

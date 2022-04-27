@@ -131,7 +131,7 @@ function extractMethodMatches(file) {
 }
 
 function extractComponentMatches(file) {
-  const componentRegExp = /(?:<(?:i18n|Translation))(?:.|\n)*?(?:[^:]path=("|'))((?:[^\\]|\\.)*?)\1/gi;
+  const componentRegExp = /(?:(?:<|h\()(?:i18n|Translation))(?:.|\n)*?(?:[^:]path(?:=|: )("|'))((?:[^\\]|\\.)*?)\1/gi;
   return [...getMatches(file, componentRegExp, 2)];
 }
 
@@ -196,11 +196,10 @@ function extractI18NLanguageFromLanguageFiles(languageFiles, dot = Dot) {
     }
 
     const flattenedObject = dot.dot(JSON.parse(file.content));
-    Object.keys(flattenedObject).forEach((key, index) => {
+    Object.keys(flattenedObject).forEach(key => {
       accumulator[language].push({
         path: key,
-        file: file.fileName,
-        line: index
+        file: file.fileName
       });
     });
     return accumulator;
