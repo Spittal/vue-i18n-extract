@@ -12,6 +12,8 @@ const obj2 = {v:t('colon')};
 'start'+t('concatenation')+'end'
 	t('leading tab') // make sure autoformat does not remove the leading tab!
 
+`${t('in template literal')}`
+
 // Should be suspected dynamic
 <p>{{ t(`${dynamicKey}`) }}</p>
 

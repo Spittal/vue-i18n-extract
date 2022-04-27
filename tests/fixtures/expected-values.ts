@@ -161,11 +161,18 @@ export const expectedFromParsedVueFiles = [
     line: 13
   },
   {
+    path: 'in template literal',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: './tests/fixtures/vue-files/edge-cases.js',
+    line: 15
+  },
+  {
     path: '${dynamicKey}',
     previousCharacter: '`',
     nextCharacter: '`',
     file: './tests/fixtures/vue-files/edge-cases.js',
-    line: 16
+    line: 18
   },
   {
     path: 'header.title',
@@ -404,6 +411,12 @@ export const expectedI18NReport = {
       language: 'de_DE'
     },
     {
+      path: 'in template literal',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 15,
+      language: 'de_DE'
+    },
+    {
       path: 'header.paragraphs.p_1',
       file: './tests/fixtures/vue-files/js-component.js',
       line: 2,
@@ -476,6 +489,12 @@ export const expectedI18NReport = {
       language: 'en_EN'
     },
     {
+      path: 'in template literal',
+      file: './tests/fixtures/vue-files/edge-cases.js',
+      line: 15,
+      language: 'en_EN'
+    },
+    {
       path: 'header.paragraphs.p_1',
       file: './tests/fixtures/vue-files/js-component.js',
       line: 2,
@@ -512,7 +531,7 @@ export const expectedI18NReport = {
     {
       path: '${dynamicKey}',
       file: './tests/fixtures/vue-files/edge-cases.js',
-      line: 16
+      line: 18
     }
   ]
 }
