@@ -82,6 +82,10 @@ This will print out a table of missing keys in your language files, as well as u
 --separator
 // String
 // Use if you want to override the separator used when parsing locale identifiers. Default is `.`.
+
+--exclude
+// Array,Comma seperated list
+// Use if you want to exclude some keys from the unused keys report. Default is '[]'.
 ```
 
 ## Config File
