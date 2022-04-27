@@ -136,7 +136,7 @@ function extractComponentMatches(file) {
 }
 
 function extractDirectiveMatches(file) {
-  const directiveRegExp = /v-t="'((?:[^\\]|\\.)*?)'"/g;
+  const directiveRegExp = /v-t(?:.*)="'((?:[^\\]|\\.)*?)'"/g;
   return [...getMatches(file, directiveRegExp)];
 }
 
@@ -328,14 +328,14 @@ async function createI18NReport(options) {
     console.info(`\nThe report has been has been saved to ${output}`);
   }
 
-  if (add && report.missingKeys.length) {
-    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot);
-    console.info('\nThe missing keys have been added to your language files.');
-  }
-
   if (remove && report.unusedKeys.length) {
     removeUnusedFromLanguageFiles(languageFiles, report.unusedKeys, dot);
     console.info('\nThe unused keys have been removed from your language files.');
+  }
+
+  if (add && report.missingKeys.length) {
+    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot);
+    console.info('\nThe missing keys have been added to your language files.');
   }
 
   if (ci && report.missingKeys.length) {

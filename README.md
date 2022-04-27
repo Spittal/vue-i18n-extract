@@ -129,6 +129,7 @@ const TranslationComponentInCode = h(Translation, {
 - v-t directive with string literal:
 ```html
 <p v-t="'key.directive'"></p>
+<p v-t.preserve="'key.directive'"></p>
 ```
 > Note: As of right now there is no object support to reference a path from component data.
 
