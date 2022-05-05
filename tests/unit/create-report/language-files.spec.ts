@@ -42,7 +42,7 @@ describe('file: create-report/language-files', () => {
       jest.resetAllMocks();
       const dotDeleteSpy = jest.spyOn(dot, 'delete');
       removeUnusedFromLanguageFiles(readLanguageFiles(languageFiles), expectedI18NReport.unusedKeys);
-      expect(dotDeleteSpy).toHaveBeenCalledTimes(5);
+      expect(dotDeleteSpy).toHaveBeenCalledTimes(7);
       expect(writeFileSyncSpy).toHaveBeenCalledTimes(3);
       expect(writeFileSyncSpy.mock.calls[0][1]).not.toContain('unused');
     });
