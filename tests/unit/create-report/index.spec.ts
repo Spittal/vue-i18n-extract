@@ -49,7 +49,17 @@ describe('file: create-report/index', () => {
   });
 
   it('Should exclude keys if the exclude option was used', async () => {
-    const report = await createI18NReport({...options, exclude: ['unused_js', 'unused_yaml', 'unused_json']});
+    const exclude = ['unused_js', 'unused_yaml', 'unused_json', 'unused_nested.auth', 'unused_nested.forgot'];
+    const report = await createI18NReport({...options, exclude});
+    const expectedI18NReportWithoutExcludedKeys = {...expectedI18NReport, unusedKeys: []};
+    expect(report).toEqual(
+      expectedI18NReportWithoutExcludedKeys
+    );
+  });
+
+  it('Should exclude nested keys if a parent key was excluded', async () => {
+    const exclude = ['unused_js', 'unused_yaml', 'unused_json', 'unused_nested'];
+    const report = await createI18NReport({...options, exclude});
     const expectedI18NReportWithoutExcludedKeys = {...expectedI18NReport, unusedKeys: []};
     expect(report).toEqual(
       expectedI18NReportWithoutExcludedKeys

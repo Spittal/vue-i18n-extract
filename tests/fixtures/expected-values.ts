@@ -347,6 +347,14 @@ export const expectedFromParsedLanguageFiles = {
     {
       path: 'unused_json',
       file: './tests/fixtures/lang/en_EN.json',
+    },
+    {
+      path: 'unused_nested.auth',
+      file: './tests/fixtures/lang/en_EN.json',
+    },
+    {
+      path: 'unused_nested.forgot',
+      file: './tests/fixtures/lang/en_EN.json',
     }
   ]
 };
@@ -523,6 +531,16 @@ export const expectedI18NReport = {
     },
     {
       path: "unused_json",
+      file: "./tests/fixtures/lang/en_EN.json",
+      language: "en_EN"
+    },
+    {
+      path: "unused_nested.auth",
+      file: "./tests/fixtures/lang/en_EN.json",
+      language: "en_EN"
+    },
+    {
+      path: "unused_nested.forgot",
       file: "./tests/fixtures/lang/en_EN.json",
       language: "en_EN"
     }
