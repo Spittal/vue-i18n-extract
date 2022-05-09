@@ -43,6 +43,8 @@ function resolveConfig() {
   const argvOptions = cac().parse(process.argv, {
     run: false
   }).options;
+  const excluded = argvOptions.exclude;
+  argvOptions.exclude = !Array.isArray(excluded) ? [excluded] : excluded;
 
   try {
     const pathToConfigFile = path.resolve(process.cwd(), './vue-i18n-extract.config.js'); // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -318,7 +320,7 @@ async function createI18NReport(options) {
   const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
   const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
   const report = extractI18NReport(I18NItems, I18NLanguage);
-  report.unusedKeys = report.unusedKeys.filter(key => !exclude.includes(key.path));
+  report.unusedKeys = report.unusedKeys.filter(key => !exclude.filter(excluded => key.path.startsWith(excluded)).length);
   if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
   if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
   if (report.maybeDynamicKeys.length) console.warn('\nSuspected Dynamic Keys Found\nvue-i18n-extract does not compile Vue templates and therefore can not infer the correct key for the following keys.'), console.table(report.maybeDynamicKeys);
