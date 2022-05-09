@@ -25,3 +25,4 @@ _t("FALSE POSITIVE 4");
 w0t("FALSE POSITIVE 5");
 ಠ_ಠt("FALSE POSITIVE 6");
 t(dynamicKey)
+<p v-text="'FALSE POSITIVE 7'"></p>
