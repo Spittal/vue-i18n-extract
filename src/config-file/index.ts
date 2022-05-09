@@ -12,6 +12,9 @@ export function initCommand(): void {
 
 export function resolveConfig (): Record<string, string>  {
   const argvOptions = cac().parse(process.argv, { run: false }).options;
+  const excluded = argvOptions.exclude;
+
+  argvOptions.exclude = !Array.isArray(excluded) ? [excluded] : excluded
 
   try {
     const pathToConfigFile = path.resolve(process.cwd(), './vue-i18n-extract.config.js');
