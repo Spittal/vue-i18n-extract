@@ -75,6 +75,37 @@ describe('file: create-report/index', () => {
       languageFileActions.readLanguageFiles(options.languageFiles),
       expectedI18NReport.missingKeys,
       Dot,
+      '',
+    );
+    expect(consoleInfoSpy).toHaveBeenLastCalledWith('\nThe missing keys have been added to your language files.');
+  });
+
+  it('Write missing keys to language files without empty translation', async () => {
+    options.add = true;
+    options.noEmptyTranslation = '*';
+    const writeMissingSpy: jest.SpyInstance<unknown> = jest.spyOn(languageFileActions, 'writeMissingToLanguageFiles');
+    writeMissingSpy.mockImplementation(() => jest.fn());
+    await createI18NReport(options);
+    expect(writeMissingSpy).toHaveBeenCalledWith(
+      languageFileActions.readLanguageFiles(options.languageFiles),
+      expectedI18NReport.missingKeys,
+      Dot,
+      '*',
+    );
+    expect(consoleInfoSpy).toHaveBeenLastCalledWith('\nThe missing keys have been added to your language files.');
+  });
+
+  it('Write missing keys to language files without empty translation for a single locale', async () => {
+    options.add = true;
+    options.noEmptyTranslation = 'en';
+    const writeMissingSpy: jest.SpyInstance<unknown> = jest.spyOn(languageFileActions, 'writeMissingToLanguageFiles');
+    writeMissingSpy.mockImplementation(() => jest.fn());
+    await createI18NReport(options);
+    expect(writeMissingSpy).toHaveBeenCalledWith(
+      languageFileActions.readLanguageFiles(options.languageFiles),
+      expectedI18NReport.missingKeys,
+      Dot,
+      'en',
     );
     expect(consoleInfoSpy).toHaveBeenLastCalledWith('\nThe missing keys have been added to your language files.');
   });
