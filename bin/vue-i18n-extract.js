@@ -35,6 +35,10 @@ cli
     '--separator <separator>',
     'Use if you want to override the separator used when parsing locale identifiers. Default is `.`'
    )
+  .option(
+    '--exclude <key>',
+    'Use if you want to exclude a key. It can be used multiple times to exclude any amount of keys on the output'
+   )
   .action((options) => {
     createI18NReport(resolveConfig(options));
   });

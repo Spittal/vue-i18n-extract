@@ -13,6 +13,7 @@ module.exports = {
     }
   },
   'Key used as default translation. Second sentence.': 'Key used as default translation. Second sentence.',
+  'Translation component in code.': 'Translation component in code.',
   missing: {
     english: 'Missing!'
   },

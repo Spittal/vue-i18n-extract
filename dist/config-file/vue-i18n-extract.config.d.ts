@@ -1,6 +1,7 @@
 declare const _default: {
     vueFiles: string;
     languageFiles: string;
+    excludedKeys: never[];
     output: boolean;
     add: boolean;
     remove: boolean;

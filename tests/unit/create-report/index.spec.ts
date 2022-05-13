@@ -48,6 +48,24 @@ describe('file: create-report/index', () => {
     expect(consoleInfoSpy).toHaveBeenLastCalledWith(`\nThe report has been has been saved to ${options.output}`);
   });
 
+  it('Should exclude keys if the exclude option was used', async () => {
+    const exclude = ['unused_js', 'unused_yaml', 'unused_json', 'unused_nested.auth', 'unused_nested.forgot'];
+    const report = await createI18NReport({...options, exclude});
+    const expectedI18NReportWithoutExcludedKeys = {...expectedI18NReport, unusedKeys: []};
+    expect(report).toEqual(
+      expectedI18NReportWithoutExcludedKeys
+    );
+  });
+
+  it('Should exclude nested keys if a parent key was excluded', async () => {
+    const exclude = ['unused_js', 'unused_yaml', 'unused_json', 'unused_nested'];
+    const report = await createI18NReport({...options, exclude});
+    const expectedI18NReportWithoutExcludedKeys = {...expectedI18NReport, unusedKeys: []};
+    expect(report).toEqual(
+      expectedI18NReportWithoutExcludedKeys
+    );
+  });
+
   it('Write missing keys to language files', async () => {
     options.add = true;
     const writeMissingSpy: jest.SpyInstance<unknown> = jest.spyOn(languageFileActions, 'writeMissingToLanguageFiles');
