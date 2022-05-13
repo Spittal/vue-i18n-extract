@@ -29,7 +29,7 @@ describe('file: create-report/language-files', () => {
       writeFileSyncSpy.mockImplementation(() => jest.fn());
       const dotStrSpy = jest.spyOn(dot, 'str');
       writeMissingToLanguageFiles(readLanguageFiles(languageFiles), expectedI18NReport.missingKeys);
-      expect(dotStrSpy).toHaveBeenCalledTimes(18);
+      expect(dotStrSpy).toHaveBeenCalledTimes(39);
       expect(writeFileSyncSpy).toHaveBeenCalledTimes(3);
       expect(writeFileSyncSpy.mock.calls[0][1]).toContain('missing');
     });
@@ -42,7 +42,7 @@ describe('file: create-report/language-files', () => {
       jest.resetAllMocks();
       const dotDeleteSpy = jest.spyOn(dot, 'delete');
       removeUnusedFromLanguageFiles(readLanguageFiles(languageFiles), expectedI18NReport.unusedKeys);
-      expect(dotDeleteSpy).toHaveBeenCalledTimes(5);
+      expect(dotDeleteSpy).toHaveBeenCalledTimes(7);
       expect(writeFileSyncSpy).toHaveBeenCalledTimes(3);
       expect(writeFileSyncSpy.mock.calls[0][1]).not.toContain('unused');
     });

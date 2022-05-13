@@ -82,6 +82,13 @@ This will print out a table of missing keys in your language files, as well as u
 // String
 // Use if you want to override the separator used when parsing locale identifiers. Default is `.`.
 
+--exclude
+// String
+// Use if you want to exclude keys from the unused keys report. If the value is a node, all it's children will be excluded. Can be used multiple times to exclude multiple keys and nodes.
+// Example1 (specific, value is a key): user.auth.username.label
+// Example2 (nested, value is a node): user.auth
+// Example3 (multiple): --exclude user.auth.username.label --exclude user.auth.password.label
+
 --noEmptyTranslation
 // String
 // Use if you want to generate a default translated string by using the key itself
@@ -117,11 +124,21 @@ tc('key.static', 0) tc("key.static", 1) tc(`key.static`, 2)
 <i18n-t keypath="key.component"></i18n-t>
 <Translate keypath="key.component"></Translate>
 ```
+
 > Note: As of right now there is no support for binding in a path like `:path="condition ? 'string1' : 'string2'"` there is just support for strings as shown above.
+
+- i18n component in code:
+```js
+const TranslationComponentInCode = h(Translation, {
+  keypath: 'Translation component in code.',
+  tag: 'p',
+});
+```
 
 - v-t directive with string literal:
 ```html
 <p v-t="'key.directive'"></p>
+<p v-t.preserve="'key.directive'"></p>
 ```
 > Note: As of right now there is no object support to reference a path from component data.
 

@@ -12,6 +12,7 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
     output,
     add,
     remove,
+    exclude = [],
     ci,
     separator,
     noEmptyTranslation
@@ -29,6 +30,9 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
 
   const report = extractI18NReport(I18NItems, I18NLanguage);
 
+  report.unusedKeys = report.unusedKeys.filter(key =>
+      !exclude.filter(excluded => key.path.startsWith(excluded)).length)
+
   if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
   if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
   if (report.maybeDynamicKeys.length) console.warn('\nSuspected Dynamic Keys Found\nvue-i18n-extract does not compile Vue templates and therefore can not infer the correct key for the following keys.'), console.table(report.maybeDynamicKeys);
@@ -38,13 +42,14 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
     console.info(`\nThe report has been has been saved to ${output}`);
   }
 
-  if (add && report.missingKeys.length) {
-    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation);
-    console.info('\nThe missing keys have been added to your language files.');
-  }
   if (remove && report.unusedKeys.length) {
     removeUnusedFromLanguageFiles(languageFiles, report.unusedKeys, dot);
     console.info('\nThe unused keys have been removed from your language files.');
+  }
+
+  if (add && report.missingKeys.length) {
+    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation);
+    console.info('\nThe missing keys have been added to your language files.');
   }
 
   if (ci && report.missingKeys.length) {

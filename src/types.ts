@@ -2,6 +2,7 @@ export type ReportOptions = {
   vueFiles: string;
   languageFiles: string;
   output?: string;
+  exclude?: string[];
   add?: boolean;
   remove?: boolean;
   ci?: boolean;
