@@ -65,8 +65,8 @@ export function writeMissingToLanguageFiles (parsedLanguageFiles: SimpleFile[], 
 
     missingKeys.forEach(item => {
       if (item.language && languageFile.fileName.includes(item.language) || !item.language) {
-        const addDefTrans = (noEmptyTranslation) && ((noEmptyTranslation === '*') || (noEmptyTranslation === item.language));
-        dot.str(item.path, addDefTrans ? item.path : '', languageFileContent);
+        const addDefaultTranslation = (noEmptyTranslation) && ((noEmptyTranslation === '*') || (noEmptyTranslation === item.language));
+        dot.str(item.path, addDefaultTranslation ? item.path : '', languageFileContent);
       }
     });
 
