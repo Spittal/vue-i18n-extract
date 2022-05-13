@@ -15,7 +15,7 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
     exclude = [],
     ci,
     separator,
-    noEmptyTranslation
+    noEmptyTranslation = '',
   } = options;
 
   if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
