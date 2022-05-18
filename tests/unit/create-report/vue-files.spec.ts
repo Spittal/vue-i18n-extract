@@ -3,10 +3,15 @@ import { expectedFromParsedVueFiles } from '../../fixtures/expected-values';
 import { vueFiles } from '../../fixtures/resolved-sources';
 import path from 'path';
 
+const vueFilesWithBackslashes = vueFiles.replace(/\//g, '\\');
+
 describe('file: create-report/vue-files', () => {
   describe('function: parseVueFiles', () => {
-    it('Parse the file glob into I18n items', () => {
-      const I18NItems = parseVueFiles(vueFiles);
+    it.each([
+      vueFiles,
+      vueFilesWithBackslashes
+    ])('Parse the file glob into I18n items', (files) => {
+      const I18NItems = parseVueFiles(files);
       expect(I18NItems).toEqual(expectedFromParsedVueFiles);
     });
 
