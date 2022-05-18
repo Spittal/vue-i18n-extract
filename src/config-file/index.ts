@@ -12,22 +12,25 @@ export function initCommand(): void {
 
 export function resolveConfig (): Record<string, string>  {
   const argvOptions = cac().parse(process.argv, { run: false }).options;
-  const excluded = argvOptions.exclude;
 
-  argvOptions.exclude = !Array.isArray(excluded) ? [excluded] : excluded
+  let options;
 
   try {
     const pathToConfigFile = path.resolve(process.cwd(), './vue-i18n-extract.config.js');
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const configFile = require(pathToConfigFile);
+    const configOptions = require(pathToConfigFile);
 
     console.info(`\nUsing config file found at ${pathToConfigFile}`);
 
-    return {
-      ...configFile,
+    options = {
+      ...configOptions,
       ...argvOptions
     };
   } catch {
-    return argvOptions;
+    options = argvOptions;
   }
+
+  options.exclude = Array.isArray(options.exclude) ? options.exclude : [options.exclude];
+
+  return options;
 }
