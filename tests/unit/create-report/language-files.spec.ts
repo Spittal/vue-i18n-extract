@@ -5,9 +5,14 @@ import { readLanguageFiles, writeMissingToLanguageFiles, removeUnusedFromLanguag
 import { expectedFromParsedLanguageFiles, expectedI18NReport } from '../../fixtures/expected-values';
 import { languageFiles } from '../../fixtures/resolved-sources';
 
+const languageFilesWithBackslashes = languageFiles.replace(/\//g, '\\');
+
 describe('file: create-report/language-files', () => {
   describe('function: parselanguageFiles', () => {
-    it('Parse the file glob into an I18NLanguage object', () => {
+    it.each([
+      languageFiles,
+      languageFilesWithBackslashes
+    ])('Parse the file glob into an I18NLanguage object', (languageFiles) => {
       const I18NLanguage = parselanguageFiles(languageFiles);
       expect(I18NLanguage).toEqual(expectedFromParsedLanguageFiles);
     });
@@ -48,4 +53,3 @@ describe('file: create-report/language-files', () => {
     });
   });
 })
-

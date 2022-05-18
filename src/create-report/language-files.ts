@@ -7,11 +7,14 @@ import isValidGlob from 'is-valid-glob';
 import { SimpleFile, I18NLanguage, I18NItem } from '../types';
 
 export function readLanguageFiles (src: string): SimpleFile[] {
-  if (!isValidGlob(src)) {
+  // Replace backslash path segments to make the path work with the glob package.
+  // https://github.com/Spittal/vue-i18n-extract/issues/159
+  const normalizedSrc = src.replace(/\\/g, '/');
+  if (!isValidGlob(normalizedSrc)) {
     throw new Error(`languageFiles isn't a valid glob pattern.`);
   }
 
-  const targetFiles = glob.sync(src);
+  const targetFiles = glob.sync(normalizedSrc);
 
   if (targetFiles.length === 0) {
     throw new Error('languageFiles glob has no files.');
