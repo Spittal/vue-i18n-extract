@@ -17,5 +17,8 @@
     <p v-t="'header.title'"></p>
     <p v-t.preserve="'header.title'"></p>
     <p>{{ .t('header.title') }}</p>
+    <p v-test="'false.positive'"></p>
+    <p v-test.preserve="'false.positive'"></p>
+    <p testv-t="'false.positive'"></p>
   </div>
 </template>
