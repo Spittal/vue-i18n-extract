@@ -89,6 +89,13 @@ This will print out a table of missing keys in your language files, as well as u
 // Example1 (specific, value is a key): user.auth.username.label
 // Example2 (nested, value is a node): user.auth
 // Example3 (multiple): --exclude user.auth.username.label --exclude user.auth.password.label
+
+--noEmptyTranslation
+// String
+// Use if you want to generate a default translated string by using the key itself
+// Example 1: '' => DO NOT generate default strings (default)
+// Example 2: '*' => generate default string for ALL locales
+// Example 3: 'en' => generate default strings ONLY for en locale
 ```
 
 ## Config File
