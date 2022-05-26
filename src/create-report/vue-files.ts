@@ -81,7 +81,7 @@ function extractComponentMatches (file: SimpleFile): I18NItemWithBounding[] {
 }
 
 function extractDirectiveMatches (file: SimpleFile): I18NItemWithBounding[] {
-  const directiveRegExp = /v-t(?:.*)="'((?:[^\\]|\\.)*?)'"/g;
+  const directiveRegExp = /\bv-t(?:\.[\w-]+)?="'((?:[^\\]|\\.)*?)'"/g;
   return [ ...getMatches(file, directiveRegExp) ];
 }
 
