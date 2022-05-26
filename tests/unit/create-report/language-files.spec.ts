@@ -38,6 +38,26 @@ describe('file: create-report/language-files', () => {
       expect(writeFileSyncSpy).toHaveBeenCalledTimes(3);
       expect(writeFileSyncSpy.mock.calls[0][1]).toContain('missing');
     });
+
+    it('Writes missing keys with no empty translation to language files', () => {
+      const writeFileSyncSpy = jest.spyOn(fs, 'writeFileSync');
+      writeFileSyncSpy.mockImplementation(() => jest.fn());
+      const dotStrSpy = jest.spyOn(dot, 'str');
+      writeMissingToLanguageFiles(readLanguageFiles(languageFiles), expectedI18NReport.missingKeys, dot, '*');
+      expect(dotStrSpy).toHaveBeenCalledTimes(78);
+      expect(writeFileSyncSpy).toHaveBeenCalledTimes(6);
+      expect(writeFileSyncSpy.mock.calls[0][1]).toContain('missing');
+    });
+
+    it('Writes missing keys with no empty translation for single locale to language files', () => {
+      const writeFileSyncSpy = jest.spyOn(fs, 'writeFileSync');
+      writeFileSyncSpy.mockImplementation(() => jest.fn());
+      const dotStrSpy = jest.spyOn(dot, 'str');
+      writeMissingToLanguageFiles(readLanguageFiles(languageFiles), expectedI18NReport.missingKeys, dot, 'en');
+      expect(dotStrSpy).toHaveBeenCalledTimes(117);
+      expect(writeFileSyncSpy).toHaveBeenCalledTimes(9);
+      expect(writeFileSyncSpy.mock.calls[0][1]).toContain('missing');
+    });
   });
 
   describe('function: removeUnusedFromLanguageFiles', () => {
