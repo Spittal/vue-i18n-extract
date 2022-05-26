@@ -86,9 +86,9 @@ This will print out a table of missing keys in your language files, as well as u
 --exclude
 // String
 // Use if you want to exclude keys from the unused keys report. If the value is a node, all it's children will be excluded. Can be used multiple times to exclude multiple keys and nodes.
-// Example1 (specific, value is a key): user.auth.username.label
-// Example2 (nested, value is a node): user.auth
-// Example3 (multiple): --exclude user.auth.username.label --exclude user.auth.password.label
+// Example 1 specific, value is a key: user.auth.username.label
+// Example 2 nested, value is a node: user.auth
+// Example 3 multiple: --exclude user.auth.username.label --exclude user.auth.password.label
 
 --noEmptyTranslation
 // String
