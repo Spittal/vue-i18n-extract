@@ -1,13 +1,13 @@
 <h1 align="center">
-  <a href="https://github.com/pixari/vue-i18n-extract"><img align="center" width="70%"src=".github/img/vue-18n-extract-logo.png" alt="vue-i18n-logo"></a>
+  <a href="https://github.com/Spittal/vue-i18n-extract"><img align="center" width="70%"src=".github/img/vue-18n-extract-logo.png" alt="vue-i18n-logo"></a>
 </h1>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/vue-i18n-extract"><img src="https://img.shields.io/npm/v/vue-i18n-extract.svg?style=flat-square" alt="NPM Version"></a>
   <a href="https://www.npmjs.com/package/vue-i18n-extract"><img src="https://img.shields.io/npm/dm/vue-i18n-extract.svg?style=flat-square" alt="Downloads"></a>
-  <a href="https://snyk.io/test/github/pixari/vue-i18n-extract?targetFile=package.json"><img src="https://snyk.io/test/github/pixari/vue-i18n-extract/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a>
-  <a href="https://codeclimate.com/github/pixari/vue-i18n-extract/maintainability"><img src="https://api.codeclimate.com/v1/badges/d21f341c33b2bfb6fe0e/maintainability" alt="Maintainability"></a>
-  <img src="https://github.com/pixari/vue-i18n-extract/workflows/Test/badge.svg?branch=master" alt="Tests">
+  <a href="https://snyk.io/test/github/Spittal/vue-i18n-extract?targetFile=package.json"><img src="https://snyk.io/test/github/Spittal/vue-i18n-extract/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a>
+  <a href="https://codeclimate.com/github/Spittal/vue-i18n-extract/maintainability"><img src="https://api.codeclimate.com/v1/badges/d21f341c33b2bfb6fe0e/maintainability" alt="Maintainability"></a>
+  <img src="https://github.com/Spittal/vue-i18n-extract/workflows/Test/badge.svg?branch=master" alt="Tests">
 </p>
 
 `vue-i18n-extract` is built to work with your Vue.js projects using the library [vue-i18n](https://kazupon.github.io/vue-i18n/). It runs static analysis on your Vue.js source code looking for any `vue-i18n` usage, in order to:
@@ -168,22 +168,3 @@ Please make sure to read the [Contributing Guide](.github/CONTRIBUTING.md) befor
 # License
 
 [MIT](http://opensource.org/licenses/MIT)
-
-<h2>Core Team</h2>
-
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top">
-        <img width="150" height="150" src="https://github.com/Spittal.png?s=150">
-        <br>
-        <a href="https://github.com/Spittal">Jamie Spittal</a>
-      </td>
-      <td align="center" valign="top">
-        <img width="150" height="150" src="https://github.com/Pixari.png?s=150">
-        <br>
-        <a href="https://github.com/Pixari">Raffaele Pizzari</a>
-      </td>
-     </tr>
-  </tbody>
-</table>

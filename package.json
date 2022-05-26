@@ -18,9 +18,9 @@
   "main": "dist/vue-i18n-extract.umd.js",
   "module": "dist/vue-i18n-extract.modern.js",
   "types": "dist/index.d.ts",
-  "repository": "https://github.com/pixari/vue-i18n-extract",
-  "homepage": "https://github.com/pixari/vue-i18n-extract",
-  "bugs": "https://github.com/pixari/vue-i18n-extract/issues",
+  "repository": "https://github.com/Spittal/vue-i18n-extract",
+  "homepage": "https://github.com/Spittal/vue-i18n-extract",
+  "bugs": "https://github.com/Spittal/vue-i18n-extract/issues",
   "keywords": [
     "javascript",
     "typescript",
@@ -30,7 +30,7 @@
     "internationalization",
     "internationalization-plugin"
   ],
-  "author": "Raffaele Pizzari <raffaele.pizzari@gmail.com> (https://raffaelepizzari.com)",
+  "author": "Jamie Spittal <jamie@jamiespittal.com>",
   "dependencies": {
     "cac": "^6.7.12",
     "dot-object": "^2.1.4",
