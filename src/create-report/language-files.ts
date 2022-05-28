@@ -28,17 +28,20 @@ export function readLanguageFiles (src: string): SimpleFile[] {
     const isYAML = extension === '.yaml' || extension === '.yml';
 
     let langObj;
+    const languageFileContent = fs.readFileSync(langPath, 'utf8');
     if (isJSON) {
-      langObj = JSON.parse(fs.readFileSync(langPath, 'utf8'));
+      langObj = JSON.parse(languageFileContent);
     } else if (isYAML) {
-      langObj = yaml.load(fs.readFileSync(langPath, 'utf8'));
+      langObj = yaml.load(languageFileContent);
     } else {
-      langObj = eval(fs.readFileSync(langPath, 'utf8'));
+      langObj = eval(languageFileContent);
     }
 
     const fileName = f.replace(process.cwd(), '.');
+    // Persist the final new line character of a file.
+    const suffix = languageFileContent.endsWith('\n') ? '\n' : '';
 
-    return { path: f, fileName, content: JSON.stringify(langObj) };
+    return { path: f, fileName, content: JSON.stringify(langObj) + suffix };
   });
 }
 
@@ -93,20 +96,23 @@ export function removeUnusedFromLanguageFiles (parsedLanguageFiles: SimpleFile[]
 
 function writeLanguageFile (languageFile: SimpleFile, newLanguageFileContent: unknown) {
   const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
-    const filePath = languageFile.path;
-    const stringifiedContent = JSON.stringify(newLanguageFileContent, null, 2);
+  const filePath = languageFile.path;
 
-    if (fileExtension === 'json') {
-      fs.writeFileSync(filePath, stringifiedContent);
-    } else if (fileExtension === 'js') {
-      const jsFile = `module.exports = ${stringifiedContent}; \n`;
-      fs.writeFileSync(filePath, jsFile);
-    } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
-      const yamlFile = yaml.dump(newLanguageFileContent);
-      fs.writeFileSync(filePath, yamlFile);
-    } else {
-      throw new Error(`Language filetype of ${fileExtension} not supported.`)
-    }
+  // Persist the final new line character of a file.
+  const suffix = languageFile.content.endsWith('\n') ? '\n' : '';
+  const stringifiedContent = JSON.stringify(newLanguageFileContent, null, 2) + suffix;
+
+  if (fileExtension === 'json') {
+    fs.writeFileSync(filePath, stringifiedContent);
+  } else if (fileExtension === 'js') {
+    const jsFile = `module.exports = ${stringifiedContent}; \n`;
+    fs.writeFileSync(filePath, jsFile);
+  } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
+    const yamlFile = yaml.dump(newLanguageFileContent) + suffix;
+    fs.writeFileSync(filePath, yamlFile);
+  } else {
+    throw new Error(`Language filetype of ${fileExtension} not supported.`)
+  }
 }
 
 // This is a convenience function for users implementing in their own projects, and isn't used internally
