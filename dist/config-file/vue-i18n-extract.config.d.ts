@@ -7,5 +7,6 @@ declare const _default: {
     remove: boolean;
     ci: boolean;
     separator: string;
+    noEmptyTranslation: string;
 };
 export default _default;
