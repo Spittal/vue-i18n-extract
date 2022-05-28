@@ -35,12 +35,13 @@
     // Options documented in vue-i18n-extract readme.
     vueFiles: './src/**/*.?(js|vue)',
     languageFiles: './lang/**/*.?(json|yaml|yml|js)',
-    excludedKeys: [],
+    exclude: [],
     output: false,
     add: false,
     remove: false,
     ci: false,
-    separator: '.'
+    separator: '.',
+    noEmptyTranslation: ''
   };
 
   function initCommand() {
@@ -50,27 +51,33 @@
     const argvOptions = cac__default["default"]().parse(process.argv, {
       run: false
     }).options;
-    const excluded = argvOptions.exclude;
-    argvOptions.exclude = !Array.isArray(excluded) ? [excluded] : excluded;
+    let options;
 
     try {
       const pathToConfigFile = path__default["default"].resolve(process.cwd(), './vue-i18n-extract.config.js'); // eslint-disable-next-line @typescript-eslint/no-var-requires
 
-      const configFile = require(pathToConfigFile);
+      const configOptions = require(pathToConfigFile);
 
       console.info(`\nUsing config file found at ${pathToConfigFile}`);
-      return _extends({}, configFile, argvOptions);
+      options = _extends({}, configOptions, argvOptions);
     } catch (_unused) {
-      return argvOptions;
+      options = argvOptions;
     }
+
+    options.exclude = Array.isArray(options.exclude) ? options.exclude : [options.exclude];
+    return options;
   }
 
   function readVueFiles(src) {
-    if (!isValidGlob__default["default"](src)) {
+    // Replace backslash path segments to make the path work with the glob package.
+    // https://github.com/Spittal/vue-i18n-extract/issues/159
+    const normalizedSrc = src.replace(/\\/g, '/');
+
+    if (!isValidGlob__default["default"](normalizedSrc)) {
       throw new Error(`vueFiles isn't a valid glob pattern.`);
     }
 
-    const targetFiles = glob__default["default"].sync(src);
+    const targetFiles = glob__default["default"].sync(normalizedSrc);
 
     if (targetFiles.length === 0) {
       throw new Error('vueFiles glob has no files.');
@@ -145,7 +152,7 @@
   }
 
   function extractDirectiveMatches(file) {
-    const directiveRegExp = /v-t(?:.*)="'((?:[^\\]|\\.)*?)'"/g;
+    const directiveRegExp = /\bv-t(?:\.[\w-]+)?="'((?:[^\\]|\\.)*?)'"/g;
     return [...getMatches(file, directiveRegExp)];
   }
 
@@ -163,11 +170,15 @@
   }
 
   function readLanguageFiles(src) {
-    if (!isValidGlob__default["default"](src)) {
+    // Replace backslash path segments to make the path work with the glob package.
+    // https://github.com/Spittal/vue-i18n-extract/issues/159
+    const normalizedSrc = src.replace(/\\/g, '/');
+
+    if (!isValidGlob__default["default"](normalizedSrc)) {
       throw new Error(`languageFiles isn't a valid glob pattern.`);
     }
 
-    const targetFiles = glob__default["default"].sync(src);
+    const targetFiles = glob__default["default"].sync(normalizedSrc);
 
     if (targetFiles.length === 0) {
       throw new Error('languageFiles glob has no files.');
@@ -214,12 +225,13 @@
       return accumulator;
     }, {});
   }
-  function writeMissingToLanguageFiles(parsedLanguageFiles, missingKeys, dot = Dot__default["default"]) {
+  function writeMissingToLanguageFiles(parsedLanguageFiles, missingKeys, dot = Dot__default["default"], noEmptyTranslation = '') {
     parsedLanguageFiles.forEach(languageFile => {
       const languageFileContent = JSON.parse(languageFile.content);
       missingKeys.forEach(item => {
         if (item.language && languageFile.fileName.includes(item.language) || !item.language) {
-          dot.str(item.path, '', languageFileContent);
+          const addDefaultTranslation = noEmptyTranslation && (noEmptyTranslation === '*' || noEmptyTranslation === item.language);
+          dot.str(item.path, addDefaultTranslation ? item.path : '', languageFileContent);
         }
       });
       writeLanguageFile(languageFile, languageFileContent);
@@ -317,7 +329,8 @@
       remove,
       exclude = [],
       ci,
-      separator
+      separator,
+      noEmptyTranslation = ''
     } = options;
     if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
     if (!languageFilesGlob) throw new Error('Required configuration languageFiles is missing.');
@@ -343,7 +356,7 @@
     }
 
     if (add && report.missingKeys.length) {
-      writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot);
+      writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation);
       console.info('\nThe missing keys have been added to your language files.');
     }
 
