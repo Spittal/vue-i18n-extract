@@ -1,3 +1,4 @@
+/// <reference types="dot-object" />
 import { SimpleFile, I18NLanguage, I18NItem } from '../types';
 export declare function readLanguageFiles(src: string): SimpleFile[];
 export declare function extractI18NLanguageFromLanguageFiles(languageFiles: SimpleFile[], dot?: DotObject.Dot): I18NLanguage;
