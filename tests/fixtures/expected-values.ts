@@ -21,37 +21,72 @@ export const expectedFromParsedVueFiles = [
     line: 5
   },
   {
-    path: 'Key used as default translation. Second sentence.',
+    path: 'linked.composite',
     previousCharacter: "'",
     nextCharacter: "'",
     file: './tests/fixtures/vue-files/Basic.vue',
     line: 6
   },
   {
-    path: 'content.paragraph.p.2',
-    previousCharacter: '`',
-    nextCharacter: '`',
+    path: 'Key used as default translation. Second sentence.',
+    previousCharacter: "'",
+    nextCharacter: "'",
     file: './tests/fixtures/vue-files/Basic.vue',
     line: 7
   },
   {
+    path: 'content.paragraph.p.2',
+    previousCharacter: '`',
+    nextCharacter: '`',
+    file: './tests/fixtures/vue-files/Basic.vue',
+    line: 8
+  },
+  {
     path: 'content.link.b',
     previousCharacter: "'",
     nextCharacter: "'",
+    file: './tests/fixtures/vue-files/Basic.vue',
+    line: 10
+  },
+  {
+    path: 'content.link.b',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: './tests/fixtures/vue-files/Basic.vue',
+    line: 13
+  },
+  {
+    path: 'content.link.b',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: './tests/fixtures/vue-files/Basic.vue',
+    line: 16
+  },
+  {
+    path: 'header.title',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: './tests/fixtures/vue-files/Basic.vue',
+    line: 20
+  },
+  {
+    path: 'content.link.a',
+    previousCharacter: '"',
+    nextCharacter: '"',
     file: './tests/fixtures/vue-files/Basic.vue',
     line: 9
   },
   {
-    path: 'content.link.b',
-    previousCharacter: "'",
-    nextCharacter: "'",
+    path: 'content.link.a',
+    previousCharacter: '"',
+    nextCharacter: '"',
     file: './tests/fixtures/vue-files/Basic.vue',
     line: 12
   },
   {
-    path: 'content.link.b',
-    previousCharacter: "'",
-    nextCharacter: "'",
+    path: 'content.link.a',
+    previousCharacter: '"',
+    nextCharacter: '"',
     file: './tests/fixtures/vue-files/Basic.vue',
     line: 15
   },
@@ -60,42 +95,14 @@ export const expectedFromParsedVueFiles = [
     previousCharacter: "'",
     nextCharacter: "'",
     file: './tests/fixtures/vue-files/Basic.vue',
-    line: 19
-  },
-  {
-    path: 'content.link.a',
-    previousCharacter: '"',
-    nextCharacter: '"',
-    file: './tests/fixtures/vue-files/Basic.vue',
-    line: 8
-  },
-  {
-    path: 'content.link.a',
-    previousCharacter: '"',
-    nextCharacter: '"',
-    file: './tests/fixtures/vue-files/Basic.vue',
-    line: 11
-  },
-  {
-    path: 'content.link.a',
-    previousCharacter: '"',
-    nextCharacter: '"',
-    file: './tests/fixtures/vue-files/Basic.vue',
-    line: 14
-  },
-  {
-    path: 'header.title',
-    previousCharacter: "'",
-    nextCharacter: "'",
-    file: './tests/fixtures/vue-files/Basic.vue',
-    line: 17
-  },
-  {
-    path: 'header.title',
-    previousCharacter: "'",
-    nextCharacter: "'",
-    file: './tests/fixtures/vue-files/Basic.vue',
     line: 18
+  },
+  {
+    path: 'header.title',
+    previousCharacter: "'",
+    nextCharacter: "'",
+    file: './tests/fixtures/vue-files/Basic.vue',
+    line: 19
   },
   {
     path: "single \\' quote",
@@ -283,6 +290,14 @@ export const expectedFromParsedLanguageFiles = {
       file: './tests/fixtures/lang/de_DE.js',
     },
     {
+      path: 'linked.referenced',
+      file: './tests/fixtures/lang/de_DE.js',
+    },
+    {
+      path: 'linked.composite',
+      file: './tests/fixtures/lang/de_DE.js',
+    },
+    {
       path: 'Key used as default translation. Second sentence.',
       file: './tests/fixtures/lang/de_DE.js',
     },
@@ -330,6 +345,14 @@ export const expectedFromParsedLanguageFiles = {
     },
     {
       path: 'content.link.b',
+      file: './tests/fixtures/lang/en_EN.json',
+    },
+    {
+      path: 'linked.referenced',
+      file: './tests/fixtures/lang/en_EN.json',
+    },
+    {
+      path: 'linked.composite',
       file: './tests/fixtures/lang/en_EN.json',
     },
     {

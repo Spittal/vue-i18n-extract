@@ -93,7 +93,7 @@
     });
   }
 
-  function* getMatches(file, regExp, captureGroup = 1) {
+  function* getMatches$1(file, regExp, captureGroup = 1) {
     while (true) {
       const match = regExp.exec(file.content);
 
@@ -143,17 +143,17 @@
 
   function extractMethodMatches(file) {
     const methodRegExp = /(?:[$\s.:"'`+\(\[\{]t[cm]?)\(\s*?(["'`])((?:[^\\]|\\.)*?)\1/g;
-    return [...getMatches(file, methodRegExp, 2)];
+    return [...getMatches$1(file, methodRegExp, 2)];
   }
 
   function extractComponentMatches(file) {
     const componentRegExp = /(?:(?:<|h\()(?:i18n|Translation))(?:.|\n)*?(?:[^:]path(?:=|: )("|'))((?:[^\\]|\\.)*?)\1/gi;
-    return [...getMatches(file, componentRegExp, 2)];
+    return [...getMatches$1(file, componentRegExp, 2)];
   }
 
   function extractDirectiveMatches(file) {
     const directiveRegExp = /\bv-t(?:\.[\w-]+)?="'((?:[^\\]|\\.)*?)'"/g;
-    return [...getMatches(file, directiveRegExp)];
+    return [...getMatches$1(file, directiveRegExp)];
   }
 
   function extractI18NItemsFromVueFiles(sourceFiles) {
@@ -206,6 +206,41 @@
         content: JSON.stringify(langObj)
       };
     });
+  }
+
+  function* getMatches(file, regExp, captureGroup = 1) {
+    while (true) {
+      const match = regExp.exec(file.content);
+
+      if (match === null) {
+        break;
+      }
+
+      const path = match[captureGroup];
+      const pathAtIndex = file.content.indexOf(path);
+      const previousCharacter = file.content.charAt(pathAtIndex - 1);
+      const nextCharacter = file.content.charAt(pathAtIndex + path.length);
+      const line = (file.content.substring(0, match.index).match(/\n/g) || []).length + 1;
+      yield {
+        path,
+        previousCharacter,
+        nextCharacter,
+        file: file.fileName,
+        line
+      };
+    }
+  }
+
+  function extractMessageLinkMatches(file) {
+    const messageLinkRegExp = /@:((?:[^\\]|\\.)*?)[\s"'`]/g;
+    return [...getMatches(file, messageLinkRegExp, 2)];
+  }
+
+  function extractI18NItemsFromLanguageFiles(languageFiles) {
+    return languageFiles.reduce((accumulator, file) => {
+      const messageLinkMatches = extractMessageLinkMatches(file);
+      return [...accumulator, ...messageLinkMatches];
+    }, []);
   }
   function extractI18NLanguageFromLanguageFiles(languageFiles, dot = Dot__default["default"]) {
     return languageFiles.reduce((accumulator, file) => {
@@ -337,7 +372,7 @@
     const dot = typeof separator === 'string' ? new Dot__default["default"](separator) : Dot__default["default"];
     const vueFiles = readVueFiles(path__default["default"].resolve(process.cwd(), vueFilesGlob));
     const languageFiles = readLanguageFiles(path__default["default"].resolve(process.cwd(), languageFilesGlob));
-    const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
+    const I18NItems = [...extractI18NItemsFromVueFiles(vueFiles), ...extractI18NItemsFromLanguageFiles(languageFiles)];
     const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
     const report = extractI18NReport(I18NItems, I18NLanguage);
     report.unusedKeys = report.unusedKeys.filter(key => !exclude.filter(excluded => key.path.startsWith(excluded)).length);
@@ -381,6 +416,7 @@
   });
 
   exports.createI18NReport = createI18NReport;
+  exports.extractI18NItemsFromLanguageFiles = extractI18NItemsFromLanguageFiles;
   exports.extractI18NItemsFromVueFiles = extractI18NItemsFromVueFiles;
   exports.extractI18NLanguageFromLanguageFiles = extractI18NLanguageFromLanguageFiles;
   exports.extractI18NReport = extractI18NReport;

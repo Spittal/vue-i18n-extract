@@ -1,7 +1,7 @@
 import path from 'path';
 import { ReportOptions, I18NReport } from '../types';
 import { readVueFiles, extractI18NItemsFromVueFiles } from './vue-files';
-import { readLanguageFiles, extractI18NLanguageFromLanguageFiles, removeUnusedFromLanguageFiles, writeMissingToLanguageFiles } from './language-files';
+import { readLanguageFiles, extractI18NItemsFromLanguageFiles, extractI18NLanguageFromLanguageFiles, removeUnusedFromLanguageFiles, writeMissingToLanguageFiles } from './language-files';
 import { extractI18NReport,  writeReportToFile } from './report';
 import Dot from 'dot-object';
 
@@ -25,7 +25,10 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
   const vueFiles = readVueFiles(path.resolve(process.cwd(), vueFilesGlob));
   const languageFiles = readLanguageFiles(path.resolve(process.cwd(), languageFilesGlob));
 
-  const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
+  const I18NItems = [
+    ...extractI18NItemsFromVueFiles(vueFiles),
+    ...extractI18NItemsFromLanguageFiles(languageFiles),
+  ];
   const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
 
   const report = extractI18NReport(I18NItems, I18NLanguage);
