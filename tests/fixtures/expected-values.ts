@@ -46,21 +46,21 @@ export const expectedFromParsedVueFiles = [
     previousCharacter: "'",
     nextCharacter: "'",
     file: './tests/fixtures/vue-files/Basic.vue',
-    line: 12
+    line: 16
   },
   {
     path: 'content.link.b',
     previousCharacter: "'",
     nextCharacter: "'",
     file: './tests/fixtures/vue-files/Basic.vue',
-    line: 15
+    line: 23
   },
   {
     path: 'header.title',
     previousCharacter: "'",
     nextCharacter: "'",
     file: './tests/fixtures/vue-files/Basic.vue',
-    line: 19
+    line: 27
   },
   {
     path: 'content.link.a',
@@ -74,28 +74,28 @@ export const expectedFromParsedVueFiles = [
     previousCharacter: '"',
     nextCharacter: '"',
     file: './tests/fixtures/vue-files/Basic.vue',
-    line: 11
+    line: 12
   },
   {
     path: 'content.link.a',
     previousCharacter: '"',
     nextCharacter: '"',
     file: './tests/fixtures/vue-files/Basic.vue',
-    line: 14
+    line: 19
   },
   {
     path: 'header.title',
     previousCharacter: "'",
     nextCharacter: "'",
     file: './tests/fixtures/vue-files/Basic.vue',
-    line: 17
+    line: 25
   },
   {
     path: 'header.title',
     previousCharacter: "'",
     nextCharacter: "'",
     file: './tests/fixtures/vue-files/Basic.vue',
-    line: 18
+    line: 26
   },
   {
     path: "single \\' quote",

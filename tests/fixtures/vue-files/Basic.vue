@@ -8,8 +8,16 @@
     <i18n path="content.link.a">
       <a place="link" href="#">{{ $t('content.link.b') }}</a>
     </i18n>
+    <!-- Should not match -- dynamic path is ignored -->
+    <i18n :path="dynamicPath">
+      <span place="icon" class="icon" />
+    </i18n>
     <i18n-t keypath="content.link.a">
       <a place="link" href="#">{{ $t('content.link.b') }}</a>
+    </i18n-t>
+    <!-- Should not match -- dynamic keypath is ignored -->
+    <i18n-t :keypath="dynamicPath">
+      <span place="icon" class="icon" />
     </i18n-t>
     <Translation keypath="content.link.a">
       <a place="link" href="#">{{ $t('content.link.b') }}</a>
