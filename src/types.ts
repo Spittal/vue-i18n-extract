@@ -8,6 +8,13 @@ export type ReportOptions = {
   ci?: boolean;
   separator?: string;
   noEmptyTranslation?: string;
+  detect?: DetectionType[];
+}
+
+export enum DetectionType {
+  Missing = "missing",
+  Unused = "unused",
+  Dynamic = "dynamic"
 }
 
 export type SimpleFile = {

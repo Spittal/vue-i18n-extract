@@ -1,5 +1,5 @@
 import path from 'path';
-import { ReportOptions, I18NReport } from '../types';
+import { ReportOptions, I18NReport, DetectionType } from '../types';
 import { readVueFiles, extractI18NItemsFromVueFiles } from './vue-files';
 import { readLanguageFiles, extractI18NLanguageFromLanguageFiles, removeUnusedFromLanguageFiles, writeMissingToLanguageFiles } from './language-files';
 import { extractI18NReport,  writeReportToFile } from './report';
@@ -16,10 +16,17 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
     ci,
     separator,
     noEmptyTranslation = '',
+    detect = [DetectionType.Missing, DetectionType.Unused, DetectionType.Dynamic]
   } = options;
 
   if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
   if (!languageFilesGlob) throw new Error('Required configuration languageFiles is missing.');
+  
+  let issuesToDetect = Array.isArray(detect) ? detect : [detect];
+  const invalidDetectOptions = issuesToDetect.filter(item => !Object.values(DetectionType).includes(item));
+  if (invalidDetectOptions.length) {
+    throw new Error(`Invalid 'detect' value(s): ${invalidDetectOptions}`);
+  }
 
   const dot = typeof separator === 'string' ? new Dot(separator) : Dot;
   const vueFiles = readVueFiles(path.resolve(process.cwd(), vueFilesGlob));
@@ -28,7 +35,7 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
   const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
   const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
 
-  const report = extractI18NReport(I18NItems, I18NLanguage);
+  const report = extractI18NReport(I18NItems, I18NLanguage, issuesToDetect);
 
   report.unusedKeys = report.unusedKeys.filter(key =>
       !exclude.filter(excluded => key.path.startsWith(excluded)).length)

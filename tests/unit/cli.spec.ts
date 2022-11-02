@@ -32,6 +32,20 @@ describe('vue-i18n-extract CLI', () => {
     expect(result.stderr).toContain(`Required configuration vueFiles is missing.`);
   });
 
+  it('Fail with invalid detect, and give a hint.', async () => {
+    const result = await runCLI([
+      '--vueFiles',
+      `'./tests/fixtures/vue-files/**/*.?(vue|js)'`,
+      '--languageFiles',
+      `'./tests/fixtures/lang/**/*.?(json|yml|yaml)'`,
+      '--detect',
+      `'invalidDetect'`,
+    ]);
+
+    expect(result.code).not.toBe(0);
+    expect(result.stderr).toContain(`Invalid 'detect' value(s): invalidDetect`);
+  });
+
   it('Show help', async () => {
     const result = await runCLI(['--help']);
     expect(result.code).toBe(0);
@@ -55,6 +69,16 @@ describe('vue-i18n-extract CLI', () => {
         `'./tests/fixtures/vue-files/**/*.?(vue|js)'`,
         '--languageFiles',
         `'./tests/fixtures/lang/**/*.?(json|yml|yaml)'`,
+      ])).code).toBe(0);
+
+      expect((await runCLI([
+        '--vueFiles',
+        `'./tests/fixtures/vue-files/**/*.?(vue|js)'`,
+        '--languageFiles',
+        `'./tests/fixtures/lang/**/*.?(json|yml|yaml)'`,
+        '--detect',
+        `'missing'
+        `,
       ])).code).toBe(0);
 
       expect((await runCLI([
