@@ -1,6 +1,6 @@
 import path from 'path';
 import { createI18NReport } from '@/create-report';
-import { ReportOptions } from '@/types';
+import { DetectionType, ReportOptions } from '@/types';
 import { expectedI18NReport } from '../../fixtures/expected-values';
 import { vueFiles, languageFiles } from '../../fixtures/resolved-sources';
 import * as report from '@/create-report/report';
@@ -121,5 +121,14 @@ describe('file: create-report/index', () => {
       Dot,
     );
     expect(consoleInfoSpy).toHaveBeenLastCalledWith('\nThe unused keys have been removed from your language files.');
+  });
+
+  it('Only detect missing', async () => {
+    const report = await createI18NReport({...options, detect: [DetectionType.Missing]});
+    const expectedI18NReportOnlyDetectingMissing = {...expectedI18NReport, unusedKeys: [], maybeDynamicKeys: []};
+    
+    expect(report).toEqual(
+      expectedI18NReportOnlyDetectingMissing
+    );
   });
 });
