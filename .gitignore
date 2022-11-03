@@ -1,8 +1,14 @@
 .DS_STORE
 node_modules
-.yarn/*
-!.yarn/cache
-!.yarn/releases
-!.yarn/plugins
 *.log
 vue-i18n-extract.config.js
+
+# Ignore relevant Yarn 2 files.
+# Source: https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
