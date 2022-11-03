@@ -183,6 +183,18 @@ You can generate a default configuration file using `npx vue-i18n-extract init` 
   * Configuration option: `exclude: ['translation_key_1', 'translation_key_2']`
   * CLI argument: `--exclude translation_key_1 --exclude translation_key_2`
 
+### `detect`
+
+* Name: `detect`
+* CLI argument: `--detect`
+* Required: No
+* Default: `['missing', 'unused', 'dynamic']`
+* Type: `string` or array of `string`s
+* Description: Defines what do detect (and include) in the report.
+* Examples:
+  * Configuration option: `detect: ['missing', 'unused']`
+  * CLI argument: `--detect missing --detect unused`
+
 ### `noEmptyTranslation`
 
 * Name: `noEmptyTranslation`

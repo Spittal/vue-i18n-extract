@@ -4,7 +4,7 @@ import { parseVueFiles } from '@/create-report/vue-files';
 import { parselanguageFiles } from '@/create-report/language-files';
 import { expectedI18NReport } from '../../fixtures/expected-values';
 import { vueFiles, languageFiles } from '../../fixtures/resolved-sources';
-import { I18NReport, I18NLanguage, I18NItemWithBounding } from '@/types';
+import { I18NReport, I18NLanguage, I18NItemWithBounding, DetectionType } from '@/types';
 
 describe('file: create-report/report', () => {
   let parsedVueFiles: I18NItemWithBounding[];
@@ -14,7 +14,7 @@ describe('file: create-report/report', () => {
   beforeAll(() => {
     parsedVueFiles = parseVueFiles(vueFiles);
     parsedLanguageFiles = parselanguageFiles(languageFiles);
-    report = extractI18NReport(parsedVueFiles, parsedLanguageFiles);
+    report = extractI18NReport(parsedVueFiles, parsedLanguageFiles, [DetectionType.Missing, DetectionType.Unused, DetectionType.Dynamic]);
   });
 
   describe('function: extractI18NReport', () => {
