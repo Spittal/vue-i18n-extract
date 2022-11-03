@@ -18,6 +18,10 @@
   "main": "dist/vue-i18n-extract.umd.js",
   "module": "dist/vue-i18n-extract.modern.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "bin",
+    "dist"
+  ],
   "repository": "https://github.com/Spittal/vue-i18n-extract",
   "homepage": "https://github.com/Spittal/vue-i18n-extract",
   "bugs": "https://github.com/Spittal/vue-i18n-extract/issues",
