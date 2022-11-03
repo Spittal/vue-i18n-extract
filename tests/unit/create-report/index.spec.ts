@@ -76,6 +76,7 @@ describe('file: create-report/index', () => {
       expectedI18NReport.missingKeys,
       Dot,
       '',
+      'append',
     );
     expect(consoleInfoSpy).toHaveBeenLastCalledWith('\nThe missing keys have been added to your language files.');
   });
@@ -91,6 +92,7 @@ describe('file: create-report/index', () => {
       expectedI18NReport.missingKeys,
       Dot,
       '*',
+      'append',
     );
     expect(consoleInfoSpy).toHaveBeenLastCalledWith('\nThe missing keys have been added to your language files.');
   });
@@ -106,6 +108,7 @@ describe('file: create-report/index', () => {
       expectedI18NReport.missingKeys,
       Dot,
       'en',
+      'append',
     );
     expect(consoleInfoSpy).toHaveBeenLastCalledWith('\nThe missing keys have been added to your language files.');
   });

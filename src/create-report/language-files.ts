@@ -4,7 +4,7 @@ import glob from 'glob';
 import Dot from 'dot-object';
 import yaml from 'js-yaml';
 import isValidGlob from 'is-valid-glob';
-import { SimpleFile, I18NLanguage, I18NItem } from '../types';
+import { SimpleFile, I18NLanguage, I18NItem, OptionsOutputOrder } from '../types';
 
 export function readLanguageFiles (src: string): SimpleFile[] {
   // Replace backslash path segments to make the path work with the glob package.
@@ -65,7 +65,7 @@ export function extractI18NLanguageFromLanguageFiles (languageFiles: SimpleFile[
   }, {});
 }
 
-export function writeMissingToLanguageFiles (parsedLanguageFiles: SimpleFile[], missingKeys: I18NItem[], dot: DotObject.Dot = Dot, noEmptyTranslation = ''): void {
+export function writeMissingToLanguageFiles (parsedLanguageFiles: SimpleFile[], missingKeys: I18NItem[], dot: DotObject.Dot = Dot, noEmptyTranslation = '', outputOrder: OptionsOutputOrder = 'append'): void {
   parsedLanguageFiles.forEach(languageFile => {
     const languageFileContent = JSON.parse(languageFile.content);
 
@@ -76,7 +76,16 @@ export function writeMissingToLanguageFiles (parsedLanguageFiles: SimpleFile[], 
       }
     });
 
-    writeLanguageFile(languageFile, languageFileContent);
+    let sortedLanguageFileContent;
+    if (outputOrder === 'lexical') {
+      const languageFileContentEntries = Object.entries(languageFileContent)
+      languageFileContentEntries.sort(([pathA], [pathB]) => pathA.localeCompare(pathB));
+      sortedLanguageFileContent = Object.fromEntries(languageFileContentEntries);
+    } else {
+      sortedLanguageFileContent = languageFileContent;
+    }
+
+    writeLanguageFile(languageFile, sortedLanguageFileContent);
   });
 }
 
@@ -94,7 +103,7 @@ export function removeUnusedFromLanguageFiles (parsedLanguageFiles: SimpleFile[]
   });
 }
 
-function writeLanguageFile (languageFile: SimpleFile, newLanguageFileContent: unknown) {
+function writeLanguageFile (languageFile: SimpleFile, newLanguageFileContent: any) {
   const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
   const filePath = languageFile.path;
 

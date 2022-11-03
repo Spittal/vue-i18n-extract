@@ -135,6 +135,15 @@ You can generate a default configuration file using `npx vue-i18n-extract init` 
 * Examples:
   * `output.json`
 
+### `outputOrder`
+
+* Name: `outputOrder`
+* CLI argument: `--outputOrder`
+* Required: No
+* Default: `'append'`
+* Type: `'append'` or `'lexical'`
+* Description: Determines the order of translation keys when creating reports or updating language files.
+
 ### `add`
 
 * Name: `add`

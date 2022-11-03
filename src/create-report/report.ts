@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { DetectionType, I18NItem, I18NItemWithBounding, I18NLanguage, I18NReport } from '../types';
+import { DetectionType, I18NItem, I18NItemWithBounding, I18NLanguage, I18NReport, OptionsOutputOrder } from '../types';
 
 function stripBounding (item: I18NItemWithBounding): I18NItem {
   return {
@@ -14,7 +14,7 @@ function mightBeDynamic (item: I18NItemWithBounding): boolean {
 }
 
 // Looping through the arays multiple times might not be the most effecient, but it's the easiest to read and debug. Which at this scale is an accepted trade-off.
-export function extractI18NReport (vueItems: I18NItemWithBounding[], languageFiles: I18NLanguage, detect: DetectionType[]): I18NReport {
+export function extractI18NReport (vueItems: I18NItemWithBounding[], languageFiles: I18NLanguage, detect: DetectionType[], outputOrder: OptionsOutputOrder = 'append'): I18NReport {
   const missingKeys: I18NItem[] = [];
   const unusedKeys: I18NItem[] = [];
   const maybeDynamicKeys: I18NItem[] = [];
@@ -46,6 +46,11 @@ export function extractI18NReport (vueItems: I18NItemWithBounding[], languageFil
     }
   });
 
+  if (outputOrder === 'lexical') {
+    missingKeys.sort((itemA, itemB) => itemA.path.localeCompare(itemB.path));
+    unusedKeys.sort((itemA, itemB) => itemA.path.localeCompare(itemB.path));
+  }
+
   return {
     missingKeys,
     unusedKeys,
@@ -69,4 +74,3 @@ export async function writeReportToFile (report: I18NReport, writePath: string):
     );
   });
 }
-

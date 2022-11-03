@@ -10,8 +10,10 @@ export function initCommand(): void {
   );
 }
 
-export function resolveConfig (): Record<string, string>  {
-  const argvOptions = cac().parse(process.argv, { run: false }).options;
+export function resolveConfig (parsedOptions?: { [k: string]: any }): Record<string, string> {
+  const argvOptions = parsedOptions === undefined
+    ? cac().parse(process.argv, { run: false }).options
+    : parsedOptions;
 
   let options;
 

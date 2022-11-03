@@ -4,10 +4,15 @@ import dot from 'dot-object';
 import { readLanguageFiles, writeMissingToLanguageFiles, removeUnusedFromLanguageFiles, parselanguageFiles } from '@/create-report/language-files';
 import { expectedFromParsedLanguageFiles, expectedI18NReport } from '../../fixtures/expected-values';
 import { languageFiles } from '../../fixtures/resolved-sources';
+import { OptionsOutputOrder } from '../../../src/types.js';
 
 const languageFilesWithBackslashes = languageFiles.replace(/\//g, '\\');
 
 describe('file: create-report/language-files', () => {
+  beforeEach(() => {
+    jest.restoreAllMocks()
+  })
+
   describe('function: parselanguageFiles', () => {
     it.each([
       languageFiles,
@@ -39,13 +44,39 @@ describe('file: create-report/language-files', () => {
       expect(writeFileSyncSpy.mock.calls[0][1]).toContain('missing');
     });
 
+    it.each(
+      [
+        [undefined, () => true],
+        ['append', () => true],
+        ['lexical', (a, b) => a.localeCompare(b)],
+      ] as [OptionsOutputOrder | undefined, (a: string, b: string) => number][]
+    )('Writes missing keys to language files in correct order', (outputOrder, sortCallback) => {
+      const writeFileSyncSpy = jest.spyOn(fs, 'writeFileSync');
+      writeFileSyncSpy.mockImplementation(() => jest.fn());
+      writeMissingToLanguageFiles(
+        readLanguageFiles(languageFiles),
+        expectedI18NReport.missingKeys,
+        undefined,
+        undefined,
+        outputOrder,
+      );
+
+      expect(writeFileSyncSpy).toHaveBeenCalledTimes(3);
+
+      const content = writeFileSyncSpy.mock.calls[2][1] as string;
+      const translationKeys = Object.keys(JSON.parse(content));
+      const sortedTranslationKeys = Array.from(translationKeys);
+      sortedTranslationKeys.sort(sortCallback)
+      expect(translationKeys).toEqual(sortedTranslationKeys);
+    });
+
     it('Writes missing keys with no empty translation to language files', () => {
       const writeFileSyncSpy = jest.spyOn(fs, 'writeFileSync');
       writeFileSyncSpy.mockImplementation(() => jest.fn());
       const dotStrSpy = jest.spyOn(dot, 'str');
-      writeMissingToLanguageFiles(readLanguageFiles(languageFiles), expectedI18NReport.missingKeys, dot, '*');
-      expect(dotStrSpy).toHaveBeenCalledTimes(78);
-      expect(writeFileSyncSpy).toHaveBeenCalledTimes(6);
+      writeMissingToLanguageFiles(readLanguageFiles(languageFiles), expectedI18NReport.missingKeys, dot, '*', 'append');
+      expect(dotStrSpy).toHaveBeenCalledTimes(39);
+      expect(writeFileSyncSpy).toHaveBeenCalledTimes(3);
       expect(writeFileSyncSpy.mock.calls[0][1]).toContain('missing');
     });
 
@@ -53,9 +84,9 @@ describe('file: create-report/language-files', () => {
       const writeFileSyncSpy = jest.spyOn(fs, 'writeFileSync');
       writeFileSyncSpy.mockImplementation(() => jest.fn());
       const dotStrSpy = jest.spyOn(dot, 'str');
-      writeMissingToLanguageFiles(readLanguageFiles(languageFiles), expectedI18NReport.missingKeys, dot, 'en');
-      expect(dotStrSpy).toHaveBeenCalledTimes(117);
-      expect(writeFileSyncSpy).toHaveBeenCalledTimes(9);
+      writeMissingToLanguageFiles(readLanguageFiles(languageFiles), expectedI18NReport.missingKeys, dot, 'en', 'append');
+      expect(dotStrSpy).toHaveBeenCalledTimes(39);
+      expect(writeFileSyncSpy).toHaveBeenCalledTimes(3);
       expect(writeFileSyncSpy.mock.calls[0][1]).toContain('missing');
     });
   });

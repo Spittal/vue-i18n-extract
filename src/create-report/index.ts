@@ -10,6 +10,7 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
     vueFiles: vueFilesGlob,
     languageFiles: languageFilesGlob,
     output,
+    outputOrder = 'append',
     add,
     remove,
     exclude = [],
@@ -21,8 +22,8 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
 
   if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
   if (!languageFilesGlob) throw new Error('Required configuration languageFiles is missing.');
-  
-  let issuesToDetect = Array.isArray(detect) ? detect : [detect];
+
+  const issuesToDetect = Array.isArray(detect) ? detect : [detect];
   const invalidDetectOptions = issuesToDetect.filter(item => !Object.values(DetectionType).includes(item));
   if (invalidDetectOptions.length) {
     throw new Error(`Invalid 'detect' value(s): ${invalidDetectOptions}`);
@@ -35,7 +36,7 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
   const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
   const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
 
-  const report = extractI18NReport(I18NItems, I18NLanguage, issuesToDetect);
+  const report = extractI18NReport(I18NItems, I18NLanguage, issuesToDetect, outputOrder);
 
   report.unusedKeys = report.unusedKeys.filter(key =>
       !exclude.filter(excluded => key.path.startsWith(excluded)).length)
@@ -55,7 +56,7 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
   }
 
   if (add && report.missingKeys.length) {
-    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation);
+    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation, outputOrder);
     console.info('\nThe missing keys have been added to your language files.');
   }
 

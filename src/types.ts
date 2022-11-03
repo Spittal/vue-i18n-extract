@@ -2,6 +2,7 @@ export type ReportOptions = {
   vueFiles: string;
   languageFiles: string;
   output?: string;
+  outputOrder?: OptionsOutputOrder;
   exclude?: string[];
   add?: boolean;
   remove?: boolean;
@@ -16,6 +17,8 @@ export enum DetectionType {
   Unused = "unused",
   Dynamic = "dynamic"
 }
+
+export type OptionsOutputOrder = 'append' | 'lexical';
 
 export type SimpleFile = {
   fileName: string;

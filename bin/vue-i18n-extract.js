@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // vim: set filetype=javascript:
- /* eslint-disable */
+/* eslint-disable */
 'use strict';
 const cli = require('cac')();
 const { createI18NReport, initCommand, resolveConfig } = require('../dist/vue-i18n-extract.umd.js');
@@ -20,6 +20,13 @@ cli
     '[string] Use if you want to create a json file out of your report. (ex. --output output.json)',
   )
   .option(
+    '--outputOrder <order>',
+    '[string] The order of any generated output files. (ex. --outputOrder lexical)',
+    {
+      default: 'appendOnly',
+    },
+  )
+  .option(
     '--add',
     '[boolean] Use if you want to add missing keys into your json language files.',
   )
@@ -34,16 +41,16 @@ cli
   .option(
     '--separator <separator>',
     'Use if you want to override the separator used when parsing locale identifiers. Default is `.`'
-   )
+  )
   .option(
     '--exclude <key>',
     'Use if you want to exclude a key. It can be used multiple times to exclude any amount of keys on the output'
-   )
+  )
   .option(
     '--noEmptyTranslation',
     'Use if you want to generate a default translated string by using the key itself'
-   )
-   .option(
+  )
+  .option(
     '--detect <detectionType>',
     '[string] The type of issues you want to detect (ex. --detect missing) ',
   )

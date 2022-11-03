@@ -1,3 +1,4 @@
+import cac from 'cac';
 import { initCommand, resolveConfig } from '@/config-file';
 import defaultConfig from '@/config-file/vue-i18n-extract.config';
 import rimraf from 'rimraf';
@@ -6,7 +7,8 @@ describe('file: config-file/index', () => {
   it('Init default config and read it.', (done) => {
     initCommand();
 
-    const config = resolveConfig();
+    const options = cac().parse(process.argv, { run: false }).options
+    const config = resolveConfig(options);
 
     expect(config).toEqual(expect.objectContaining({
       exclude: defaultConfig.exclude,
@@ -28,7 +30,8 @@ describe('file: config-file/index', () => {
 
     initCommand();
 
-    const config = resolveConfig();
+    const options = cac().parse(process.argv, { run: false }).options
+    const config = resolveConfig(options);
 
     expect(config).toEqual(expect.objectContaining({
       exclude: defaultConfig.exclude,
