@@ -12,6 +12,10 @@ module.exports = {
       b: 'Here'
     }
   },
+  linked: {
+    referenced: 'New!',
+    composite: '@:linked.referenced @:header.title'
+  },
   'Key used as default translation. Second sentence.': 'Key used as default translation. Second sentence.',
   'Translation component in code.': 'Translation component in code.',
   missing: {

@@ -4,7 +4,7 @@ import glob from 'glob';
 import Dot from 'dot-object';
 import yaml from 'js-yaml';
 import isValidGlob from 'is-valid-glob';
-import { SimpleFile, I18NLanguage, I18NItem } from '../types';
+import { SimpleFile, I18NLanguage, I18NItem, I18NItemWithBounding } from '../types';
 
 export function readLanguageFiles (src: string): SimpleFile[] {
   // Replace backslash path segments to make the path work with the glob package.
@@ -40,6 +40,44 @@ export function readLanguageFiles (src: string): SimpleFile[] {
 
     return { path: f, fileName, content: JSON.stringify(langObj) };
   });
+}
+
+function* getMatches (file: SimpleFile, regExp: RegExp, captureGroup = 1): IterableIterator<I18NItemWithBounding> {
+  while (true) {
+    const match = regExp.exec(file.content);
+    if (match === null) {
+      break;
+    }
+    const path = match[captureGroup];
+
+    const pathAtIndex = file.content.indexOf(path);
+    const previousCharacter = file.content.charAt(pathAtIndex - 1);
+    const nextCharacter = file.content.charAt(pathAtIndex + path.length);
+
+    const line = (file.content.substring(0, match.index).match(/\n/g) || []).length + 1;
+    yield {
+      path,
+      previousCharacter,
+      nextCharacter,
+      file: file.fileName,
+      line,
+    };
+  }
+}
+
+function extractMessageLinkMatches (file: SimpleFile): I18NItemWithBounding[] {
+  const messageLinkRegExp = /@:((?:[^\\]|\\.)*?)[\s"'`]/g;
+  return [ ...getMatches(file, messageLinkRegExp, 2) ];
+}
+
+export function extractI18NItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NItemWithBounding[] {
+  return languageFiles.reduce((accumulator, file) => {
+    const messageLinkMatches = extractMessageLinkMatches(file);
+    return [
+      ...accumulator,
+      ...messageLinkMatches,
+    ];
+  }, [] as I18NItemWithBounding[]);
 }
 
 export function extractI18NLanguageFromLanguageFiles (languageFiles: SimpleFile[], dot: DotObject.Dot = Dot): I18NLanguage {

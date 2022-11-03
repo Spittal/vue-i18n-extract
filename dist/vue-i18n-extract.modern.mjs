@@ -86,7 +86,7 @@ function readVueFiles(src) {
   });
 }
 
-function* getMatches(file, regExp, captureGroup = 1) {
+function* getMatches$1(file, regExp, captureGroup = 1) {
   while (true) {
     const match = regExp.exec(file.content);
 
@@ -136,17 +136,17 @@ function* getMatches(file, regExp, captureGroup = 1) {
 
 function extractMethodMatches(file) {
   const methodRegExp = /(?:[$\s.:"'`+\(\[\{]t[cm]?)\(\s*?(["'`])((?:[^\\]|\\.)*?)\1/g;
-  return [...getMatches(file, methodRegExp, 2)];
+  return [...getMatches$1(file, methodRegExp, 2)];
 }
 
 function extractComponentMatches(file) {
   const componentRegExp = /(?:(?:<|h\()(?:i18n|Translation))(?:.|\n)*?(?:[^:]path(?:=|: )("|'))((?:[^\\]|\\.)*?)\1/gi;
-  return [...getMatches(file, componentRegExp, 2)];
+  return [...getMatches$1(file, componentRegExp, 2)];
 }
 
 function extractDirectiveMatches(file) {
   const directiveRegExp = /\bv-t(?:\.[\w-]+)?="'((?:[^\\]|\\.)*?)'"/g;
-  return [...getMatches(file, directiveRegExp)];
+  return [...getMatches$1(file, directiveRegExp)];
 }
 
 function extractI18NItemsFromVueFiles(sourceFiles) {
@@ -199,6 +199,41 @@ function readLanguageFiles(src) {
       content: JSON.stringify(langObj)
     };
   });
+}
+
+function* getMatches(file, regExp, captureGroup = 1) {
+  while (true) {
+    const match = regExp.exec(file.content);
+
+    if (match === null) {
+      break;
+    }
+
+    const path = match[captureGroup];
+    const pathAtIndex = file.content.indexOf(path);
+    const previousCharacter = file.content.charAt(pathAtIndex - 1);
+    const nextCharacter = file.content.charAt(pathAtIndex + path.length);
+    const line = (file.content.substring(0, match.index).match(/\n/g) || []).length + 1;
+    yield {
+      path,
+      previousCharacter,
+      nextCharacter,
+      file: file.fileName,
+      line
+    };
+  }
+}
+
+function extractMessageLinkMatches(file) {
+  const messageLinkRegExp = /@:((?:[^\\]|\\.)*?)[\s"'`]/g;
+  return [...getMatches(file, messageLinkRegExp, 2)];
+}
+
+function extractI18NItemsFromLanguageFiles(languageFiles) {
+  return languageFiles.reduce((accumulator, file) => {
+    const messageLinkMatches = extractMessageLinkMatches(file);
+    return [...accumulator, ...messageLinkMatches];
+  }, []);
 }
 function extractI18NLanguageFromLanguageFiles(languageFiles, dot = Dot) {
   return languageFiles.reduce((accumulator, file) => {
@@ -330,7 +365,7 @@ async function createI18NReport(options) {
   const dot = typeof separator === 'string' ? new Dot(separator) : Dot;
   const vueFiles = readVueFiles(path.resolve(process.cwd(), vueFilesGlob));
   const languageFiles = readLanguageFiles(path.resolve(process.cwd(), languageFilesGlob));
-  const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
+  const I18NItems = [...extractI18NItemsFromVueFiles(vueFiles), ...extractI18NItemsFromLanguageFiles(languageFiles)];
   const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
   const report = extractI18NReport(I18NItems, I18NLanguage);
   report.unusedKeys = report.unusedKeys.filter(key => !exclude.filter(excluded => key.path.startsWith(excluded)).length);
@@ -373,5 +408,5 @@ process.on('unhandledRejection', err => {
   process.exit(1);
 });
 
-export { createI18NReport, extractI18NItemsFromVueFiles, extractI18NLanguageFromLanguageFiles, extractI18NReport, initCommand, parseVueFiles, parselanguageFiles, readLanguageFiles, readVueFiles, removeUnusedFromLanguageFiles, resolveConfig, writeMissingToLanguageFiles, writeReportToFile };
+export { createI18NReport, extractI18NItemsFromLanguageFiles, extractI18NItemsFromVueFiles, extractI18NLanguageFromLanguageFiles, extractI18NReport, initCommand, parseVueFiles, parselanguageFiles, readLanguageFiles, readVueFiles, removeUnusedFromLanguageFiles, resolveConfig, writeMissingToLanguageFiles, writeReportToFile };
 //# sourceMappingURL=vue-i18n-extract.modern.mjs.map
