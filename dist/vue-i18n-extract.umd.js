@@ -47,10 +47,10 @@
   function initCommand() {
     fs__default["default"].writeFileSync(path__default["default"].resolve(process.cwd(), './vue-i18n-extract.config.js'), `module.exports = ${JSON.stringify(defaultConfig, null, 2)}`);
   }
-  function resolveConfig() {
-    const argvOptions = cac__default["default"]().parse(process.argv, {
+  function resolveConfig(parsedOptions) {
+    const argvOptions = parsedOptions === undefined ? cac__default["default"]().parse(process.argv, {
       run: false
-    }).options;
+    }).options : parsedOptions;
     let options;
 
     try {
@@ -67,6 +67,14 @@
     options.exclude = Array.isArray(options.exclude) ? options.exclude : [options.exclude];
     return options;
   }
+
+  exports.DetectionType = void 0;
+
+  (function (DetectionType) {
+    DetectionType["Missing"] = "missing";
+    DetectionType["Unused"] = "unused";
+    DetectionType["Dynamic"] = "dynamic";
+  })(exports.DetectionType || (exports.DetectionType = {}));
 
   function readVueFiles(src) {
     // Replace backslash path segments to make the path work with the glob package.
@@ -190,20 +198,23 @@
       const isJSON = extension === '.json';
       const isYAML = extension === '.yaml' || extension === '.yml';
       let langObj;
+      const languageFileContent = fs__default["default"].readFileSync(langPath, 'utf8');
 
       if (isJSON) {
-        langObj = JSON.parse(fs__default["default"].readFileSync(langPath, 'utf8'));
+        langObj = JSON.parse(languageFileContent);
       } else if (isYAML) {
-        langObj = yaml__default["default"].load(fs__default["default"].readFileSync(langPath, 'utf8'));
+        langObj = yaml__default["default"].load(languageFileContent);
       } else {
-        langObj = eval(fs__default["default"].readFileSync(langPath, 'utf8'));
+        langObj = eval(languageFileContent);
       }
 
-      const fileName = f.replace(process.cwd(), '.');
+      const fileName = f.replace(process.cwd(), '.'); // Persist the final new line character of a file.
+
+      const suffix = languageFileContent.endsWith('\n') ? '\n' : '';
       return {
         path: f,
         fileName,
-        content: JSON.stringify(langObj)
+        content: JSON.stringify(langObj) + suffix
       };
     });
   }
@@ -225,7 +236,7 @@
       return accumulator;
     }, {});
   }
-  function writeMissingToLanguageFiles(parsedLanguageFiles, missingKeys, dot = Dot__default["default"], noEmptyTranslation = '') {
+  function writeMissingToLanguageFiles(parsedLanguageFiles, missingKeys, dot = Dot__default["default"], noEmptyTranslation = '', outputOrder = 'append') {
     parsedLanguageFiles.forEach(languageFile => {
       const languageFileContent = JSON.parse(languageFile.content);
       missingKeys.forEach(item => {
@@ -234,7 +245,17 @@
           dot.str(item.path, addDefaultTranslation ? item.path : '', languageFileContent);
         }
       });
-      writeLanguageFile(languageFile, languageFileContent);
+      let sortedLanguageFileContent;
+
+      if (outputOrder === 'lexical') {
+        const languageFileContentEntries = Object.entries(languageFileContent);
+        languageFileContentEntries.sort(([pathA], [pathB]) => pathA.localeCompare(pathB));
+        sortedLanguageFileContent = Object.fromEntries(languageFileContentEntries);
+      } else {
+        sortedLanguageFileContent = languageFileContent;
+      }
+
+      writeLanguageFile(languageFile, sortedLanguageFileContent);
     });
   }
   function removeUnusedFromLanguageFiles(parsedLanguageFiles, unusedKeys, dot = Dot__default["default"]) {
@@ -251,8 +272,10 @@
 
   function writeLanguageFile(languageFile, newLanguageFileContent) {
     const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
-    const filePath = languageFile.path;
-    const stringifiedContent = JSON.stringify(newLanguageFileContent, null, 2);
+    const filePath = languageFile.path; // Persist the final new line character of a file.
+
+    const suffix = languageFile.content.endsWith('\n') ? '\n' : '';
+    const stringifiedContent = JSON.stringify(newLanguageFileContent, null, 2) + suffix;
 
     if (fileExtension === 'json') {
       fs__default["default"].writeFileSync(filePath, stringifiedContent);
@@ -260,7 +283,7 @@
       const jsFile = `module.exports = ${stringifiedContent}; \n`;
       fs__default["default"].writeFileSync(filePath, jsFile);
     } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
-      const yamlFile = yaml__default["default"].dump(newLanguageFileContent);
+      const yamlFile = yaml__default["default"].dump(newLanguageFileContent) + suffix;
       fs__default["default"].writeFileSync(filePath, yamlFile);
     } else {
       throw new Error(`Language filetype of ${fileExtension} not supported.`);
@@ -285,21 +308,38 @@
   } // Looping through the arays multiple times might not be the most effecient, but it's the easiest to read and debug. Which at this scale is an accepted trade-off.
 
 
-  function extractI18NReport(vueItems, languageFiles) {
+  function extractI18NReport(vueItems, languageFiles, detect, outputOrder = 'append') {
     const missingKeys = [];
     const unusedKeys = [];
-    const maybeDynamicKeys = vueItems.filter(vueItem => mightBeDynamic(vueItem)).map(vueItem => stripBounding(vueItem));
+    const maybeDynamicKeys = [];
+
+    if (detect.includes(exports.DetectionType.Dynamic)) {
+      maybeDynamicKeys.push(...vueItems.filter(vueItem => mightBeDynamic(vueItem)).map(vueItem => stripBounding(vueItem)));
+    }
+
     Object.keys(languageFiles).forEach(language => {
       const languageItems = languageFiles[language];
-      const missingKeysInLanguage = vueItems.filter(vueItem => !mightBeDynamic(vueItem)).filter(vueItem => !languageItems.some(languageItem => vueItem.path === languageItem.path)).map(vueItem => _extends({}, stripBounding(vueItem), {
-        language
-      }));
-      const unusedKeysInLanguage = languageItems.filter(languageItem => !vueItems.some(vueItem => languageItem.path === vueItem.path || languageItem.path.startsWith(vueItem.path + '.'))).map(languageItem => _extends({}, languageItem, {
-        language
-      }));
-      missingKeys.push(...missingKeysInLanguage);
-      unusedKeys.push(...unusedKeysInLanguage);
+
+      if (detect.includes(exports.DetectionType.Missing)) {
+        const missingKeysInLanguage = vueItems.filter(vueItem => !mightBeDynamic(vueItem)).filter(vueItem => !languageItems.some(languageItem => vueItem.path === languageItem.path)).map(vueItem => _extends({}, stripBounding(vueItem), {
+          language
+        }));
+        missingKeys.push(...missingKeysInLanguage);
+      }
+
+      if (detect.includes(exports.DetectionType.Unused)) {
+        const unusedKeysInLanguage = languageItems.filter(languageItem => !vueItems.some(vueItem => languageItem.path === vueItem.path || languageItem.path.startsWith(vueItem.path + '.'))).map(languageItem => _extends({}, languageItem, {
+          language
+        }));
+        unusedKeys.push(...unusedKeysInLanguage);
+      }
     });
+
+    if (outputOrder === 'lexical') {
+      missingKeys.sort((itemA, itemB) => itemA.path.localeCompare(itemB.path));
+      unusedKeys.sort((itemA, itemB) => itemA.path.localeCompare(itemB.path));
+    }
+
     return {
       missingKeys,
       unusedKeys,
@@ -325,21 +365,30 @@
       vueFiles: vueFilesGlob,
       languageFiles: languageFilesGlob,
       output,
+      outputOrder = 'append',
       add,
       remove,
       exclude = [],
       ci,
       separator,
-      noEmptyTranslation = ''
+      noEmptyTranslation = '',
+      detect = [exports.DetectionType.Missing, exports.DetectionType.Unused, exports.DetectionType.Dynamic]
     } = options;
     if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
     if (!languageFilesGlob) throw new Error('Required configuration languageFiles is missing.');
+    const issuesToDetect = Array.isArray(detect) ? detect : [detect];
+    const invalidDetectOptions = issuesToDetect.filter(item => !Object.values(exports.DetectionType).includes(item));
+
+    if (invalidDetectOptions.length) {
+      throw new Error(`Invalid 'detect' value(s): ${invalidDetectOptions}`);
+    }
+
     const dot = typeof separator === 'string' ? new Dot__default["default"](separator) : Dot__default["default"];
     const vueFiles = readVueFiles(path__default["default"].resolve(process.cwd(), vueFilesGlob));
     const languageFiles = readLanguageFiles(path__default["default"].resolve(process.cwd(), languageFilesGlob));
     const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
     const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
-    const report = extractI18NReport(I18NItems, I18NLanguage);
+    const report = extractI18NReport(I18NItems, I18NLanguage, issuesToDetect, outputOrder);
     report.unusedKeys = report.unusedKeys.filter(key => !exclude.filter(excluded => key.path.startsWith(excluded)).length);
     if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
     if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
@@ -356,7 +405,7 @@
     }
 
     if (add && report.missingKeys.length) {
-      writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation);
+      writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation, outputOrder);
       console.info('\nThe missing keys have been added to your language files.');
     }
 

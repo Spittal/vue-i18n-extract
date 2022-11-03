@@ -2,13 +2,21 @@ export declare type ReportOptions = {
     vueFiles: string;
     languageFiles: string;
     output?: string;
+    outputOrder?: OptionsOutputOrder;
     exclude?: string[];
     add?: boolean;
     remove?: boolean;
     ci?: boolean;
     separator?: string;
     noEmptyTranslation?: string;
+    detect?: DetectionType[];
 };
+export declare enum DetectionType {
+    Missing = "missing",
+    Unused = "unused",
+    Dynamic = "dynamic"
+}
+export declare type OptionsOutputOrder = 'append' | 'lexical';
 export declare type SimpleFile = {
     fileName: string;
     path: string;
