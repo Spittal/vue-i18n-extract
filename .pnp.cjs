@@ -6110,7 +6110,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/generic-names-npm-4.0.0-c188ad8a22-8dabd25051.zip/node_modules/generic-names/",\
           "packageDependencies": [\
             ["generic-names", "npm:4.0.0"],\
-            ["loader-utils", "npm:3.2.0"]\
+            ["loader-utils", "npm:3.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8084,10 +8084,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["loader-utils", [\
-        ["npm:3.2.0", {\
-          "packageLocation": "./.yarn/cache/loader-utils-npm-3.2.0-02250d00d7-c7b9a8dc4b.zip/node_modules/loader-utils/",\
+        ["npm:3.2.1", {\
+          "packageLocation": "./.yarn/cache/loader-utils-npm-3.2.1-76ae2fd253-4e3ea054cd.zip/node_modules/loader-utils/",\
           "packageDependencies": [\
-            ["loader-utils", "npm:3.2.0"]\
+            ["loader-utils", "npm:3.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
