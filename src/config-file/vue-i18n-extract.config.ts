@@ -1,7 +1,7 @@
 export default {
   // Options documented in vue-i18n-extract readme.
   vueFiles: './src/**/*.?(js|vue)',
-  languageFiles: './lang/**/*.?(json|yaml|yml|js)',
+  languageFiles: './lang/**/*.?(json|json5|yaml|yml|js)',
   exclude: [],
   output: false,
   add: false,

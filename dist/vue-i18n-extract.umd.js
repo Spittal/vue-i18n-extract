@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('cac'), require('fs'), require('path'), require('is-valid-glob'), require('glob'), require('dot-object'), require('js-yaml')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'cac', 'fs', 'path', 'is-valid-glob', 'glob', 'dot-object', 'js-yaml'], factory) :
-  (global = global || self, factory(global.vueI18NExtract = {}, global.cac, global.fs, global.path, global.isValidGlob, global.glob, global.dotObject, global.jsYaml));
-})(this, (function (exports, cac, fs, path, isValidGlob, glob, Dot, yaml) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('cac'), require('fs'), require('path'), require('is-valid-glob'), require('glob'), require('dot-object'), require('js-yaml'), require('json5')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'cac', 'fs', 'path', 'is-valid-glob', 'glob', 'dot-object', 'js-yaml', 'json5'], factory) :
+  (global = global || self, factory(global.vueI18NExtract = {}, global.cac, global.fs, global.path, global.isValidGlob, global.glob, global.dotObject, global.jsYaml, global.json5));
+})(this, (function (exports, cac, fs, path, isValidGlob, glob, Dot, yaml, JSON5) {
   function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
   var cac__default = /*#__PURE__*/_interopDefaultLegacy(cac);
@@ -12,6 +12,7 @@
   var glob__default = /*#__PURE__*/_interopDefaultLegacy(glob);
   var Dot__default = /*#__PURE__*/_interopDefaultLegacy(Dot);
   var yaml__default = /*#__PURE__*/_interopDefaultLegacy(yaml);
+  var JSON5__default = /*#__PURE__*/_interopDefaultLegacy(JSON5);
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -67,6 +68,14 @@
     options.exclude = Array.isArray(options.exclude) ? options.exclude : [options.exclude];
     return options;
   }
+
+  exports.DetectionType = void 0;
+
+  (function (DetectionType) {
+    DetectionType["Missing"] = "missing";
+    DetectionType["Unused"] = "unused";
+    DetectionType["Dynamic"] = "dynamic";
+  })(exports.DetectionType || (exports.DetectionType = {}));
 
   function readVueFiles(src) {
     // Replace backslash path segments to make the path work with the glob package.
@@ -188,11 +197,14 @@
       const langPath = path__default["default"].resolve(process.cwd(), f);
       const extension = langPath.substring(langPath.lastIndexOf('.')).toLowerCase();
       const isJSON = extension === '.json';
+      const isJSON5 = extension === '.json5';
       const isYAML = extension === '.yaml' || extension === '.yml';
       let langObj;
 
       if (isJSON) {
         langObj = JSON.parse(fs__default["default"].readFileSync(langPath, 'utf8'));
+      } else if (isJSON5) {
+        langObj = JSON5__default["default"].parse(fs__default["default"].readFileSync(langPath, 'utf8'));
       } else if (isYAML) {
         langObj = yaml__default["default"].load(fs__default["default"].readFileSync(langPath, 'utf8'));
       } else {
@@ -285,20 +297,31 @@
   } // Looping through the arays multiple times might not be the most effecient, but it's the easiest to read and debug. Which at this scale is an accepted trade-off.
 
 
-  function extractI18NReport(vueItems, languageFiles) {
+  function extractI18NReport(vueItems, languageFiles, detect) {
     const missingKeys = [];
     const unusedKeys = [];
-    const maybeDynamicKeys = vueItems.filter(vueItem => mightBeDynamic(vueItem)).map(vueItem => stripBounding(vueItem));
+    const maybeDynamicKeys = [];
+
+    if (detect.includes(exports.DetectionType.Dynamic)) {
+      maybeDynamicKeys.push(...vueItems.filter(vueItem => mightBeDynamic(vueItem)).map(vueItem => stripBounding(vueItem)));
+    }
+
     Object.keys(languageFiles).forEach(language => {
       const languageItems = languageFiles[language];
-      const missingKeysInLanguage = vueItems.filter(vueItem => !mightBeDynamic(vueItem)).filter(vueItem => !languageItems.some(languageItem => vueItem.path === languageItem.path)).map(vueItem => _extends({}, stripBounding(vueItem), {
-        language
-      }));
-      const unusedKeysInLanguage = languageItems.filter(languageItem => !vueItems.some(vueItem => languageItem.path === vueItem.path || languageItem.path.startsWith(vueItem.path + '.'))).map(languageItem => _extends({}, languageItem, {
-        language
-      }));
-      missingKeys.push(...missingKeysInLanguage);
-      unusedKeys.push(...unusedKeysInLanguage);
+
+      if (detect.includes(exports.DetectionType.Missing)) {
+        const missingKeysInLanguage = vueItems.filter(vueItem => !mightBeDynamic(vueItem)).filter(vueItem => !languageItems.some(languageItem => vueItem.path === languageItem.path)).map(vueItem => _extends({}, stripBounding(vueItem), {
+          language
+        }));
+        missingKeys.push(...missingKeysInLanguage);
+      }
+
+      if (detect.includes(exports.DetectionType.Unused)) {
+        const unusedKeysInLanguage = languageItems.filter(languageItem => !vueItems.some(vueItem => languageItem.path === vueItem.path || languageItem.path.startsWith(vueItem.path + '.'))).map(languageItem => _extends({}, languageItem, {
+          language
+        }));
+        unusedKeys.push(...unusedKeysInLanguage);
+      }
     });
     return {
       missingKeys,
@@ -330,16 +353,24 @@
       exclude = [],
       ci,
       separator,
-      noEmptyTranslation = ''
+      noEmptyTranslation = '',
+      detect = [exports.DetectionType.Missing, exports.DetectionType.Unused, exports.DetectionType.Dynamic]
     } = options;
     if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
     if (!languageFilesGlob) throw new Error('Required configuration languageFiles is missing.');
+    let issuesToDetect = Array.isArray(detect) ? detect : [detect];
+    const invalidDetectOptions = issuesToDetect.filter(item => !Object.values(exports.DetectionType).includes(item));
+
+    if (invalidDetectOptions.length) {
+      throw new Error(`Invalid 'detect' value(s): ${invalidDetectOptions}`);
+    }
+
     const dot = typeof separator === 'string' ? new Dot__default["default"](separator) : Dot__default["default"];
     const vueFiles = readVueFiles(path__default["default"].resolve(process.cwd(), vueFilesGlob));
     const languageFiles = readLanguageFiles(path__default["default"].resolve(process.cwd(), languageFilesGlob));
     const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
     const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
-    const report = extractI18NReport(I18NItems, I18NLanguage);
+    const report = extractI18NReport(I18NItems, I18NLanguage, issuesToDetect);
     report.unusedKeys = report.unusedKeys.filter(key => !exclude.filter(excluded => key.path.startsWith(excluded)).length);
     if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
     if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);

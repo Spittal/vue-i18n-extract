@@ -40,7 +40,8 @@
     "dot-object": "^2.1.4",
     "glob": "^8.0.1",
     "is-valid-glob": "^1.0.0",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "json5": "^2.2.1"
   },
   "devDependencies": {
     "@types/dot-object": "^2.1.2",

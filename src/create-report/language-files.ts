@@ -5,6 +5,7 @@ import Dot from 'dot-object';
 import yaml from 'js-yaml';
 import isValidGlob from 'is-valid-glob';
 import { SimpleFile, I18NLanguage, I18NItem } from '../types';
+import JSON5 from 'json5'
 
 export function readLanguageFiles (src: string): SimpleFile[] {
   // Replace backslash path segments to make the path work with the glob package.
@@ -25,11 +26,14 @@ export function readLanguageFiles (src: string): SimpleFile[] {
 
     const extension = langPath.substring(langPath.lastIndexOf('.')).toLowerCase();
     const isJSON = extension === '.json';
+    const isJSON5 = extension === '.json5'
     const isYAML = extension === '.yaml' || extension === '.yml';
 
     let langObj;
     if (isJSON) {
       langObj = JSON.parse(fs.readFileSync(langPath, 'utf8'));
+    } else if (isJSON5) {
+      langObj = JSON5.parse(fs.readFileSync(langPath, 'utf8'))
     } else if (isYAML) {
       langObj = yaml.load(fs.readFileSync(langPath, 'utf8'));
     } else {

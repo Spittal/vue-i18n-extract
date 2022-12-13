@@ -8470,6 +8470,7 @@ __metadata:
     jest: ^27.1.4
     jest-config: ^28.0.2
     js-yaml: ^4.1.0
+    json5: ^2.2.1
     microbundle: ^0.15.0
     rimraf: ^3.0.2
     ts-jest: ^27.1.4
