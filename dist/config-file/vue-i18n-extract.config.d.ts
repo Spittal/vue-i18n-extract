@@ -8,5 +8,6 @@ declare const _default: {
     ci: boolean;
     separator: string;
     noEmptyTranslation: string;
+    missingTranslationString: string;
 };
 export default _default;

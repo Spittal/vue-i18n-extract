@@ -34,7 +34,8 @@ var defaultConfig = {
   remove: false,
   ci: false,
   separator: '.',
-  noEmptyTranslation: ''
+  noEmptyTranslation: '',
+  missingTranslationString: ''
 };
 
 function initCommand() {
@@ -60,6 +61,14 @@ function resolveConfig() {
   options.exclude = Array.isArray(options.exclude) ? options.exclude : [options.exclude];
   return options;
 }
+
+var DetectionType;
+
+(function (DetectionType) {
+  DetectionType["Missing"] = "missing";
+  DetectionType["Unused"] = "unused";
+  DetectionType["Dynamic"] = "dynamic";
+})(DetectionType || (DetectionType = {}));
 
 function readVueFiles(src) {
   // Replace backslash path segments to make the path work with the glob package.
@@ -218,13 +227,13 @@ function extractI18NLanguageFromLanguageFiles(languageFiles, dot = Dot) {
     return accumulator;
   }, {});
 }
-function writeMissingToLanguageFiles(parsedLanguageFiles, missingKeys, dot = Dot, noEmptyTranslation = '') {
+function writeMissingToLanguageFiles(parsedLanguageFiles, missingKeys, dot = Dot, noEmptyTranslation = '', missingTranslationString = '') {
   parsedLanguageFiles.forEach(languageFile => {
     const languageFileContent = JSON.parse(languageFile.content);
     missingKeys.forEach(item => {
       if (item.language && languageFile.fileName.includes(item.language) || !item.language) {
         const addDefaultTranslation = noEmptyTranslation && (noEmptyTranslation === '*' || noEmptyTranslation === item.language);
-        dot.str(item.path, addDefaultTranslation ? item.path : '', languageFileContent);
+        dot.str(item.path, addDefaultTranslation ? item.path : missingTranslationString === 'null' ? null : missingTranslationString, languageFileContent);
       }
     });
     writeLanguageFile(languageFile, languageFileContent);
@@ -278,20 +287,31 @@ function mightBeDynamic(item) {
 } // Looping through the arays multiple times might not be the most effecient, but it's the easiest to read and debug. Which at this scale is an accepted trade-off.
 
 
-function extractI18NReport(vueItems, languageFiles) {
+function extractI18NReport(vueItems, languageFiles, detect) {
   const missingKeys = [];
   const unusedKeys = [];
-  const maybeDynamicKeys = vueItems.filter(vueItem => mightBeDynamic(vueItem)).map(vueItem => stripBounding(vueItem));
+  const maybeDynamicKeys = [];
+
+  if (detect.includes(DetectionType.Dynamic)) {
+    maybeDynamicKeys.push(...vueItems.filter(vueItem => mightBeDynamic(vueItem)).map(vueItem => stripBounding(vueItem)));
+  }
+
   Object.keys(languageFiles).forEach(language => {
     const languageItems = languageFiles[language];
-    const missingKeysInLanguage = vueItems.filter(vueItem => !mightBeDynamic(vueItem)).filter(vueItem => !languageItems.some(languageItem => vueItem.path === languageItem.path)).map(vueItem => _extends({}, stripBounding(vueItem), {
-      language
-    }));
-    const unusedKeysInLanguage = languageItems.filter(languageItem => !vueItems.some(vueItem => languageItem.path === vueItem.path || languageItem.path.startsWith(vueItem.path + '.'))).map(languageItem => _extends({}, languageItem, {
-      language
-    }));
-    missingKeys.push(...missingKeysInLanguage);
-    unusedKeys.push(...unusedKeysInLanguage);
+
+    if (detect.includes(DetectionType.Missing)) {
+      const missingKeysInLanguage = vueItems.filter(vueItem => !mightBeDynamic(vueItem)).filter(vueItem => !languageItems.some(languageItem => vueItem.path === languageItem.path)).map(vueItem => _extends({}, stripBounding(vueItem), {
+        language
+      }));
+      missingKeys.push(...missingKeysInLanguage);
+    }
+
+    if (detect.includes(DetectionType.Unused)) {
+      const unusedKeysInLanguage = languageItems.filter(languageItem => !vueItems.some(vueItem => languageItem.path === vueItem.path || languageItem.path.startsWith(vueItem.path + '.'))).map(languageItem => _extends({}, languageItem, {
+        language
+      }));
+      unusedKeys.push(...unusedKeysInLanguage);
+    }
   });
   return {
     missingKeys,
@@ -323,16 +343,25 @@ async function createI18NReport(options) {
     exclude = [],
     ci,
     separator,
-    noEmptyTranslation = ''
+    noEmptyTranslation = '',
+    missingTranslationString = '',
+    detect = [DetectionType.Missing, DetectionType.Unused, DetectionType.Dynamic]
   } = options;
   if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
   if (!languageFilesGlob) throw new Error('Required configuration languageFiles is missing.');
+  let issuesToDetect = Array.isArray(detect) ? detect : [detect];
+  const invalidDetectOptions = issuesToDetect.filter(item => !Object.values(DetectionType).includes(item));
+
+  if (invalidDetectOptions.length) {
+    throw new Error(`Invalid 'detect' value(s): ${invalidDetectOptions}`);
+  }
+
   const dot = typeof separator === 'string' ? new Dot(separator) : Dot;
   const vueFiles = readVueFiles(path.resolve(process.cwd(), vueFilesGlob));
   const languageFiles = readLanguageFiles(path.resolve(process.cwd(), languageFilesGlob));
   const I18NItems = extractI18NItemsFromVueFiles(vueFiles);
   const I18NLanguage = extractI18NLanguageFromLanguageFiles(languageFiles, dot);
-  const report = extractI18NReport(I18NItems, I18NLanguage);
+  const report = extractI18NReport(I18NItems, I18NLanguage, issuesToDetect);
   report.unusedKeys = report.unusedKeys.filter(key => !exclude.filter(excluded => key.path.startsWith(excluded)).length);
   if (report.missingKeys.length) console.info('\nMissing Keys'), console.table(report.missingKeys);
   if (report.unusedKeys.length) console.info('\nUnused Keys'), console.table(report.unusedKeys);
@@ -349,7 +378,7 @@ async function createI18NReport(options) {
   }
 
   if (add && report.missingKeys.length) {
-    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation);
+    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation, missingTranslationString);
     console.info('\nThe missing keys have been added to your language files.');
   }
 
@@ -373,5 +402,5 @@ process.on('unhandledRejection', err => {
   process.exit(1);
 });
 
-export { createI18NReport, extractI18NItemsFromVueFiles, extractI18NLanguageFromLanguageFiles, extractI18NReport, initCommand, parseVueFiles, parselanguageFiles, readLanguageFiles, readVueFiles, removeUnusedFromLanguageFiles, resolveConfig, writeMissingToLanguageFiles, writeReportToFile };
+export { DetectionType, createI18NReport, extractI18NItemsFromVueFiles, extractI18NLanguageFromLanguageFiles, extractI18NReport, initCommand, parseVueFiles, parselanguageFiles, readLanguageFiles, readVueFiles, removeUnusedFromLanguageFiles, resolveConfig, writeMissingToLanguageFiles, writeReportToFile };
 //# sourceMappingURL=vue-i18n-extract.modern.mjs.map

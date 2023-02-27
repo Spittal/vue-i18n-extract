@@ -43,6 +43,10 @@ cli
     '--noEmptyTranslation',
     'Use if you want to generate a default translated string by using the key itself'
    )
+  .option(
+    '--missingTranslationString',
+    'Default string for missing translations.'
+   )
    .option(
     '--detect <detectionType>',
     '[string] The type of issues you want to detect (ex. --detect missing) ',
