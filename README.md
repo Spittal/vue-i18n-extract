@@ -36,6 +36,7 @@
   - [`separator`](#separator)
   - [`exclude`](#exclude)
   - [`noEmptyTranslation`](#noemptytranslation)
+  - [`missingtranslationstring`](#missingtranslationstring)
 - [Supported `vue-i18n` Formats](#supported-vue-i18n-formats)
 - [Why?](#why)
 - [Contribution](#contribution)
@@ -207,6 +208,18 @@ You can generate a default configuration file using `npx vue-i18n-extract init` 
   * `'*'`: Generate empty default translation for all locales.
   * `'en'`: Generate empty default translation for locale `'en'`.
   * `'en-US'`: Generate empty default translation for locale `'en-US'`.
+
+### `missingTranslationString`
+
+* Name: `missingTranslationString`
+* CLI argument: `--missing-translation-string`, `--missingTranslationString`
+* Required: No
+* Default: `''`
+* Type: `string` or `null`
+* Description: Text to use when missing translations are added to the translation files.
+* Examples:
+  * `'Translation missing'`: Use "Translation missing" as default key.
+  * `null`: Add the translation key to the file, but don't add a default translation. This will trigger `vue-i18n`'s the missingHandler.
 
 ## Supported `vue-i18n` Formats
 

@@ -16,12 +16,13 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
     ci,
     separator,
     noEmptyTranslation = '',
+    missingTranslationString = '',
     detect = [DetectionType.Missing, DetectionType.Unused, DetectionType.Dynamic]
   } = options;
 
   if (!vueFilesGlob) throw new Error('Required configuration vueFiles is missing.');
   if (!languageFilesGlob) throw new Error('Required configuration languageFiles is missing.');
-  
+
   let issuesToDetect = Array.isArray(detect) ? detect : [detect];
   const invalidDetectOptions = issuesToDetect.filter(item => !Object.values(DetectionType).includes(item));
   if (invalidDetectOptions.length) {
@@ -55,7 +56,7 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
   }
 
   if (add && report.missingKeys.length) {
-    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation);
+    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation, missingTranslationString);
     console.info('\nThe missing keys have been added to your language files.');
   }
 

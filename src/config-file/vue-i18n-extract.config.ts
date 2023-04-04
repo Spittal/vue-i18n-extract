@@ -8,5 +8,6 @@ export default {
   remove: false,
   ci: false,
   separator: '.',
-  noEmptyTranslation: ''
+  noEmptyTranslation: '',
+  missingTranslationString: '',
 };
