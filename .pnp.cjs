@@ -7941,7 +7941,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["parse5", "npm:6.0.1"],\
             ["saxes", "npm:5.0.1"],\
             ["symbol-tree", "npm:3.2.4"],\
-            ["tough-cookie", "npm:4.0.0"],\
+            ["tough-cookie", "npm:4.1.3"],\
             ["w3c-hr-time", "npm:1.0.2"],\
             ["w3c-xmlserializer", "npm:2.0.0"],\
             ["webidl-conversions", "npm:6.1.0"],\
@@ -9889,6 +9889,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["querystringify", [\
+        ["npm:2.2.0", {\
+          "packageLocation": "./.yarn/cache/querystringify-npm-2.2.0-4e77c9f606-5641ea231b.zip/node_modules/querystringify/",\
+          "packageDependencies": [\
+            ["querystringify", "npm:2.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["queue-microtask", [\
         ["npm:1.2.3", {\
           "packageLocation": "./.yarn/cache/queue-microtask-npm-1.2.3-fcc98e4e2d-b676f8c040.zip/node_modules/queue-microtask/",\
@@ -10034,6 +10043,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/require-directory-npm-2.1.1-8608aee50b-fb47e70bf0.zip/node_modules/require-directory/",\
           "packageDependencies": [\
             ["require-directory", "npm:2.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["requires-port", [\
+        ["npm:1.0.0", {\
+          "packageLocation": "./.yarn/cache/requires-port-npm-1.0.0-fd036b488a-eee0e303ad.zip/node_modules/requires-port/",\
+          "packageDependencies": [\
+            ["requires-port", "npm:1.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -10920,13 +10938,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["tough-cookie", [\
-        ["npm:4.0.0", {\
-          "packageLocation": "./.yarn/cache/tough-cookie-npm-4.0.0-7c5f3086af-0891b37eb7.zip/node_modules/tough-cookie/",\
+        ["npm:4.1.3", {\
+          "packageLocation": "./.yarn/cache/tough-cookie-npm-4.1.3-08285e2518-c9226afff3.zip/node_modules/tough-cookie/",\
           "packageDependencies": [\
-            ["tough-cookie", "npm:4.0.0"],\
+            ["tough-cookie", "npm:4.1.3"],\
             ["psl", "npm:1.8.0"],\
             ["punycode", "npm:2.1.1"],\
-            ["universalify", "npm:0.1.2"]\
+            ["universalify", "npm:0.2.0"],\
+            ["url-parse", "npm:1.5.10"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -11195,6 +11214,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["universalify", "npm:0.1.2"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:0.2.0", {\
+          "packageLocation": "./.yarn/cache/universalify-npm-0.2.0-9984e61c10-e86134cb12.zip/node_modules/universalify/",\
+          "packageDependencies": [\
+            ["universalify", "npm:0.2.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["uri-js", [\
@@ -11203,6 +11229,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["uri-js", "npm:4.4.1"],\
             ["punycode", "npm:2.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["url-parse", [\
+        ["npm:1.5.10", {\
+          "packageLocation": "./.yarn/cache/url-parse-npm-1.5.10-64fa2bcd6d-fbdba6b1d8.zip/node_modules/url-parse/",\
+          "packageDependencies": [\
+            ["url-parse", "npm:1.5.10"],\
+            ["querystringify", "npm:2.2.0"],\
+            ["requires-port", "npm:1.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
